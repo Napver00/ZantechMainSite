@@ -1,0 +1,129 @@
+import { Mail, Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
+
+const Contact = () => {
+    return (
+        <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                        Get In <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Touch</span>
+                    </h2>
+                    <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        Ready to bring your innovative ideas to life? Let's discuss your project and explore how we can help you achieve your goals.
+                    </p>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-12">
+                    <div className="space-y-8">
+                        <div className="space-y-6">
+                            {[
+                                { icon: <Mail className="w-6 h-6" />, label: "Email", value: "zantechbd@gmail.com" },
+                                { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "+880 1XXX-XXXXXX" },
+                                { icon: <MapPin className="w-6 h-6" />, label: "Location", value: "Dhaka, Bangladesh" }
+                            ].map((contact, index) => (
+                                <div key={index} className="flex items-start space-x-4">
+                                    <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg p-3">
+                                        {contact.icon}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-gray-900 dark:text-white">{contact.label}</h4>
+                                        <p className="text-gray-600 dark:text-gray-300">{contact.value}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-6 border border-white/20 dark:border-gray-700/20">
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Why Choose ZantechBD?</h3>
+                            <div className="space-y-3">
+                                {[
+                                    "Expert team with years of experience",
+                                    "Custom solutions tailored to your needs",
+                                    "End-to-end project management",
+                                    "Ongoing support and maintenance"
+                                ].map((reason, index) => (
+                                    <div key={index} className="flex items-center space-x-3">
+                                        <CheckCircle className="w-5 h-5 text-green-500" />
+                                        <span className="text-gray-700 dark:text-gray-300">{reason}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-8 border border-white/20 dark:border-gray-700/20">
+                        <form className="space-y-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                        placeholder="John"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                        placeholder="Doe"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                    placeholder="john@example.com"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Project Type
+                                </label>
+                                <select className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
+                                    <option>Robotics Prototyping</option>
+                                    <option>IoT Development</option>
+                                    <option>R&D Solutions</option>
+                                    <option>Consultation</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Message
+                                </label>
+                                <textarea
+                                    rows={4}
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                    placeholder="Tell us about your project..."
+                                ></textarea>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                            >
+                                <span>Send Message</span>
+                                <ArrowRight className="w-5 h-5" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Contact;
