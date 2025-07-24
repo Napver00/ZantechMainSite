@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1753390181021,
+    "name": "Nakib",
+    "email": "nakibulislam54@gmail.com",
+    "campus": "IUB",
+    "bio": "dsfasd fsda fdsa f dsa fds fas d f",
+    "image": "http://localhost:3001/uploads/1753390181017-20220601_141657.jpg",
+    "submittedAt": "2025-07-24T20:49:41.021Z"
+  },
+  {
+    "id": 1753390464738,
+    "name": "Rafi",
+    "email": "nakibulislam54@gmail.com",
+    "campus": "dafsa",
+    "bio": "fasfd dasf asd ",
+    "image": "http://localhost:3001/uploads/1753390464730-20230508_133555.jpg",
+    "submittedAt": "2025-07-24T20:54:24.738Z"
+  }
+]

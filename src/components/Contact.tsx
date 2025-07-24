@@ -1,6 +1,56 @@
 import { Mail, Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { API_BASE_URL } from '../config'; // Import the base URL
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        projectType: 'Robotics Prototyping',
+        message: ''
+    });
+
+    const [statusMessage, setStatusMessage] = useState('');
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatusMessage('Sending...');
+
+        try {
+            // Use the common variable to construct the full URL
+            const response = await fetch(`${API_BASE_URL}/api/contact`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setStatusMessage('Message sent successfully!');
+                setFormData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    projectType: 'Robotics Prototyping',
+                    message: ''
+                });
+            } else {
+                setStatusMessage('Failed to send message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setStatusMessage('An error occurred. Please try again.');
+        }
+    };
+
+
     return (
         <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,7 +102,7 @@ const Contact = () => {
                     </div>
 
                     <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-8 border border-white/20 dark:border-gray-700/20">
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -60,8 +110,12 @@ const Contact = () => {
                                     </label>
                                     <input
                                         type="text"
+                                        name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
                                         placeholder="John"
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -70,8 +124,12 @@ const Contact = () => {
                                     </label>
                                     <input
                                         type="text"
+                                        name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
                                         placeholder="Doe"
+                                        required
                                     />
                                 </div>
                             </div>
@@ -83,8 +141,11 @@ const Contact = () => {
                                 <input
                                     type="email"
                                     name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
                                     placeholder="john@example.com"
+                                    required
                                 />
                             </div>
 
@@ -92,7 +153,12 @@ const Contact = () => {
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Project Type
                                 </label>
-                                <select className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
+                                <select
+                                    name="projectType"
+                                    value={formData.projectType}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                >
                                     <option>Robotics Prototyping</option>
                                     <option>IoT Development</option>
                                     <option>R&D Solutions</option>
@@ -105,9 +171,13 @@ const Contact = () => {
                                     Message
                                 </label>
                                 <textarea
+                                    name="message"
                                     rows={4}
+                                    value={formData.message}
+                                    onChange={handleChange}
                                     className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
                                     placeholder="Tell us about your project..."
+                                    required
                                 ></textarea>
                             </div>
 
@@ -118,6 +188,7 @@ const Contact = () => {
                                 <span>Send Message</span>
                                 <ArrowRight className="w-5 h-5" />
                             </button>
+                            {statusMessage && <p className="text-center text-gray-600 dark:text-gray-300 mt-4">{statusMessage}</p>}
                         </form>
                     </div>
                 </div>
