@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Sarah Ahmed",
+        "campus": "University of Dhaka",
+        "image": "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
+        "bio": "Computer Science student passionate about robotics and AI. Leading tech innovation initiatives on campus."
+    },
+    {
+        "id": 2,
+        "name": "Rafiq Hassan",
+        "campus": "BUET",
+        "image": "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300",
+        "bio": "Electrical Engineering student with expertise in IoT and embedded systems. Active in robotics competitions."
+    },
+    {
+        "id": 3,
+        "name": "Fatima Khan",
+        "campus": "North South University",
+        "image": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=300",
+        "bio": "Mechatronics student focused on automation and smart manufacturing. Research enthusiast."
+    },
+    {
+        "id": 4,
+        "name": "Jannatul Ferdous",
+        "campus": "BRAC University",
+        "image": "https://images.pexels.com/photos/3775164/pexels-photo-3775164.jpeg?auto=compress&cs=tinysrgb&w=300",
+        "bio": "AI enthusiast and community builder, passionate about making technology accessible to everyone."
+    },
+    {
+        "id": 5,
+        "name": "Imran Chowdhury",
+        "campus": "IUT",
+        "image": "https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg?auto=compress&cs=tinysrgb&w=300",
+        "bio": "Robotics hardware specialist focusing on drone technology and embedded systems."
+    }
+]

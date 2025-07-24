@@ -1,0 +1,63 @@
+[
+    {
+        "id": 1,
+        "title": "Smart Agriculture Robot",
+        "description": "Autonomous farming robot with AI-powered crop monitoring and precision agriculture capabilities.",
+        "image": "https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "technologies": [
+            "IoT",
+            "AI/ML",
+            "Robotics"
+        ],
+        "status": "Completed"
+    },
+    {
+        "id": 2,
+        "title": "Smart Home IoT System",
+        "description": "Complete home automation solution with voice control, energy monitoring, and security features.",
+        "image": "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "technologies": [
+            "IoT",
+            "Mobile App",
+            "Cloud"
+        ],
+        "status": "In Progress"
+    },
+    {
+        "id": 3,
+        "title": "Medical Assistance Robot",
+        "description": "Healthcare robot for patient monitoring, medication delivery, and emergency response.",
+        "image": "https://images.pexels.com/photos/8376277/pexels-photo-8376277.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "technologies": [
+            "Robotics",
+            "AI",
+            "Healthcare"
+        ],
+        "status": "Research Phase"
+    },
+    {
+        "id": 4,
+        "title": "Warehouse Automation Bot",
+        "description": "An autonomous mobile robot (AMR) for sorting and transporting packages in a warehouse environment.",
+        "image": "https://images.pexels.com/photos/8947623/pexels-photo-8947623.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "technologies": [
+            "Robotics",
+            "Computer Vision",
+            "Logistics"
+        ],
+        "status": "Completed"
+    },
+    {
+        "id": 5,
+        "title": "Environmental Monitoring IoT",
+        "description": "A network of sensors to monitor air and water quality in real-time, reporting data to a central dashboard.",
+        "image": "https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=500",
+        "technologies": [
+            "IoT",
+            "Sensors",
+            "Cloud",
+            "Data Analytics"
+        ],
+        "status": "In Progress"
+    }
+]
