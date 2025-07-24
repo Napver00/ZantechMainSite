@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Bot } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 
 const Navbar = () => {
     const [isDark, setIsDark] = useState(false);
@@ -34,11 +34,11 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <div className="flex items-center space-x-2">
-                        <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-                            <Bot className="w-6 h-6 text-white" />
-                        </div>
+                        {/* Changed from Bot icon to img tag */}
+                        <img src="/Asset 2.png" alt="ZAN Tech Logo" className="w-10 h-10" />
+                        {/* Changed text from ZantechBD to ZAN Tech */}
                         <span className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-                            ZantechBD
+                            ZAN Tech
                         </span>
                     </div>
 

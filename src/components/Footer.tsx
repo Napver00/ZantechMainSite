@@ -1,17 +1,11 @@
-import { Bot } from 'lucide-react';
-
 const Footer = () => {
     return (
         <footer className="bg-gray-900 dark:bg-black text-white py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div className="space-y-4">
-                        <div className="flex items-center space-x-2">
-                            <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-                                <Bot className="w-6 h-6 text-white" />
-                            </div>
-                            <span className="text-2xl font-bold">ZantechBD</span>
-                        </div>
+                        {/* Replaced icon and text with the full logo image */}
+                        <img src="/ZAN Tech Logo.png" alt="ZAN Tech Logo" className="w-32" />
                         <p className="text-gray-400">
                             Empowering the future through innovative robotics and IoT solutions.
                         </p>
@@ -51,7 +45,7 @@ const Footer = () => {
                 </div>
 
                 <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                    <p>&copy; 2025 ZantechBD. All rights reserved.</p>
+                    <p>&copy; 2025 ZAN Tech. All rights reserved.</p>
                 </div>
             </div>
         </footer>
