@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Zantech</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-800 text-white min-h-screen">
     <nav class="bg-gray-900/80 backdrop-blur-md shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <h1 class="text-2xl font-bold">Zantech Dashboard</h1>
-                <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all">Logout</a>
+                <a href="/logout"
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all">Logout</a>
             </div>
         </div>
     </nav>
@@ -20,62 +23,183 @@
         <div class="mb-16">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Projects</h2>
-                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New Project</button>
+                <button id="add-project-btn"
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New
+                    Project</button>
             </div>
             <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+            </div>
         </div>
 
         <div>
-             <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Ambassadors</h2>
-                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New Ambassador</button>
+                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New
+                    Ambassador</button>
             </div>
             <div id="ambassadors-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+            </div>
         </div>
     </main>
 
-    <script>
-        // --- Fetch and Display Projects ---
-        async function loadProjects() {
-            const container = document.getElementById('projects-container');
-            const response = await fetch('/api/projects');
-            const projects = await response.json();
-            container.innerHTML = projects.map(p => `
-                <div class="bg-gray-900 p-6 rounded-xl border border-gray-700">
-                    <h3 class="text-xl font-bold mb-2">${p.title}</h3>
-                    <p class="text-gray-400 mb-4">${p.description}</p>
-                    <div class="flex space-x-2">
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded w-full">Edit</button>
-                        <button class="bg-red-600 text-white px-3 py-1 rounded w-full">Delete</button>
-                    </div>
+    <div id="project-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl shadow-xl w-full max-w-lg p-8 relative">
+            <button id="close-modal-btn"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-6">Add New Project</h3>
+            <form id="project-form" class="space-y-4">
+                <input type="hidden" id="project-id" name="id">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-300 mb-1">Title</label>
+                    <input name="title" id="title" type="text" placeholder="Project Title"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg focus:ring-2 focus:ring-cyan-500"
+                        required>
                 </div>
-            `).join('');
-        }
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                    <textarea name="description" id="description" rows="3" placeholder="Project description..."
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg focus:ring-2 focus:ring-cyan-500"
+                        required></textarea>
+                </div>
+                <div>
+                    <label for="technologies" class="block text-sm font-medium text-gray-300 mb-1">Technologies
+                        (comma-separated)</label>
+                    <input name="technologies" id="technologies" type="text" placeholder="IoT, AI/ML, Robotics"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg focus:ring-2 focus:ring-cyan-500"
+                        required>
+                </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-300 mb-1">Status</label>
+                    <input name="status" id="status" type="text" placeholder="In Progress"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg focus:ring-2 focus:ring-cyan-500"
+                        required>
+                </div>
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-300 mb-1">Image</label>
+                    <input name="image" id="image" type="file"
+                        class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-xl transition-all">Save
+                    Project</button>
+            </form>
+        </div>
+    </div>
 
-        // --- Fetch and Display Ambassadors ---
-        async function loadAmbassadors() {
-            const container = document.getElementById('ambassadors-container');
-            const response = await fetch('/api/ambassadors');
-            const ambassadors = await response.json();
-            container.innerHTML = ambassadors.map(a => `
-                <div class="bg-gray-900 p-6 rounded-xl border border-gray-700">
-                    <h3 class="text-xl font-bold mb-2">${a.name}</h3>
-                    <p class="text-gray-400 mb-4">${a.campus}</p>
-                    <div class="flex space-x-2">
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded w-full">Edit</button>
-                        <button class="bg-red-600 text-white px-3 py-1 rounded w-full">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // --- Initial Load ---
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const projectsContainer = document.getElementById('projects-container');
+            const addProjectBtn = document.getElementById('add-project-btn');
+            const projectModal = document.getElementById('project-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const projectForm = document.getElementById('project-form');
+            const modalTitle = document.getElementById('modal-title');
+            const apiBase = '/api';
+
+            const openModal = () => projectModal.classList.replace('hidden', 'flex');
+            const closeModal = () => projectModal.classList.replace('flex', 'hidden');
+
+            addProjectBtn.addEventListener('click', () => {
+                modalTitle.textContent = 'Add New Project';
+                projectForm.reset();
+                projectForm.querySelector('#project-id').value = '';
+                openModal();
+            });
+            closeModalBtn.addEventListener('click', closeModal);
+
+            async function loadProjects() {
+                try {
+                    const response = await fetch(`${apiBase}/projects`);
+                    const projects = await response.json();
+                    projectsContainer.innerHTML = projects.map(p => `
+                        <div class="bg-gray-900 rounded-xl border border-gray-700 flex flex-col">
+                            ${p.image ? `<img src="${p.image}" alt="${p.title}" class="w-full h-40 object-cover rounded-t-xl mb-4">` : '<div class="w-full h-40 bg-gray-700 rounded-t-xl mb-4 flex items-center justify-center text-gray-500">No Image</div>'}
+                            <div class="p-6 pt-0 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold mb-2">${p.title}</h3>
+                                <p class="text-gray-400 mb-4 flex-grow">${p.description}</p>
+                                <div class="flex items-center justify-between mt-auto">
+                                    <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white ${p.status === 'Completed' ? 'bg-green-500' : 'bg-blue-500'}">
+                                        ${p.status}
+                                    </span>
+                                    <div class="flex space-x-2">
+                                        <button data-id="${p.id}" class="edit-btn bg-blue-600 text-white px-3 py-1 rounded">Edit</button>
+                                        <button data-id="${p.id}" class="delete-btn bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch (error) {
+                    projectsContainer.innerHTML = '<p class="text-red-400">Could not load projects.</p>';
+                }
+            }
+
+            projectForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(projectForm);
+                const projectId = formData.get('id');
+                const url = projectId ? `${apiBase}/projects/${projectId}` : `${apiBase}/projects`;
+                const method = projectId ? 'PUT' : 'POST';
+
+                try {
+                    const response = await fetch(url, {
+                        method,
+                        body: formData
+                    });
+                    if (!response.ok) throw new Error('Failed to save project');
+                    closeModal();
+                    loadProjects();
+                } catch (error) {
+                    alert('Error saving project. See console for details.');
+                }
+            });
+
+            projectsContainer.addEventListener('click', async (e) => {
+                const target = e.target;
+                const id = target.dataset.id;
+                if (!id) return;
+
+                if (target.classList.contains('edit-btn')) {
+                    const response = await fetch(`${apiBase}/projects`);
+                    const projects = await response.json();
+                    const projectToEdit = projects.find(p => p.id == id);
+                    if (projectToEdit) {
+                        modalTitle.textContent = 'Edit Project';
+                        projectForm.querySelector('#project-id').value = projectToEdit.id;
+                        projectForm.querySelector('#title').value = projectToEdit.title;
+                        projectForm.querySelector('#description').value = projectToEdit.description;
+                        projectForm.querySelector('#technologies').value = projectToEdit
+                            .technologies.join(', ');
+                        projectForm.querySelector('#status').value = projectToEdit.status;
+                        projectForm.querySelector('#image').value = '';
+                        openModal();
+                    }
+                }
+
+                if (target.classList.contains('delete-btn')) {
+                    if (confirm('Are you sure you want to delete this project?')) {
+                        try {
+                            const response = await fetch(`${apiBase}/projects/${id}`, {
+                                method: 'DELETE'
+                            });
+                            if (!response.ok) throw new Error('Failed to delete project');
+                            loadProjects();
+                        } catch (error) {
+                            alert('Error deleting project. See console for details.');
+                        }
+                    }
+                }
+            });
+
+            // Initial Load (Ambassadors loading can be added here similarly)
             loadProjects();
-            loadAmbassadors();
         });
     </script>
 </body>
+
 </html>
