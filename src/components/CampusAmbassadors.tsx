@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Star, X, Upload } from 'lucide-react';
-import ambassadorsData from '../data/ambassadors.json';
-import { API_BASE_URL } from '../config'; // Import the base URL
+import { API_BASE_URL } from '../config';
 
 // --- Swiper Imports ---
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -126,11 +125,17 @@ const AmbassadorApplicationPopup = ({ onClose }) => {
     );
 };
 
-
 // Main Campus Ambassadors section component
 const CampusAmbassadors = () => {
     const [isPopupOpen, setPopupOpen] = useState(false);
-    const ambassadors = ambassadorsData;
+    const [ambassadors, setAmbassadors] = useState([]);
+
+    useEffect(() => {
+        fetch(`${API_BASE_URL}/api/ambassadors`)
+            .then(response => response.json())
+            .then(data => setAmbassadors(data))
+            .catch(error => console.error('Error fetching ambassadors:', error));
+    }, []);
 
     return (
         <>

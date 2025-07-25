@@ -1,11 +1,12 @@
 import { Bot, Wifi, Cpu, Zap, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Hero = () => {
     const [heroData, setHeroData] = useState({ title: '', subtitle: '', description: '' });
 
     useEffect(() => {
-        fetch('/backend/companyInfo.json')
+        fetch(`${API_BASE_URL}/api/company-info`)
             .then(response => response.json())
             .then(data => setHeroData(data.herosection))
             .catch(error => console.error('Error fetching hero data:', error));

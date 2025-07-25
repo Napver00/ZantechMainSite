@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     const [footerData, setFooterData] = useState({ text: '', socialLinks: [] });
 
     useEffect(() => {
-        fetch('/backend/companyInfo.json')
+        fetch(`${API_BASE_URL}/api/company-info`)
             .then(response => response.json())
             .then(data => setFooterData(data.footer))
             .catch(error => console.error('Error fetching footer data:', error));

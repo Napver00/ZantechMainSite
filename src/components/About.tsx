@@ -1,11 +1,12 @@
 import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const About = () => {
     const [aboutData, setAboutData] = useState({ title: '', description1: '', description2: '' });
 
     useEffect(() => {
-        fetch('/backend/companyInfo.json')
+        fetch(`${API_BASE_URL}/api/company-info`)
             .then(response => response.json())
             .then(data => setAboutData(data.about))
             .catch(error => console.error('Error fetching about data:', error));

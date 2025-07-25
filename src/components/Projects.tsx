@@ -1,4 +1,4 @@
-import projectsData from '../data/projects.json';
+import { useState, useEffect } from 'react';
 
 // 1. Import Swiper components and styles
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,9 +6,17 @@ import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { API_BASE_URL } from '../config';
 
 const Projects = () => {
-    const projects = projectsData;
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        fetch(`${API_BASE_URL}/api/projects`)
+            .then(response => response.json())
+            .then(data => setProjects(data))
+            .catch(error => console.error('Error fetching projects:', error));
+    }, []);
 
     const renderProjectCard = (project) => (
         <div className="group h-full flex flex-col">
@@ -21,8 +29,8 @@ const Projects = () => {
                     />
                     <div className="absolute top-4 right-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold ${project.status === 'Completed' ? 'bg-green-500 text-white' :
-                                project.status === 'In Progress' ? 'bg-blue-500 text-white' :
-                                    'bg-orange-500 text-white'
+                            project.status === 'In Progress' ? 'bg-blue-500 text-white' :
+                                'bg-orange-500 text-white'
                             }`}>
                             {project.status}
                         </span>
@@ -87,7 +95,11 @@ const Projects = () => {
                     </Swiper>
                 ) : (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {projects.map(renderProjectCard)}
+                        {projects.map((project) => (
+                            <div key={project.id}>
+                                {renderProjectCard(project)}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
