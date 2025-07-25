@@ -115,8 +115,51 @@ const ambassadorApplicationsFilePath = path.join(__dirname, 'ambassadors.json');
 // --- API: GET Endpoints ---
 app.get('/api/projects', (req, res) => res.json(readJsonFile(projectsFilePath)));
 app.get('/api/ambassadors', (req, res) => res.json(readJsonFile(ambassadorsFilePath)));
-app.get('/api/contacts', (req, res) => res.json(readJsonFile(contactsFilePath)));
-app.get('/api/ambassador-applications', (req, res) => res.json(readJsonFile(ambassadorApplicationsFilePath)));
+app.get('/api/contacts', checkAuth, (req, res) => res.json(readJsonFile(contactsFilePath)));
+app.get('/api/ambassador-applications', checkAuth, (req, res) => res.json(readJsonFile(ambassadorApplicationsFilePath)));
+
+// --- API: Frontend Form Submissions ---
+app.post('/api/contact', (req, res) => {
+    const contacts = readJsonFile(contactsFilePath) || [];
+    const newContact = {
+        id: Date.now(),
+        ...req.body,
+        submittedAt: new Date().toISOString()
+    };
+    contacts.push(newContact);
+    if (writeJsonFile(contactsFilePath, contacts)) {
+        res.status(200).json({
+            message: 'Message received successfully!'
+        });
+    } else {
+        res.status(500).json({
+            message: 'Failed to save message.'
+        });
+    }
+});
+
+app.post('/api/ambassador', uploadAmbassadorImage.single('photo'), (req, res) => {
+    const applications = readJsonFile(ambassadorApplicationsFilePath) || [];
+    const newApplication = {
+        id: Date.now(),
+        name: req.body.fullName,
+        email: req.body.email,
+        campus: req.body.campus,
+        bio: req.body.reason,
+        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : '',
+        submittedAt: new Date().toISOString()
+    };
+    applications.push(newApplication);
+    if (writeJsonFile(ambassadorApplicationsFilePath, applications)) {
+        res.status(200).json({
+            message: 'Application received successfully!'
+        });
+    } else {
+        res.status(500).json({
+            message: 'Failed to save application.'
+        });
+    }
+});
 
 
 // --- API: Projects CRUD ---
