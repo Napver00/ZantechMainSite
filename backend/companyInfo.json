@@ -1,38 +1,39 @@
 {
-    "companyName": "Zantech",
-    "herosection": {
-        "title": "Empowering Future Tech",
-        "subtitle": "Robotics & IoT Innovation Starts Here",
-        "description": "We transform ideas into intelligent solutions through cutting-edge robotics, IoT development, and custom R&D services for businesses, startups, and students."
-    },
-    "about": {
-        "title": "About Zantech",
-        "description1": "We are a forward-thinking technology company based in Bangladesh, specializing in robotics, IoT solutions, and cutting-edge R&D services.",
-        "description2": "Our mission is to bridge the gap between innovative ideas and practical solutions, empowering businesses, startups, and students with the tools they need to succeed in the digital age."
-    },
-    "contact": {
-        "email": "zantechbd@gmail.com",
-        "phone": "+880 123 456 7890",
-        "Location": "Dhaka, Bangladesh"
-    },
-    "footer": {
-        "text": "Empowering the future through innovative robotics and IoT solutions.",
-        "socialLinks": [
-            {
-                "platform": "Facebook",
-                "url": "https://www.facebook.com/ZanTechBD"
-            },
-            {
-                "platform": "Instagram",
-                "url": "https://www.instagram.com/zantechbd/"
-            },
-            {
-                "platform": "LinkedIn",
-                "url": "https://www.linkedin.com/company/zantechbd"
-            },
-            {
-                "platform": "Youtube",
-                "url": "https://www.youtube.com/@ZANTechBD"}
-        ]
-    }
+  "companyName": "Zantech",
+  "herosection": {
+    "title": "Empowering Future Tech",
+    "subtitle": "Robotics & IoT Innovation Starts Here",
+    "description": "We transform ideas into intelligent solutions through cutting-edge robotics, IoT development, and custom R&D services for businesses, startups, and students."
+  },
+  "about": {
+    "title": "About Zantech",
+    "description1": "We are a forward-thinking technology company based in Bangladesh, specializing in robotics, IoT solutions, and cutting-edge R&D services.",
+    "description2": "Our mission is to bridge the gap between innovative ideas and practical solutions, empowering businesses, startups, and students with the tools they need to succeed in the digital age."
+  },
+  "contact": {
+    "email": "zantechbd@gmail.com",
+    "phone": "+880 123 456 7890",
+    "Location": "Dhaka, Bangladesh"
+  },
+  "footer": {
+    "text": "Empowering the future through innovative robotics and IoT solutions.",
+    "socialLinks": [
+      {
+        "platform": "Facebook",
+        "url": "https://www.facebook.com/ZanTechBD"
+      },
+      {
+        "platform": "Instagram",
+        "url": "https://www.instagram.com/zantechbd/"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/company/zantechbd"
+      },
+      {
+        "platform": "Youtube",
+        "url": "https://www.youtube.com/@ZANTechBD"
+      }
+    ]
+  }
 }

@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     closeModal();
                     loadData();
                 } catch (error) {
+                    console.error(`Error saving ${section}:`, error);
                     alert(`Error saving ${section}. See console for details.`);
                 }
             });
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                             loadData();
                         } catch (error) {
+                            console.error(`Error deleting ${section}:`, error);
                             alert(`Error deleting ${section}. See console for details.`);
                         }
                     }
@@ -106,14 +108,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        paginationContainer.addEventListener('click', (e) => {
-            const target = e.target.closest('button');
-            if (!target) return;
-            if (target.dataset.page) {
+        if(paginationContainer) {
+            paginationContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target || !target.dataset.page) return;
                 currentPage = parseInt(target.dataset.page, 10);
-            }
-            renderData();
-        });
+                renderData();
+            });
+        }
+
 
         function renderData() {
             const start = (currentPage - 1) * itemsPerPage;
@@ -138,16 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             container.innerHTML = paginatedItems.map(cardTemplate).join('');
 
-            const pageCount = Math.ceil(allItems.length / itemsPerPage);
-            if (pageCount > 1) {
-                let paginationHTML = '';
-                for (let i = 1; i <= pageCount; i++) {
-                    paginationHTML += `<button data-page="${i}" class="px-4 py-2 rounded-lg ${currentPage === i ? 'bg-cyan-600' : 'bg-gray-700'}">${i}</button>`;
+            if (paginationContainer) {
+                const pageCount = Math.ceil(allItems.length / itemsPerPage);
+                if (pageCount > 1) {
+                    let paginationHTML = '';
+                    for (let i = 1; i <= pageCount; i++) {
+                        paginationHTML += `<button data-page="${i}" class="px-4 py-2 rounded-lg ${currentPage === i ? 'bg-cyan-600' : 'bg-gray-700'}">${i}</button>`;
+                    }
+                    paginationContainer.innerHTML = paginationHTML;
+                    paginationContainer.classList.remove('hidden');
+                } else {
+                    paginationContainer.innerHTML = '';
+                    paginationContainer.classList.add('hidden');
                 }
-                paginationContainer.innerHTML = paginationHTML;
-                paginationContainer.classList.remove('hidden');
-            } else {
-                paginationContainer.classList.add('hidden');
             }
         }
 
@@ -155,10 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await fetch(`${apiBase}/${section}s`);
                 let data = await res.json();
-                allItems = data.sort((a, b) => (b.id || b.submittedAt) < (a.id || a.submittedAt) ? -1 : 1); // Sort descending
+                allItems = Array.isArray(data) ? data.sort((a, b) => (b.id || b.submittedAt) < (a.id || a.submittedAt) ? -1 : 1) : []; // Sort descending
                 currentPage = 1;
                 renderData();
             } catch (error) {
+                console.error(`Could not load ${section}s:`, error);
                 container.innerHTML = `<p class="text-red-400">Could not load ${section}s.</p>`;
             }
         }
@@ -214,10 +221,139 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-gray-400 bg-gray-800 p-3 rounded-lg">${a.bio}</p>
             </div>
         </div>`;
+        
+    // --- Company Info Logic ---
+    function setupCompanyInfo() {
+        const form = document.getElementById('company-info-form');
+        if (!form) return;
+        const socialLinksContainer = document.getElementById('social-links-container');
+        const addSocialLinkBtn = document.getElementById('add-social-link-btn');
+        const statusEl = document.getElementById('company-info-status');
+
+        let originalCompanyInfo = {};
+
+        const populateForm = (data) => {
+            originalCompanyInfo = data;
+            form.querySelector('[name="herosection.title"]').value = data.herosection?.title || '';
+            form.querySelector('[name="herosection.subtitle"]').value = data.herosection?.subtitle || '';
+            form.querySelector('[name="herosection.description"]').value = data.herosection?.description || '';
+            form.querySelector('[name="about.title"]').value = data.about?.title || '';
+            form.querySelector('[name="about.description1"]').value = data.about?.description1 || '';
+            form.querySelector('[name="about.description2"]').value = data.about?.description2 || '';
+            form.querySelector('[name="contact.email"]').value = data.contact?.email || '';
+            form.querySelector('[name="contact.phone"]').value = data.contact?.phone || '';
+            form.querySelector('[name="contact.Location"]').value = data.contact?.Location || '';
+            form.querySelector('[name="footer.text"]').value = data.footer?.text || '';
+
+            socialLinksContainer.innerHTML = '';
+            const socialLinks = data.footer?.socialLinks || [];
+            socialLinks.forEach(renderSocialLink);
+        };
+
+        const renderSocialLink = (link) => {
+            const div = document.createElement('div');
+            div.className = 'flex items-center space-x-2 dynamic-social-link';
+            div.innerHTML = `
+                <input type="text" placeholder="Platform (e.g., Facebook)" value="${link.platform || ''}" data-key="platform" class="social-link-input w-1/3 px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg">
+                <input type="url" placeholder="URL" value="${link.url || ''}" data-key="url" class="social-link-input flex-grow px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg">
+                <button type="button" class="remove-social-link-btn bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm">Remove</button>
+            `;
+            socialLinksContainer.appendChild(div);
+        };
+
+        addSocialLinkBtn.addEventListener('click', () => {
+            renderSocialLink({ platform: '', url: '' });
+        });
+
+        socialLinksContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-social-link-btn')) {
+                e.target.closest('.dynamic-social-link').remove();
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            statusEl.textContent = 'Saving...';
+            statusEl.className = 'text-center mt-4 h-6 text-yellow-400';
+
+            const socialLinks = [];
+            socialLinksContainer.querySelectorAll('.dynamic-social-link').forEach(row => {
+                const platformInput = row.querySelector('[data-key="platform"]');
+                const urlInput = row.querySelector('[data-key="url"]');
+                if (platformInput.value && urlInput.value) {
+                    socialLinks.push({
+                        platform: platformInput.value,
+                        url: urlInput.value
+                    });
+                }
+            });
+
+            const updatedInfo = {
+                ...originalCompanyInfo,
+                herosection: {
+                    title: form.querySelector('[name="herosection.title"]').value,
+                    subtitle: form.querySelector('[name="herosection.subtitle"]').value,
+                    description: form.querySelector('[name="herosection.description"]').value,
+                },
+                about: {
+                    title: form.querySelector('[name="about.title"]').value,
+                    description1: form.querySelector('[name="about.description1"]').value,
+                    description2: form.querySelector('[name="about.description2"]').value,
+                },
+                contact: {
+                    email: form.querySelector('[name="contact.email"]').value,
+                    phone: form.querySelector('[name="contact.phone"]').value,
+                    Location: form.querySelector('[name="contact.Location"]').value,
+                },
+                footer: {
+                    text: form.querySelector('[name="footer.text"]').value,
+                    socialLinks: socialLinks
+                }
+            };
+
+            try {
+                const res = await fetch(`${apiBase}/company-info`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedInfo, null, 2)
+                });
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const result = await res.json();
+                statusEl.textContent = result.message;
+                statusEl.className = 'text-center mt-4 h-6 text-green-400';
+                loadData();
+            } catch (error) {
+                console.error('Error saving company info:', error);
+                statusEl.textContent = 'Error saving data.';
+                statusEl.className = 'text-center mt-4 h-6 text-red-400';
+            }
+
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
+        });
+
+        async function loadData() {
+            try {
+                const res = await fetch(`${apiBase}/company-info`);
+                if (!res.ok) throw new Error('Failed to fetch company info');
+                const data = await res.json();
+                populateForm(data);
+            } catch (error) {
+                console.error(error);
+                statusEl.textContent = 'Could not load company info.';
+                statusEl.className = 'text-center mt-4 h-6 text-red-400';
+            }
+        }
+
+        loadData();
+    }
+
 
     // --- Initialize ---
     setupCRUD('project', 6);
     setupCRUD('ambassador', 6);
     setupCRUD('contact', 10);
     setupCRUD('ambassador-application', 10);
+    setupCompanyInfo();
 });
