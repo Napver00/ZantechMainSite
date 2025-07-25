@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../config'; // Import the base URL
 
 const Contact = () => {
@@ -12,6 +12,15 @@ const Contact = () => {
     });
 
     const [statusMessage, setStatusMessage] = useState('');
+    const [contactInfo, setContactInfo] = useState({ email: '', phone: '', Location: '' });
+
+    useEffect(() => {
+        fetch('/backend/companyInfo.json')
+            .then(response => response.json())
+            .then(data => setContactInfo(data.contact))
+            .catch(error => console.error('Error fetching contact data:', error));
+    }, []);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -67,9 +76,9 @@ const Contact = () => {
                     <div className="space-y-8">
                         <div className="space-y-6">
                             {[
-                                { icon: <Mail className="w-6 h-6" />, label: "Email", value: "zantechbd@gmail.com" },
-                                { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "+880 1XXX-XXXXXX" },
-                                { icon: <MapPin className="w-6 h-6" />, label: "Location", value: "Dhaka, Bangladesh" }
+                                { icon: <Mail className="w-6 h-6" />, label: "Email", value: contactInfo.email },
+                                { icon: <Phone className="w-6 h-6" />, label: "Phone", value: contactInfo.phone },
+                                { icon: <MapPin className="w-6 h-6" />, label: "Location", value: contactInfo.Location }
                             ].map((contact, index) => (
                                 <div key={index} className="flex items-start space-x-4">
                                     <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg p-3">

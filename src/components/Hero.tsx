@@ -1,12 +1,23 @@
 import { Bot, Wifi, Cpu, Zap, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const Hero = () => {
+    const [heroData, setHeroData] = useState({ title: '', subtitle: '', description: '' });
+
+    useEffect(() => {
+        fetch('/backend/companyInfo.json')
+            .then(response => response.json())
+            .then(data => setHeroData(data.herosection))
+            .catch(error => console.error('Error fetching hero data:', error));
+    }, []);
+
     const stats = [
         { number: "50+", label: "Projects Completed" },
         { number: "25+", label: "Happy Clients" },
         { number: "5+", label: "Years Experience" },
         { number: "100%", label: "Innovation Focus" }
     ];
+
     return (
         <section id="home" className="min-h-screen flex items-center relative overflow-hidden bg-white dark:bg-gray-900">
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
@@ -24,16 +35,16 @@ const Hero = () => {
                         <div className="space-y-4">
                             <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                                 <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                    Empowering
+                                    {heroData.title.split(' ')[0]}
                                 </span>
                                 <br />
-                                <span className="text-gray-900 dark:text-white">Future Tech</span>
+                                <span className="text-gray-900 dark:text-white">{heroData.title.split(' ').slice(1).join(' ')}</span>
                             </h1>
                             <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-medium">
-                                Robotics & IoT Innovation Starts Here
+                                {heroData.subtitle}
                             </p>
                             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl">
-                                We transform ideas into intelligent solutions through cutting-edge robotics, IoT development, and custom R&D services for businesses, startups, and students.
+                                {heroData.description}
                             </p>
                         </div>
 

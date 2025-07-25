@@ -1,5 +1,16 @@
+import { useState, useEffect } from 'react';
+
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const [footerData, setFooterData] = useState({ text: '', socialLinks: [] });
+
+    useEffect(() => {
+        fetch('/backend/companyInfo.json')
+            .then(response => response.json())
+            .then(data => setFooterData(data.footer))
+            .catch(error => console.error('Error fetching footer data:', error));
+    }, []);
+
 
     return (
         <footer className="bg-gray-900 dark:bg-black text-white py-12">
@@ -8,7 +19,7 @@ const Footer = () => {
                     <div className="space-y-4">
                         <img src="/ZAN Tech Logo.png" alt="ZAN Tech Logo" className="w-32" />
                         <p className="text-gray-400">
-                            Empowering the future through innovative robotics and IoT solutions.
+                            {footerData.text}
                         </p>
                     </div>
 
@@ -37,10 +48,11 @@ const Footer = () => {
                     <div>
                         <h4 className="font-semibold mb-4">Connect</h4>
                         <div className="space-y-2 text-gray-400">
-                            <p>LinkedIn</p>
-                            <p>Facebook</p>
-                            <p>Instagram</p>
-                            <p>Youtube</p>
+                            {footerData.socialLinks.map(social => (
+                                <a key={social.platform} href={social.url} target="_blank" rel="noopener noreferrer">
+                                    <p>{social.platform}</p>
+                                </a>
+                            ))}
                         </div>
                     </div>
                 </div>

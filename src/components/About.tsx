@@ -1,6 +1,16 @@
 import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const About = () => {
+    const [aboutData, setAboutData] = useState({ title: '', description1: '', description2: '' });
+
+    useEffect(() => {
+        fetch('/backend/companyInfo.json')
+            .then(response => response.json())
+            .then(data => setAboutData(data.about))
+            .catch(error => console.error('Error fetching about data:', error));
+    }, []);
+
     return (
         <section id="about" className="py-20 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,13 +18,13 @@ const About = () => {
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                                About <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">ZantechBD</span>
+                                {aboutData.title.split(' ')[0]} <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">{aboutData.title.split(' ')[1]}</span>
                             </h2>
                             <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                                We are a forward-thinking technology company based in Bangladesh, specializing in robotics, IoT solutions, and cutting-edge R&D services.
+                                {aboutData.description1}
                             </p>
                             <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
-                                Our mission is to bridge the gap between innovative ideas and practical solutions, empowering businesses, startups, and students with the tools they need to succeed in the digital age.
+                                {aboutData.description2}
                             </p>
                         </div>
 
