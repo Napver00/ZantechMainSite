@@ -10,19 +10,28 @@
 </head>
 
 <body class="bg-gray-800 text-white min-h-screen">
-    <nav class="bg-gray-900/80 backdrop-blur-md shadow-lg">
+    <header class="bg-gray-900/80 backdrop-blur-md shadow-lg sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <h1 class="text-2xl font-bold">Zantech Dashboard</h1>
+                <nav class="hidden md:flex space-x-4">
+                    <a href="#projects" class="nav-link bg-cyan-600 text-white px-4 py-2 rounded-lg">Projects</a>
+                    <a href="#ambassadors"
+                        class="nav-link text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg">Ambassadors</a>
+                    <a href="#contacts"
+                        class="nav-link text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg">Messages</a>
+                    <a href="#ambassador-applications"
+                        class="nav-link text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg">Applications</a>
+                </nav>
                 <a href="/logout"
                     class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all">Logout</a>
             </div>
         </div>
-    </nav>
+    </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Projects Section -->
-        <section class="mb-16">
+        <section id="projects" class="dashboard-section">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Projects</h2>
                 <button id="add-project-btn"
@@ -34,7 +43,7 @@
         </section>
 
         <!-- Ambassadors Section -->
-        <section class="mb-16">
+        <section id="ambassadors" class="dashboard-section hidden">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Ambassadors</h2>
                 <button id="add-ambassador-btn"
@@ -46,20 +55,21 @@
         </section>
 
         <!-- Contact Messages Section -->
-        <section class="mb-16">
+        <section id="contacts" class="dashboard-section hidden">
             <h2 class="text-3xl font-bold mb-6">Contact Messages</h2>
             <div id="contacts-container" class="space-y-6"></div>
             <div id="contacts-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
         </section>
 
         <!-- Ambassador Applications Section -->
-        <section>
+        <section id="ambassador-applications" class="dashboard-section hidden">
             <h2 class="text-3xl font-bold mb-6">Ambassador Applications</h2>
             <div id="ambassador-applications-container" class="space-y-6"></div>
             <div id="ambassador-applications-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
         </section>
     </main>
 
+    <!-- Modals -->
     <!-- Project Modal -->
     <div id="project-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
         <div class="bg-gray-900 rounded-2xl shadow-xl w-full max-w-lg p-8 relative">

@@ -1,6 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     const apiBase = '/api';
 
+    // --- Navigation Logic ---
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.dashboard-section');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+
+            sections.forEach(section => {
+                section.classList.toggle('hidden', section.id !== targetId);
+            });
+
+            navLinks.forEach(navLink => {
+                navLink.classList.remove('bg-cyan-600', 'text-white');
+                navLink.classList.add('text-gray-300', 'hover:bg-gray-700');
+            });
+
+            link.classList.add('bg-cyan-600', 'text-white');
+            link.classList.remove('text-gray-300', 'hover:bg-gray-700');
+        });
+    });
+
     // --- Generic CRUD Logic ---
     function setupCRUD(section, itemsPerPage = 6) {
         const container = document.getElementById(`${section}s-container`);
@@ -132,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await fetch(`${apiBase}/${section}s`);
                 let data = await res.json();
-                allItems = data.sort((a, b) => (b.id || b.submittedAt) - (a.id || a.submittedAt)); // Sort descending
+                allItems = data.sort((a, b) => (b.id || b.submittedAt) < (a.id || a.submittedAt) ? -1 : 1); // Sort descending
                 currentPage = 1;
                 renderData();
             } catch (error) {
