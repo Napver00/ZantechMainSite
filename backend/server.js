@@ -27,24 +27,31 @@ app.use(session({
     }
 }));
 
-// --- Multer Storage Configuration ---
-const projectImageStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const dir = path.join(__dirname, 'uploads', 'projectimages');
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, {
-                recursive: true
-            });
+// --- Multer Storage Configurations ---
+const createMulterStorage = (folderName) => {
+    return multer.diskStorage({
+        destination: (req, file, cb) => {
+            const dir = path.join(__dirname, 'uploads', folderName);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, {
+                    recursive: true
+                });
+            }
+            cb(null, dir);
+        },
+        filename: (req, file, cb) => {
+            cb(null, `${Date.now()}-${file.originalname}`);
         }
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
+    });
+};
+
 const uploadProjectImage = multer({
-    storage: projectImageStorage
+    storage: createMulterStorage('projectimages')
 });
+const uploadAmbassadorImage = multer({
+    storage: createMulterStorage('ambassadors')
+});
+
 
 // --- Helper Functions ---
 const readJsonFile = (filePath) => {
@@ -52,7 +59,6 @@ const readJsonFile = (filePath) => {
         const data = fs.readFileSync(filePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error(`Error reading or parsing ${path.basename(filePath)}:`, error);
         return null;
     }
 };
@@ -62,25 +68,24 @@ const writeJsonFile = (filePath, data) => {
         fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
         return true;
     } catch (error) {
-        console.error(`Error writing to ${path.basename(filePath)}:`, error);
         return false;
     }
 };
 
-const deleteImageFile = (imageUrl) => {
+const deleteImageFile = (imageUrl, folderName) => {
     if (!imageUrl) return;
     try {
         const imageName = path.basename(imageUrl);
-        const imagePath = path.join(__dirname, 'uploads', 'projectimages', imageName);
+        const imagePath = path.join(__dirname, 'uploads', folderName, imageName);
         if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
         }
     } catch (err) {
-        console.error("Error deleting image file:", err);
+        console.error(`Error deleting image file from ${folderName}:`, err);
     }
 };
 
-// --- Auth Routes ---
+// --- Auth Routes & Dashboard ---
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public', 'login.html')));
 app.post('/login', (req, res) => {
     const credentials = readJsonFile(path.join(__dirname, 'credentials.json'));
@@ -100,76 +105,96 @@ app.get('/logout', (req, res) => {
 const checkAuth = (req, res, next) => req.session.isLoggedIn ? next() : res.redirect('/login');
 app.get('/dashboard', checkAuth, (req, res) => res.sendFile(path.join(__dirname, 'public', 'dashboard.html')));
 
-// --- API Endpoints ---
+// --- File Paths ---
 const projectsFilePath = path.join(__dirname, '..', 'src', 'data', 'projects.json');
-app.get('/api/projects', (req, res) => res.json(readJsonFile(projectsFilePath)));
-app.get('/api/ambassadors', (req, res) => res.json(readJsonFile(path.join(__dirname, '..', 'src', 'data', 'ambassadors.json'))));
+const ambassadorsFilePath = path.join(__dirname, '..', 'src', 'data', 'ambassadors.json');
 
-// CREATE Project
-app.post('/api/projects', uploadProjectImage.single('image'), (req, res) => {
+// --- API: GET Endpoints ---
+app.get('/api/projects', (req, res) => res.json(readJsonFile(projectsFilePath)));
+app.get('/api/ambassadors', (req, res) => res.json(readJsonFile(ambassadorsFilePath)));
+
+// --- API: Projects CRUD ---
+app.post('/api/projects', checkAuth, uploadProjectImage.single('image'), (req, res) => {
     const projects = readJsonFile(projectsFilePath) || [];
     const newProject = {
         id: Date.now(),
         title: req.body.title,
         description: req.body.description,
+        status: req.body.status,
         image: req.file ? `http://localhost:${PORT}/uploads/projectimages/${req.file.filename}` : '',
         technologies: req.body.technologies.split(',').map(tech => tech.trim()),
-        status: req.body.status
     };
     projects.push(newProject);
-    if (writeJsonFile(projectsFilePath, projects)) {
-        res.status(201).json(newProject);
-    } else {
-        res.status(500).send('Error saving project');
-    }
+    res.status(writeJsonFile(projectsFilePath, projects) ? 201 : 500).json(newProject);
 });
 
-// UPDATE Project
-app.put('/api/projects/:id', uploadProjectImage.single('image'), (req, res) => {
+app.put('/api/projects/:id', checkAuth, uploadProjectImage.single('image'), (req, res) => {
     let projects = readJsonFile(projectsFilePath) || [];
-    const projectId = parseInt(req.params.id, 10);
-    const projectIndex = projects.findIndex(p => p.id === projectId);
-
+    const projectIndex = projects.findIndex(p => p.id == req.params.id);
     if (projectIndex === -1) return res.status(404).send('Project not found');
 
     const oldProject = projects[projectIndex];
-    if (req.file) {
-        deleteImageFile(oldProject.image);
-    }
+    if (req.file) deleteImageFile(oldProject.image, 'projectimages');
 
     const updatedProject = {
         ...oldProject,
-        title: req.body.title || oldProject.title,
-        description: req.body.description || oldProject.description,
-        technologies: req.body.technologies ? req.body.technologies.split(',').map(tech => tech.trim()) : oldProject.technologies,
-        status: req.body.status || oldProject.status,
+        ...req.body,
+        technologies: req.body.technologies.split(',').map(tech => tech.trim()),
         image: req.file ? `http://localhost:${PORT}/uploads/projectimages/${req.file.filename}` : oldProject.image
     };
     projects[projectIndex] = updatedProject;
-
-    if (writeJsonFile(projectsFilePath, projects)) {
-        res.json(updatedProject);
-    } else {
-        res.status(500).send('Error updating project');
-    }
+    res.status(writeJsonFile(projectsFilePath, projects) ? 200 : 500).json(updatedProject);
 });
 
-// DELETE Project
-app.delete('/api/projects/:id', (req, res) => {
+app.delete('/api/projects/:id', checkAuth, (req, res) => {
     let projects = readJsonFile(projectsFilePath) || [];
-    const projectId = parseInt(req.params.id, 10);
-    const projectToDelete = projects.find(p => p.id === projectId);
-
+    const projectToDelete = projects.find(p => p.id == req.params.id);
     if (!projectToDelete) return res.status(404).send('Project not found');
 
-    deleteImageFile(projectToDelete.image);
+    deleteImageFile(projectToDelete.image, 'projectimages');
+    const updatedProjects = projects.filter(p => p.id != req.params.id);
+    res.sendStatus(writeJsonFile(projectsFilePath, updatedProjects) ? 204 : 500);
+});
 
-    const updatedProjects = projects.filter(p => p.id !== projectId);
-    if (writeJsonFile(projectsFilePath, updatedProjects)) {
-        res.status(204).send();
-    } else {
-        res.status(500).send('Error deleting project');
-    }
+// --- API: Ambassadors CRUD ---
+app.post('/api/ambassadors', checkAuth, uploadAmbassadorImage.single('image'), (req, res) => {
+    const ambassadors = readJsonFile(ambassadorsFilePath) || [];
+    const newAmbassador = {
+        id: Date.now(),
+        name: req.body.name,
+        campus: req.body.campus,
+        bio: req.body.bio,
+        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : '',
+    };
+    ambassadors.push(newAmbassador);
+    res.status(writeJsonFile(ambassadorsFilePath, ambassadors) ? 201 : 500).json(newAmbassador);
+});
+
+app.put('/api/ambassadors/:id', checkAuth, uploadAmbassadorImage.single('image'), (req, res) => {
+    let ambassadors = readJsonFile(ambassadorsFilePath) || [];
+    const ambassadorIndex = ambassadors.findIndex(a => a.id == req.params.id);
+    if (ambassadorIndex === -1) return res.status(404).send('Ambassador not found');
+
+    const oldAmbassador = ambassadors[ambassadorIndex];
+    if (req.file) deleteImageFile(oldAmbassador.image, 'ambassadors');
+
+    const updatedAmbassador = {
+        ...oldAmbassador,
+        ...req.body,
+        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : oldAmbassador.image
+    };
+    ambassadors[ambassadorIndex] = updatedAmbassador;
+    res.status(writeJsonFile(ambassadorsFilePath, ambassadors) ? 200 : 500).json(updatedAmbassador);
+});
+
+app.delete('/api/ambassadors/:id', checkAuth, (req, res) => {
+    let ambassadors = readJsonFile(ambassadorsFilePath) || [];
+    const ambassadorToDelete = ambassadors.find(a => a.id == req.params.id);
+    if (!ambassadorToDelete) return res.status(404).send('Ambassador not found');
+
+    deleteImageFile(ambassadorToDelete.image, 'ambassadors');
+    const updatedAmbassadors = ambassadors.filter(a => a.id != req.params.id);
+    res.sendStatus(writeJsonFile(ambassadorsFilePath, updatedAmbassadors) ? 204 : 500);
 });
 
 // --- Start Server ---
