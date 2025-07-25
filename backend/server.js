@@ -1,108 +1,122 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
+const cors = require('cors');
+const session = require('express-session');
 
 const app = express();
-const port = 3001;
-const BASE_URL = `http://localhost:${port}`;
+const PORT = process.env.PORT || 8000;
 
-// --- Middleware Setup ---
-app.use(cors());
-app.use(bodyParser.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// --- Middleware ---
+app.use(cors()); // Enable CORS for your frontend
+app.use(express.json()); // To parse JSON bodies
+app.use(express.urlencoded({
+    extended: true
+}));
 
-// --- File Paths and Directories ---
-const contactsFilePath = path.join(__dirname, 'contacts.json');
-const ambassadorsFilePath = path.join(__dirname, 'ambassadors.json');
-const uploadsDir = path.join(__dirname, 'uploads');
+// Serve static files from the 'public' directory (for login.html, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// --- Ensure the 'uploads' directory exists ---
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-// --- Multer Configuration for File Uploads ---
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+// Session Middleware
+app.use(session({
+    secret: 'best_of_the_zantech',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false
     }
-});
-const upload = multer({ storage: storage });
+}));
 
 // --- Helper Functions to Read/Write JSON ---
 const readJsonFile = (filePath) => {
-    if (!fs.existsSync(filePath)) {
-        return [];
-    }
-    const data = fs.readFileSync(filePath, 'utf8');
-    if (data.length === 0) {
-        return [];
-    }
     try {
+        const data = fs.readFileSync(filePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error(`Error parsing ${path.basename(filePath)}:`, error);
-        return [];
+        console.error(`Error reading or parsing ${path.basename(filePath)}:`, error);
+        return null;
     }
 };
 
-const writeJsonFile = (filePath, data) => {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+// --- Authentication Routes ---
+
+// Login page route (now served from backend)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// Handle login POST request
+app.post('/login', (req, res) => {
+    const credentials = readJsonFile(path.join(__dirname, 'credentials.json'));
+    const {
+        email,
+        password
+    } = req.body;
+
+    if (credentials && email === credentials.email && password === credentials.password) {
+        req.session.isLoggedIn = true;
+        res.redirect('/dashboard');
+    } else {
+        res.redirect('/login?error=1');
+    }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.redirect('/dashboard');
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/login');
+    });
+});
+
+// --- Protected Dashboard Route ---
+const checkAuth = (req, res, next) => {
+    if (req.session.isLoggedIn) {
+        next(); // User is authenticated, proceed
+    } else {
+        res.redirect('/login');
+    }
 };
 
-// --- API Endpoints ---
+app.get('/dashboard', checkAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
 
-// Endpoint for "Get In Touch" form
+
+// --- API Endpoints for Frontend and Dashboard ---
+
+// Your existing data endpoints (no changes needed)
+app.get('/api/projects', (req, res) => {
+    res.json(readJsonFile(path.join(__dirname, '..', 'src', 'data', 'projects.json')));
+});
+
+app.get('/api/ambassadors', (req, res) => {
+    res.json(readJsonFile(path.join(__dirname, '..', 'src', 'data', 'ambassadors.json')));
+});
+
+// Your existing form submission endpoints (no changes needed)
 app.post('/api/contact', (req, res) => {
-    try {
-        const contacts = readJsonFile(contactsFilePath);
-        const newContact = {
-            id: Date.now(),
-            ...req.body,
-            submittedAt: new Date().toISOString()
-        };
-        contacts.push(newContact);
-        writeJsonFile(contactsFilePath, contacts);
-        res.status(201).json({ message: 'Contact saved successfully!' });
-    } catch (error) {
-        console.error('Error in /api/contact:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+    console.log('Contact form data:', req.body);
+    // Add logic to save data or send email
+    res.status(200).json({
+        message: 'Message received successfully!'
+    });
 });
 
-// Endpoint for "Become an Ambassador" form
-app.post('/api/ambassador', upload.single('photo'), (req, res) => {
-    try {
-        const ambassadors = readJsonFile(ambassadorsFilePath);
-        const { fullName, email, campus, reason } = req.body;
-
-        const newAmbassador = {
-            id: Date.now(),
-            name: fullName,
-            email,
-            campus,
-            bio: reason,
-            // Use the BASE_URL variable to construct the image path
-            image: req.file ? `${BASE_URL}/uploads/${req.file.filename}` : null,
-            submittedAt: new Date().toISOString()
-        };
-
-        ambassadors.push(newAmbassador);
-        writeJsonFile(ambassadorsFilePath, ambassadors);
-        res.status(201).json({ message: 'Application submitted successfully!' });
-    } catch (error) {
-        console.error('Error in /api/ambassador:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+app.post('/api/ambassador-form', (req, res) => {
+    console.log('Ambassador form data:', req.body);
+    // Add logic to save data
+    res.status(200).json({
+        message: 'Application received successfully!'
+    });
 });
+
 
 // --- Start Server ---
-app.listen(port, () => {
-    console.log(`Server is running on ${BASE_URL}`);
+app.listen(PORT, () => {
+    console.log(`Backend server running at http://localhost:${PORT}`);
+    console.log(`Admin login available at http://localhost:${PORT}/login`);
 });

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Zantech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 text-white min-h-screen">
+    <nav class="bg-gray-900/80 backdrop-blur-md shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <h1 class="text-2xl font-bold">Zantech Dashboard</h1>
+                <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="mb-16">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold">Manage Projects</h2>
+                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New Project</button>
+            </div>
+            <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </div>
+
+        <div>
+             <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold">Manage Ambassadors</h2>
+                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold">Add New Ambassador</button>
+            </div>
+            <div id="ambassadors-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Fetch and Display Projects ---
+        async function loadProjects() {
+            const container = document.getElementById('projects-container');
+            const response = await fetch('/api/projects');
+            const projects = await response.json();
+            container.innerHTML = projects.map(p => `
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">${p.title}</h3>
+                    <p class="text-gray-400 mb-4">${p.description}</p>
+                    <div class="flex space-x-2">
+                        <button class="bg-blue-600 text-white px-3 py-1 rounded w-full">Edit</button>
+                        <button class="bg-red-600 text-white px-3 py-1 rounded w-full">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Fetch and Display Ambassadors ---
+        async function loadAmbassadors() {
+            const container = document.getElementById('ambassadors-container');
+            const response = await fetch('/api/ambassadors');
+            const ambassadors = await response.json();
+            container.innerHTML = ambassadors.map(a => `
+                <div class="bg-gray-900 p-6 rounded-xl border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">${a.name}</h3>
+                    <p class="text-gray-400 mb-4">${a.campus}</p>
+                    <div class="flex space-x-2">
+                        <button class="bg-blue-600 text-white px-3 py-1 rounded w-full">Edit</button>
+                        <button class="bg-red-600 text-white px-3 py-1 rounded w-full">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProjects();
+            loadAmbassadors();
+        });
+    </script>
+</body>
+</html>
