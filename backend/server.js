@@ -7,6 +7,7 @@ const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const base_url = `http://localhost:${PORT}`;
 
 // --- Middleware ---
 app.use(cors());
@@ -159,7 +160,7 @@ app.post('/api/ambassador', uploadAmbassadorImage.single('photo'), (req, res) =>
         email: req.body.email,
         campus: req.body.campus,
         bio: req.body.reason,
-        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : '',
+        image: req.file ? `${base_url}/uploads/ambassadors/${req.file.filename}` : '',
         submittedAt: new Date().toISOString()
     };
     applications.push(newApplication);
@@ -192,7 +193,7 @@ app.post('/api/projects', checkAuth, uploadProjectImage.single('image'), (req, r
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        image: req.file ? `http://localhost:${PORT}/uploads/projectimages/${req.file.filename}` : '',
+        image: req.file ? `${base_url}/uploads/projectimages/${req.file.filename}` : '',
         technologies: req.body.technologies.split(',').map(tech => tech.trim()),
     };
     projects.push(newProject);
@@ -211,7 +212,7 @@ app.put('/api/projects/:id', checkAuth, uploadProjectImage.single('image'), (req
         ...oldProject,
         ...req.body,
         technologies: req.body.technologies.split(',').map(tech => tech.trim()),
-        image: req.file ? `http://localhost:${PORT}/uploads/projectimages/${req.file.filename}` : oldProject.image
+        image: req.file ? `${base_url}/uploads/projectimages/${req.file.filename}` : oldProject.image
     };
     projects[projectIndex] = updatedProject;
     res.status(writeJsonFile(projectsFilePath, projects) ? 200 : 500).json(updatedProject);
@@ -235,7 +236,7 @@ app.post('/api/ambassadors', checkAuth, uploadAmbassadorImage.single('image'), (
         name: req.body.name,
         campus: req.body.campus,
         bio: req.body.bio,
-        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : '',
+        image: req.file ? `${base_url}/uploads/ambassadors/${req.file.filename}` : '',
     };
     ambassadors.push(newAmbassador);
     res.status(writeJsonFile(ambassadorsFilePath, ambassadors) ? 201 : 500).json(newAmbassador);
@@ -252,7 +253,7 @@ app.put('/api/ambassadors/:id', checkAuth, uploadAmbassadorImage.single('image')
     const updatedAmbassador = {
         ...oldAmbassador,
         ...req.body,
-        image: req.file ? `http://localhost:${PORT}/uploads/ambassadors/${req.file.filename}` : oldAmbassador.image
+        image: req.file ? `${base_url}/uploads/ambassadors/${req.file.filename}` : oldAmbassador.image
     };
     ambassadors[ambassadorIndex] = updatedAmbassador;
     res.status(writeJsonFile(ambassadorsFilePath, ambassadors) ? 200 : 500).json(updatedAmbassador);
@@ -270,6 +271,6 @@ app.delete('/api/ambassadors/:id', checkAuth, (req, res) => {
 
 // --- Start Server ---
 app.listen(PORT, () => {
-    console.log(`Backend server running at http://localhost:${PORT}`);
-    console.log(`Admin login available at http://localhost:${PORT}/login`);
+    console.log(`Backend server running at ${base_url}`);
+    console.log(`Admin login available at ${base_url}`);
 });
