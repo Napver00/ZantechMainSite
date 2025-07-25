@@ -21,6 +21,7 @@
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Projects Section -->
         <section class="mb-16">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Projects</h2>
@@ -29,10 +30,11 @@
                     Project</button>
             </div>
             <div id="projects-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            <div id="projects-pagination" class="flex justify-center items-center mt-8"></div>
+            <div id="projects-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
         </section>
 
-        <section>
+        <!-- Ambassadors Section -->
+        <section class="mb-16">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold">Manage Ambassadors</h2>
                 <button id="add-ambassador-btn"
@@ -40,42 +42,90 @@
                     Ambassador</button>
             </div>
             <div id="ambassadors-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            <div id="ambassadors-pagination" class="flex justify-center items-center mt-8"></div>
+            <div id="ambassadors-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
+        </section>
+
+        <!-- Contact Messages Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6">Contact Messages</h2>
+            <div id="contacts-container" class="space-y-6"></div>
+            <div id="contacts-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
+        </section>
+
+        <!-- Ambassador Applications Section -->
+        <section>
+            <h2 class="text-3xl font-bold mb-6">Ambassador Applications</h2>
+            <div id="ambassador-applications-container" class="space-y-6"></div>
+            <div id="ambassador-applications-pagination" class="flex justify-center items-center mt-8 space-x-2"></div>
         </section>
     </main>
 
+    <!-- Project Modal -->
     <div id="project-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
         <div class="bg-gray-900 rounded-2xl shadow-xl w-full max-w-lg p-8 relative">
             <button id="close-project-modal-btn"
                 class="absolute top-4 right-4 text-gray-500 hover:text-gray-200 transition-colors">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
             </button>
             <h3 id="project-modal-title" class="text-2xl font-bold mb-6">Add New Project</h3>
             <form id="project-form" class="space-y-4">
                 <input type="hidden" name="id">
-                <div><label for="p-title" class="block text-sm font-medium text-gray-300 mb-1">Title</label><input name="title" id="p-title" type="text" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
-                <div><label for="p-description" class="block text-sm font-medium text-gray-300 mb-1">Description</label><textarea name="description" id="p-description" rows="3" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></textarea></div>
-                <div><label for="p-technologies" class="block text-sm font-medium text-gray-300 mb-1">Technologies (comma-separated)</label><input name="technologies" id="p-technologies" type="text" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
-                <div><label for="p-status" class="block text-sm font-medium text-gray-300 mb-1">Status</label><input name="status" id="p-status" type="text" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
-                <div><label for="p-image" class="block text-sm font-medium text-gray-300 mb-1">Image</label><input name="image" id="p-image" type="file" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700"></div>
-                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-lg font-semibold">Save Project</button>
+                <div><label for="p-title" class="block text-sm font-medium text-gray-300 mb-1">Title</label><input
+                        name="title" id="p-title" type="text"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
+                <div><label for="p-description"
+                        class="block text-sm font-medium text-gray-300 mb-1">Description</label><textarea
+                        name="description" id="p-description" rows="3"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></textarea>
+                </div>
+                <div><label for="p-technologies" class="block text-sm font-medium text-gray-300 mb-1">Technologies
+                        (comma-separated)</label><input name="technologies" id="p-technologies" type="text"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
+                <div><label for="p-status" class="block text-sm font-medium text-gray-300 mb-1">Status</label><input
+                        name="status" id="p-status" type="text"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
+                <div><label for="p-image" class="block text-sm font-medium text-gray-300 mb-1">Image</label><input
+                        name="image" id="p-image" type="file"
+                        class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-lg font-semibold">Save
+                    Project</button>
             </form>
         </div>
     </div>
 
+    <!-- Ambassador Modal -->
     <div id="ambassador-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
         <div class="bg-gray-900 rounded-2xl shadow-xl w-full max-w-lg p-8 relative">
-            <button id="close-ambassador-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-200 transition-colors">
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <button id="close-ambassador-modal-btn"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-200 transition-colors">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
             </button>
             <h3 id="ambassador-modal-title" class="text-2xl font-bold mb-6">Add New Ambassador</h3>
             <form id="ambassador-form" class="space-y-4">
                 <input type="hidden" name="id">
-                <div><label for="a-name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label><input name="name" id="a-name" type="text" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
-                <div><label for="a-campus" class="block text-sm font-medium text-gray-300 mb-1">Campus</label><input name="campus" id="a-campus" type="text" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
-                <div><label for="a-bio" class="block text-sm font-medium text-gray-300 mb-1">Bio</label><textarea name="bio" id="a-bio" rows="3" class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></textarea></div>
-                <div><label for="a-image" class="block text-sm font-medium text-gray-300 mb-1">Image</label><input name="image" id="a-image" type="file" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700"></div>
-                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-lg font-semibold">Save Ambassador</button>
+                <div><label for="a-name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label><input
+                        name="name" id="a-name" type="text"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
+                <div><label for="a-campus" class="block text-sm font-medium text-gray-300 mb-1">Campus</label><input
+                        name="campus" id="a-campus" type="text"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></div>
+                <div><label for="a-bio" class="block text-sm font-medium text-gray-300 mb-1">Bio</label><textarea
+                        name="bio" id="a-bio" rows="3"
+                        class="w-full px-4 py-2 bg-gray-800 border-gray-700 border rounded-lg" required></textarea>
+                </div>
+                <div><label for="a-image" class="block text-sm font-medium text-gray-300 mb-1">Image</label><input
+                        name="image" id="a-image" type="file"
+                        class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-lg font-semibold">Save
+                    Ambassador</button>
             </form>
         </div>
     </div>

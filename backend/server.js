@@ -108,10 +108,16 @@ app.get('/dashboard', checkAuth, (req, res) => res.sendFile(path.join(__dirname,
 // --- File Paths ---
 const projectsFilePath = path.join(__dirname, '..', 'src', 'data', 'projects.json');
 const ambassadorsFilePath = path.join(__dirname, '..', 'src', 'data', 'ambassadors.json');
+const contactsFilePath = path.join(__dirname, 'contacts.json');
+const ambassadorApplicationsFilePath = path.join(__dirname, 'ambassadors.json');
+
 
 // --- API: GET Endpoints ---
 app.get('/api/projects', (req, res) => res.json(readJsonFile(projectsFilePath)));
 app.get('/api/ambassadors', (req, res) => res.json(readJsonFile(ambassadorsFilePath)));
+app.get('/api/contacts', (req, res) => res.json(readJsonFile(contactsFilePath)));
+app.get('/api/ambassador-applications', (req, res) => res.json(readJsonFile(ambassadorApplicationsFilePath)));
+
 
 // --- API: Projects CRUD ---
 app.post('/api/projects', checkAuth, uploadProjectImage.single('image'), (req, res) => {

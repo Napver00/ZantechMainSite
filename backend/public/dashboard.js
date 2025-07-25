@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const apiBase = '/api';
-    const ITEMS_PER_PAGE = 6;
 
-    // --- Generic CRUD and Pagination Logic ---
-    function setupCRUD(section) {
+    // --- Generic CRUD Logic ---
+    function setupCRUD(section, itemsPerPage = 6) {
         const container = document.getElementById(`${section}s-container`);
         const addBtn = document.getElementById(`add-${section}-btn`);
         const modal = document.getElementById(`${section}-modal`);
@@ -15,104 +14,132 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentPage = 1;
         let allItems = [];
 
-        const openModal = () => modal.classList.replace('hidden', 'flex');
-        const closeModal = () => modal.classList.replace('flex', 'hidden');
+        if (addBtn) {
+            const openModal = () => modal.classList.replace('hidden', 'flex');
+            const closeModal = () => modal.classList.replace('flex', 'hidden');
 
-        addBtn.addEventListener('click', () => {
-            modalTitle.textContent = `Add New ${section.charAt(0).toUpperCase() + section.slice(1)}`;
-            form.reset();
-            form.querySelector('input[name="id"]').value = '';
-            openModal();
-        });
-        closeModalBtn.addEventListener('click', closeModal);
+            addBtn.addEventListener('click', () => {
+                modalTitle.textContent = `Add New ${section.charAt(0).toUpperCase() + section.slice(1)}`;
+                form.reset();
+                form.querySelector('input[name="id"]').value = '';
+                openModal();
+            });
+            closeModalBtn.addEventListener('click', closeModal);
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const id = formData.get('id');
-            const url = id ? `${apiBase}/${section}s/${id}` : `${apiBase}/${section}s`;
-            const method = id ? 'PUT' : 'POST';
-            try {
-                const res = await fetch(url, { method, body: formData });
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                closeModal();
-                loadData();
-            } catch (error) {
-                alert(`Error saving ${section}. See console for details.`);
-            }
-        });
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const id = formData.get('id');
+                const url = id ? `${apiBase}/${section}s/${id}` : `${apiBase}/${section}s`;
+                const method = id ? 'PUT' : 'POST';
+                try {
+                    const res = await fetch(url, {
+                        method,
+                        body: formData
+                    });
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    closeModal();
+                    loadData();
+                } catch (error) {
+                    alert(`Error saving ${section}. See console for details.`);
+                }
+            });
 
-        container.addEventListener('click', async (e) => {
-            const target = e.target.closest('button');
-            if (!target) return;
-            const id = target.dataset.id;
-            if (!id) return;
+            container.addEventListener('click', async (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const id = target.dataset.id;
+                if (!id) return;
 
-            if (target.classList.contains('edit-btn')) {
-                const itemToEdit = allItems.find(item => item.id == id);
-                if (itemToEdit) {
-                    modalTitle.textContent = `Edit ${section.charAt(0).toUpperCase() + section.slice(1)}`;
-                    for (const key in itemToEdit) {
-                        const input = form.querySelector(`[name="${key}"]`);
-                        if (input) {
-                            if (input.type === 'file') input.value = '';
-                            else if (Array.isArray(itemToEdit[key])) input.value = itemToEdit[key].join(', ');
-                            else input.value = itemToEdit[key];
+                if (target.classList.contains('edit-btn')) {
+                    const itemToEdit = allItems.find(item => item.id == id);
+                    if (itemToEdit) {
+                        modalTitle.textContent = `Edit ${section.charAt(0).toUpperCase() + section.slice(1)}`;
+                        for (const key in itemToEdit) {
+                            const input = form.querySelector(`[name="${key}"]`);
+                            if (input) {
+                                if (input.type === 'file') input.value = '';
+                                else if (Array.isArray(itemToEdit[key])) input.value = itemToEdit[key].join(', ');
+                                else input.value = itemToEdit[key];
+                            }
+                        }
+                        openModal();
+                    }
+                }
+
+                if (target.classList.contains('delete-btn')) {
+                    if (confirm(`Are you sure you want to delete this ${section}?`)) {
+                        try {
+                            const res = await fetch(`${apiBase}/${section}s/${id}`, {
+                                method: 'DELETE'
+                            });
+                            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                            loadData();
+                        } catch (error) {
+                            alert(`Error deleting ${section}. See console for details.`);
                         }
                     }
-                    openModal();
                 }
-            }
+            });
+        }
 
-            if (target.classList.contains('delete-btn')) {
-                if (confirm(`Are you sure you want to delete this ${section}?`)) {
-                    try {
-                        const res = await fetch(`${apiBase}/${section}s/${id}`, { method: 'DELETE' });
-                        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                        loadData();
-                    } catch (error) {
-                        alert(`Error deleting ${section}. See console for details.`);
-                    }
-                }
-            }
-        });
-        
         paginationContainer.addEventListener('click', (e) => {
             const target = e.target.closest('button');
             if (!target) return;
-            if (target.id === `prev-${section}-btn`) currentPage--;
-            if (target.id === `next-${section}-btn`) currentPage++;
+            if (target.dataset.page) {
+                currentPage = parseInt(target.dataset.page, 10);
+            }
             renderData();
         });
 
         function renderData() {
-            const start = (currentPage - 1) * ITEMS_PER_PAGE;
-            const end = start + ITEMS_PER_PAGE;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
             const paginatedItems = allItems.slice(start, end);
 
-            container.innerHTML = paginatedItems.map(item => section === 'project' ? projectCard(item) : ambassadorCard(item)).join('');
-            
-            // Pagination controls
-            const pageCount = Math.ceil(allItems.length / ITEMS_PER_PAGE);
-            paginationContainer.innerHTML = `
-                <button id="prev-${section}-btn" class="bg-gray-700 px-4 py-2 rounded-lg disabled:opacity-50" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
-                <span class="px-4">Page ${currentPage} of ${pageCount || 1}</span>
-                <button id="next-${section}-btn" class="bg-gray-700 px-4 py-2 rounded-lg disabled:opacity-50" ${currentPage >= pageCount ? 'disabled' : ''}>Next</button>
-            `;
-            paginationContainer.classList.toggle('hidden', allItems.length <= ITEMS_PER_PAGE);
+            let cardTemplate;
+            switch (section) {
+                case 'project':
+                    cardTemplate = projectCard;
+                    break;
+                case 'ambassador':
+                    cardTemplate = ambassadorCard;
+                    break;
+                case 'contact':
+                    cardTemplate = contactCard;
+                    break;
+                case 'ambassador-application':
+                    cardTemplate = ambassadorApplicationCard;
+                    break;
+            }
+
+            container.innerHTML = paginatedItems.map(cardTemplate).join('');
+
+            const pageCount = Math.ceil(allItems.length / itemsPerPage);
+            if (pageCount > 1) {
+                let paginationHTML = '';
+                for (let i = 1; i <= pageCount; i++) {
+                    paginationHTML += `<button data-page="${i}" class="px-4 py-2 rounded-lg ${currentPage === i ? 'bg-cyan-600' : 'bg-gray-700'}">${i}</button>`;
+                }
+                paginationContainer.innerHTML = paginationHTML;
+                paginationContainer.classList.remove('hidden');
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
         }
 
         async function loadData() {
             try {
                 const res = await fetch(`${apiBase}/${section}s`);
-                allItems = await res.json();
+                let data = await res.json();
+                allItems = data.sort((a, b) => (b.id || b.submittedAt) - (a.id || a.submittedAt)); // Sort descending
                 currentPage = 1;
                 renderData();
             } catch (error) {
                 container.innerHTML = `<p class="text-red-400">Could not load ${section}s.</p>`;
             }
         }
-        
+
         loadData();
     }
 
@@ -140,7 +167,34 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>`;
 
-    // --- Initialize CRUD for both sections ---
-    setupCRUD('project');
-    setupCRUD('ambassador');
+    const contactCard = c => `
+        <div class="bg-gray-900 rounded-xl border border-gray-700 p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-lg font-bold">${c.firstName} ${c.lastName}</h3>
+                <span class="text-xs text-gray-400">${new Date(c.submittedAt).toLocaleString()}</span>
+            </div>
+            <p class="text-sm text-cyan-400 mb-2">${c.email}</p>
+            <p class="text-sm text-gray-300 mb-4"><span class="font-semibold">Project Type:</span> ${c.projectType}</p>
+            <p class="text-gray-400 bg-gray-800 p-3 rounded-lg">${c.message}</p>
+        </div>`;
+
+    const ambassadorApplicationCard = a => `
+        <div class="bg-gray-900 rounded-xl border border-gray-700 p-6 flex space-x-6 items-start">
+            ${a.image ? `<img src="${a.image}" alt="${a.name}" class="w-24 h-24 object-cover rounded-lg">` : ''}
+            <div>
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-lg font-bold">${a.name}</h3>
+                    <span class="text-xs text-gray-400">${new Date(a.submittedAt).toLocaleString()}</span>
+                </div>
+                <p class="text-sm text-cyan-400 mb-2">${a.email}</p>
+                <p class="text-sm text-gray-300 mb-4"><span class="font-semibold">Campus:</span> ${a.campus}</p>
+                <p class="text-gray-400 bg-gray-800 p-3 rounded-lg">${a.bio}</p>
+            </div>
+        </div>`;
+
+    // --- Initialize ---
+    setupCRUD('project', 6);
+    setupCRUD('ambassador', 6);
+    setupCRUD('contact', 10);
+    setupCRUD('ambassador-application', 10);
 });
