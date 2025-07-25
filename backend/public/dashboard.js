@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const apiBase = '/api';
+    const ITEMS_PER_PAGE = 6;
 
-    // --- Generic CRUD Logic ---
+    // --- Generic CRUD and Pagination Logic ---
     function setupCRUD(section) {
         const container = document.getElementById(`${section}s-container`);
         const addBtn = document.getElementById(`add-${section}-btn`);
@@ -9,6 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeModalBtn = document.getElementById(`close-${section}-modal-btn`);
         const form = document.getElementById(`${section}-form`);
         const modalTitle = document.getElementById(`${section}-modal-title`);
+        const paginationContainer = document.getElementById(`${section}s-pagination`);
+
+        let currentPage = 1;
+        let allItems = [];
 
         const openModal = () => modal.classList.replace('hidden', 'flex');
         const closeModal = () => modal.classList.replace('flex', 'hidden');
@@ -28,16 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = id ? `${apiBase}/${section}s/${id}` : `${apiBase}/${section}s`;
             const method = id ? 'PUT' : 'POST';
             try {
-                const res = await fetch(url, {
-                    method,
-                    body: formData
-                });
+                const res = await fetch(url, { method, body: formData });
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 closeModal();
                 loadData();
             } catch (error) {
                 alert(`Error saving ${section}. See console for details.`);
-                console.error(error);
             }
         });
 
@@ -48,9 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!id) return;
 
             if (target.classList.contains('edit-btn')) {
-                const res = await fetch(`${apiBase}/${section}s`);
-                const items = await res.json();
-                const itemToEdit = items.find(item => item.id == id);
+                const itemToEdit = allItems.find(item => item.id == id);
                 if (itemToEdit) {
                     modalTitle.textContent = `Edit ${section.charAt(0).toUpperCase() + section.slice(1)}`;
                     for (const key in itemToEdit) {
@@ -68,29 +67,52 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target.classList.contains('delete-btn')) {
                 if (confirm(`Are you sure you want to delete this ${section}?`)) {
                     try {
-                        const res = await fetch(`${apiBase}/${section}s/${id}`, {
-                            method: 'DELETE'
-                        });
+                        const res = await fetch(`${apiBase}/${section}s/${id}`, { method: 'DELETE' });
                         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                         loadData();
                     } catch (error) {
                         alert(`Error deleting ${section}. See console for details.`);
-                        console.error(error);
                     }
                 }
             }
         });
+        
+        paginationContainer.addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            if (target.id === `prev-${section}-btn`) currentPage--;
+            if (target.id === `next-${section}-btn`) currentPage++;
+            renderData();
+        });
+
+        function renderData() {
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const paginatedItems = allItems.slice(start, end);
+
+            container.innerHTML = paginatedItems.map(item => section === 'project' ? projectCard(item) : ambassadorCard(item)).join('');
+            
+            // Pagination controls
+            const pageCount = Math.ceil(allItems.length / ITEMS_PER_PAGE);
+            paginationContainer.innerHTML = `
+                <button id="prev-${section}-btn" class="bg-gray-700 px-4 py-2 rounded-lg disabled:opacity-50" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+                <span class="px-4">Page ${currentPage} of ${pageCount || 1}</span>
+                <button id="next-${section}-btn" class="bg-gray-700 px-4 py-2 rounded-lg disabled:opacity-50" ${currentPage >= pageCount ? 'disabled' : ''}>Next</button>
+            `;
+            paginationContainer.classList.toggle('hidden', allItems.length <= ITEMS_PER_PAGE);
+        }
 
         async function loadData() {
             try {
                 const res = await fetch(`${apiBase}/${section}s`);
-                const items = await res.json();
-                container.innerHTML = items.map(item => section === 'project' ? projectCard(item) : ambassadorCard(item)).join('');
+                allItems = await res.json();
+                currentPage = 1;
+                renderData();
             } catch (error) {
                 container.innerHTML = `<p class="text-red-400">Could not load ${section}s.</p>`;
             }
         }
-
+        
         loadData();
     }
 
