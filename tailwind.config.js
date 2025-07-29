@@ -4,6 +4,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        'zan-red': '#EF4444',    // A brighter, lighter red
+        'zan-blue': '#1E3A8A',   // A deeper, dark blue
+      },
       animation: {
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },

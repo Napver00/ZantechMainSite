@@ -7,7 +7,7 @@ const AboutPage = () => {
                 <div className="text-center mb-12">
                     <img src="/ZAN Tech Logo.png" alt="ZAN Tech Logo" className="w-48 mx-auto mb-6" />
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                        Welcome to <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Zantech</span>
+                        Welcome to <span className="text-zan-blue">Zantech</span>
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300">
                         We are more than just a company; we are a dream.

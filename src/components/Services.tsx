@@ -26,7 +26,7 @@ const Services = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                        Our <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Services</span>
+                        Our <span className="text-zan-blue">Services</span>
                     </h2>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         From concept to deployment, we provide comprehensive technology solutions that drive innovation and growth.
@@ -37,7 +37,7 @@ const Services = () => {
                     {services.map((service, index) => (
                         <div key={index} className="group">
                             <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-8 border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-                                <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl p-4 w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <div className="bg-zan-blue text-white rounded-xl p-4 w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
                                     {service.icon}
                                 </div>
 
@@ -58,7 +58,7 @@ const Services = () => {
                                     ))}
                                 </div>
 
-                                <button className="mt-6 w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                                <button className="mt-6 w-full bg-zan-blue text-white py-3 rounded-xl font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105">
                                     Learn More
                                 </button>
                             </div>

@@ -5,9 +5,9 @@
 /* Custom styles for Swiper navigation buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #0891b2 !important; /* This is Tailwind's cyan-600 color */
+  color: #EF4444 !important; /* This is zan-red */
 }
 
 .swiper-pagination-bullet-active {
-  background: #0891b2 !important; /* This is Tailwind's cyan-600 color */
+  background: #EF4444 !important; /* This is zan-red */
 }

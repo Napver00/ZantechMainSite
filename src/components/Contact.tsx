@@ -15,7 +15,8 @@ const Contact = () => {
     const [contactInfo, setContactInfo] = useState({ email: '', phone: '', Location: '' });
 
     useEffect(() => {
-        fetch('/backend/companyInfo.json')
+        // Corrected the fetch URL to use the API_BASE_URL
+        fetch(`${API_BASE_URL}/api/company-info`) 
             .then(response => response.json())
             .then(data => setContactInfo(data.contact))
             .catch(error => console.error('Error fetching contact data:', error));
@@ -32,7 +33,6 @@ const Contact = () => {
         setStatusMessage('Sending...');
 
         try {
-            // Use the common variable to construct the full URL
             const response = await fetch(`${API_BASE_URL}/api/contact`, {
                 method: 'POST',
                 headers: {
@@ -65,7 +65,7 @@ const Contact = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                        Get In <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Touch</span>
+                        Get In <span className="text-zan-blue">Touch</span>
                     </h2>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         Ready to bring your innovative ideas to life? Let's discuss your project and explore how we can help you achieve your goals.
@@ -81,7 +81,7 @@ const Contact = () => {
                                 { icon: <MapPin className="w-6 h-6" />, label: "Location", value: contactInfo.Location }
                             ].map((contact, index) => (
                                 <div key={index} className="flex items-start space-x-4">
-                                    <div className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg p-3">
+                                    <div className="bg-zan-blue text-white rounded-lg p-3">
                                         {contact.icon}
                                     </div>
                                     <div>
@@ -93,7 +93,7 @@ const Contact = () => {
                         </div>
 
                         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-6 border border-white/20 dark:border-gray-700/20">
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Why Choose ZantechBD?</h3>
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Why Choose Zantech?</h3>
                             <div className="space-y-3">
                                 {[
                                     "Expert team with years of experience",
@@ -122,7 +122,7 @@ const Contact = () => {
                                         name="firstName"
                                         value={formData.firstName}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-zan-blue focus:border-transparent transition-all duration-300"
                                         placeholder="John"
                                         required
                                     />
@@ -136,7 +136,7 @@ const Contact = () => {
                                         name="lastName"
                                         value={formData.lastName}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                        className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-zan-blue focus:border-transparent transition-all duration-300"
                                         placeholder="Doe"
                                         required
                                     />
@@ -152,7 +152,7 @@ const Contact = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-zan-blue focus:border-transparent transition-all duration-300"
                                     placeholder="john@example.com"
                                     required
                                 />
@@ -166,7 +166,7 @@ const Contact = () => {
                                     name="projectType"
                                     value={formData.projectType}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-zan-blue focus:border-transparent transition-all duration-300"
                                 >
                                     <option>Robotics Prototyping</option>
                                     <option>IoT Development</option>
@@ -184,7 +184,7 @@ const Contact = () => {
                                     rows={4}
                                     value={formData.message}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
+                                    className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-zan-blue focus:border-transparent transition-all duration-300"
                                     placeholder="Tell us about your project..."
                                     required
                                 ></textarea>
@@ -192,7 +192,7 @@ const Contact = () => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                                className="w-full bg-zan-blue text-white py-4 rounded-xl font-semibold hover:bg-blue-800 hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
                             >
                                 <span>Send Message</span>
                                 <ArrowRight className="w-5 h-5" />

@@ -61,8 +61,8 @@ const Navbar = () => {
                 <div className="flex justify-between items-center py-4">
                     <Link to="/" className="flex items-center space-x-2">
                         <img src="/Asset 2.png" alt="ZAN Tech Logo" className="w-10 h-10" />
-                        <span className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-                            ZAN Tech
+                        <span className="text-2xl font-bold text-zan-blue">
+                            ZAN <span className="text-zan-red">Tech</span>
                         </span>
                     </Link>
 
@@ -70,13 +70,13 @@ const Navbar = () => {
                         {navLinks.map(link => {
                             if (link.href.startsWith('/')) {
                                 return (
-                                    <Link key={link.text} to={link.href} className="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                                    <Link key={link.text} to={link.href} className="text-gray-700 dark:text-gray-300 hover:text-zan-red dark:hover:text-red-400 transition-colors">
                                         {link.text}
                                     </Link>
                                 );
                             }
                             return (
-                                <a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                                <a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="text-gray-700 dark:text-gray-300 hover:text-zan-red dark:hover:text-red-400 transition-colors">
                                     {link.text}
                                 </a>
                             );
@@ -91,7 +91,7 @@ const Navbar = () => {
                             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                         </button>
                         <a href="https://zantechbd.com/">
-                            <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            <button className="bg-zan-red text-white px-6 py-2 rounded-full hover:bg-red-600 transition-all duration-300 transform hover:scale-105">
                                 Store
                             </button>
                         </a>

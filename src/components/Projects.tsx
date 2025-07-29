@@ -46,12 +46,12 @@ const Projects = () => {
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
                         {project.technologies.map((tech, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 rounded-full text-sm font-medium">
+                            <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-zan-blue/30 text-zan-blue dark:text-blue-300 rounded-full text-sm font-medium">
                                 {tech}
                             </span>
                         ))}
                     </div>
-                    <button className="w-full mt-auto bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <button className="w-full mt-auto bg-zan-blue text-white py-2 rounded-xl font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105">
                         View Details
                     </button>
                 </div>
@@ -64,7 +64,7 @@ const Projects = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                        Our <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Projects</span>
+                        Our <span className="text-zan-blue">Projects</span>
                     </h2>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         Explore our innovative projects that showcase the power of robotics, IoT, and cutting-edge technology solutions.
