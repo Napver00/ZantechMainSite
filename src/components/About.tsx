@@ -1,5 +1,6 @@
-import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu } from 'lucide-react';
+import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 
 const About = () => {
@@ -47,6 +48,12 @@ const About = () => {
                                 </div>
                             ))}
                         </div>
+                        <Link to="/about">
+                            <button className="mt-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                                <span>See More About Us</span>
+                                <ArrowRight className="w-5 h-5" />
+                            </button>
+                        </Link>
                     </div>
 
                     <div className="relative">
