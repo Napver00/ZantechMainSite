@@ -1,6 +1,5 @@
 import { Mail, Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../config'; // Import the base URL
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -12,16 +11,22 @@ const Contact = () => {
     });
 
     const [statusMessage, setStatusMessage] = useState('');
-    const [contactInfo, setContactInfo] = useState({ email: '', phone: '', Location: '' });
+    const [contactInfo, setContactInfo] = useState({ email: '', phone: '', location: '' });
 
     useEffect(() => {
-        // Corrected the fetch URL to use the API_BASE_URL
-        fetch(`${API_BASE_URL}/api/company-info`) 
+        fetch('https://zantechbackend.desklago.com/api/company')
             .then(response => response.json())
-            .then(data => setContactInfo(data.contact))
+            .then(data => {
+                if (data.success) {
+                    setContactInfo({
+                        email: data.data.email,
+                        phone: data.data.phone,
+                        location: data.data.location
+                    });
+                }
+            })
             .catch(error => console.error('Error fetching contact data:', error));
     }, []);
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,12 +38,17 @@ const Contact = () => {
         setStatusMessage('Sending...');
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/contact`, {
+            // Create FormData object with the API's expected field names
+            const formDataToSend = new FormData();
+            formDataToSend.append('f_name', formData.firstName);
+            formDataToSend.append('l_name', formData.lastName);
+            formDataToSend.append('email', formData.email);
+            formDataToSend.append('project_type', formData.projectType);
+            formDataToSend.append('message', formData.message);
+
+            const response = await fetch('https://zantechbackend.desklago.com/api/contact', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: formDataToSend,
             });
 
             if (response.ok) {
@@ -59,7 +69,6 @@ const Contact = () => {
         }
     };
 
-
     return (
         <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,7 +87,7 @@ const Contact = () => {
                             {[
                                 { icon: <Mail className="w-6 h-6" />, label: "Email", value: contactInfo.email },
                                 { icon: <Phone className="w-6 h-6" />, label: "Phone", value: contactInfo.phone },
-                                { icon: <MapPin className="w-6 h-6" />, label: "Location", value: contactInfo.Location }
+                                { icon: <MapPin className="w-6 h-6" />, label: "Location", value: contactInfo.location }
                             ].map((contact, index) => (
                                 <div key={index} className="flex items-start space-x-4">
                                     <div className="bg-zan-blue text-white rounded-lg p-3">

@@ -1,14 +1,25 @@
 import { Bot, Wifi, Cpu, Zap, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../config';
 
 const Hero = () => {
-    const [heroData, setHeroData] = useState({ title: '', subtitle: '', description: '' });
+    const [heroData, setHeroData] = useState({ 
+        hero_title: '', 
+        hero_subtitle: '', 
+        hero_description: '' 
+    });
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/company-info`)
+        fetch('https://zantechbackend.desklago.com/api/company')
             .then(response => response.json())
-            .then(data => setHeroData(data.herosection))
+            .then(data => {
+                if (data.success) {
+                    setHeroData({
+                        hero_title: data.data.hero_title,
+                        hero_subtitle: data.data.hero_subtitle,
+                        hero_description: data.data.hero_description
+                    });
+                }
+            })
             .catch(error => console.error('Error fetching hero data:', error));
     }, []);
 
@@ -35,16 +46,16 @@ const Hero = () => {
                         <div className="space-y-4">
                             <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                                 <span className="text-zan-blue">
-                                    {heroData.title.split(' ')[0]}
+                                    {heroData.hero_title.split(' ')[0]}
                                 </span>
                                 <br />
-                                <span className="text-gray-900 dark:text-white">{heroData.title.split(' ').slice(1).join(' ')}</span>
+                                <span className="text-gray-900 dark:text-white">{heroData.hero_title.split(' ').slice(1).join(' ')}</span>
                             </h1>
                             <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-medium">
-                                {heroData.subtitle}
+                                {heroData.hero_subtitle}
                             </p>
                             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl">
-                                {heroData.description}
+                                {heroData.hero_description}
                             </p>
                         </div>
 
@@ -95,4 +106,5 @@ const Hero = () => {
         </section>
     )
 }
+
 export default Hero;

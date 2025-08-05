@@ -1,15 +1,26 @@
 import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API_BASE_URL } from '../config';
 
 const About = () => {
-    const [aboutData, setAboutData] = useState({ title: '', description1: '', description2: '' });
+    const [aboutData, setAboutData] = useState({ 
+        about_title: '', 
+        about_description1: '', 
+        about_description2: '' 
+    });
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/company-info`)
+        fetch('https://zantechbackend.desklago.com/api/company')
             .then(response => response.json())
-            .then(data => setAboutData(data.about))
+            .then(data => {
+                if (data.success) {
+                    setAboutData({
+                        about_title: data.data.about_title,
+                        about_description1: data.data.about_description1,
+                        about_description2: data.data.about_description2
+                    });
+                }
+            })
             .catch(error => console.error('Error fetching about data:', error));
     }, []);
 
@@ -20,13 +31,13 @@ const About = () => {
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                                {aboutData.title.split(' ')[0]} <span className="text-zan-blue">{aboutData.title.split(' ')[1]}</span>
+                                {aboutData.about_title.split(' ')[0]} <span className="text-zan-blue">{aboutData.about_title.split(' ').slice(1).join(' ')}</span>
                             </h2>
                             <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                                {aboutData.description1}
+                                {aboutData.about_description1}
                             </p>
                             <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
-                                {aboutData.description2}
+                                {aboutData.about_description2}
                             </p>
                         </div>
 

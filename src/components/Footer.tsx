@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../config';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-    const [footerData, setFooterData] = useState({ text: '', socialLinks: [] });
+    const [footerData, setFooterData] = useState({ 
+        footer_text: '', 
+        social_links: [],
+        email: '',
+        phone: '',
+        location: ''
+    });
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/company-info`)
+        fetch('https://zantechbackend.desklago.com/api/company')
             .then(response => response.json())
-            .then(data => setFooterData(data.footer))
+            .then(data => {
+                if (data.success) {
+                    setFooterData({
+                        footer_text: data.data.footer_text,
+                        social_links: data.data.social_links,
+                        email: data.data.email,
+                        phone: data.data.phone,
+                        location: data.data.location
+                    });
+                }
+            })
             .catch(error => console.error('Error fetching footer data:', error));
     }, []);
-
 
     return (
         <footer className="bg-gray-900 dark:bg-black text-white py-12">
@@ -20,7 +34,7 @@ const Footer = () => {
                     <div className="space-y-4">
                         <img src="/ZAN Tech Logo.png" alt="ZAN Tech Logo" className="w-32" />
                         <p className="text-gray-400">
-                            {footerData.text}
+                            {footerData.footer_text}
                         </p>
                     </div>
 
@@ -38,8 +52,9 @@ const Footer = () => {
                         <h4 className="font-semibold mb-4">Company</h4>
                         <div className="space-y-2 text-gray-400">
                             <p>About Us</p>
-                            <p>info@zantechbd.com</p>
-                            <p>zantechbd@gmail.com</p>
+                            <p>{footerData.email}</p>
+                            <p>{footerData.phone}</p>
+                            <p>{footerData.location}</p>
                             <p>Our Team</p>
                             <p>Careers</p>
                             <p>Contact</p>
@@ -49,8 +64,14 @@ const Footer = () => {
                     <div>
                         <h4 className="font-semibold mb-4">Connect</h4>
                         <div className="space-y-2 text-gray-400">
-                            {footerData.socialLinks.map(social => (
-                                <a key={social.platform} href={social.url} target="_blank" rel="noopener noreferrer">
+                            {footerData.social_links.map(social => (
+                                <a 
+                                    key={social.id} 
+                                    href={social.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="block hover:text-white transition-colors duration-200"
+                                >
                                     <p>{social.platform}</p>
                                 </a>
                             ))}
