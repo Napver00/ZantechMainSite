@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://zantech-landing-backend.onrender.com';
+export const API_BASE_URL = 'https://zantechbackend.desklago.com/';
