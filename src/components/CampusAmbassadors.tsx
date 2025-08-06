@@ -15,7 +15,7 @@ const AmbassadorCard = ({ ambassador }) => (
         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-2xl p-6 border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 text-center flex-grow flex flex-col">
             <div className="relative mb-6">
                 <img
-                    src={ambassador.image}
+                    src={ambassador.image_url}
                     alt={ambassador.name}
                     className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-zan-red group-hover:scale-110 transition-transform duration-300"
                 />
@@ -145,12 +145,15 @@ const CampusAmbassadors = () => {
     const [ambassadors, setAmbassadors] = useState([]);
 
     useEffect(() => {
-        // You can update this to fetch ambassadors from your backend if needed
-        // For now, keeping the original fetch logic structure
-        // fetch('https://zantechbackend.desklago.com/api/ambassadors')
-        //     .then(response => response.json())
-        //     .then(data => setAmbassadors(data))
-        //     .catch(error => console.error('Error fetching ambassadors:', error));
+        fetch('https://zantechbackend.desklago.com/api/ourambassadors/active')
+            .then(response => response.json())
+            .then(apiResponse => {
+                // Extract the data array from the API response
+                if (apiResponse.success && apiResponse.data) {
+                    setAmbassadors(apiResponse.data);
+                }
+            })
+            .catch(error => console.error('Error fetching ambassadors:', error));
     }, []);
 
     return (

@@ -6,15 +6,19 @@ import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { API_BASE_URL } from '../config';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/projects`)
+        fetch('https://zantechbackend.desklago.com/api/projects/active')
             .then(response => response.json())
-            .then(data => setProjects(data))
+            .then(apiResponse => {
+                // Extract the data array from the API response
+                if (apiResponse.success && apiResponse.data) {
+                    setProjects(apiResponse.data);
+                }
+            })
             .catch(error => console.error('Error fetching projects:', error));
     }, []);
 
@@ -23,16 +27,16 @@ const Projects = () => {
             <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col">
                 <div className="relative overflow-hidden">
                     <img
-                        src={project.image}
+                        src={project.image_url}
                         alt={project.title}
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 right-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${project.status === 'Completed' ? 'bg-green-500 text-white' :
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${project.status === 'active' ? 'bg-green-500 text-white' :
                             project.status === 'In Progress' ? 'bg-blue-500 text-white' :
                                 'bg-orange-500 text-white'
                             }`}>
-                            {project.status}
+                            {project.status === 'active' ? 'Active' : project.status}
                         </span>
                     </div>
                 </div>
@@ -45,9 +49,9 @@ const Projects = () => {
                         {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-zan-blue/30 text-zan-blue dark:text-blue-300 rounded-full text-sm font-medium">
-                                {tech}
+                        {project.technologies.map((tech) => (
+                            <span key={tech.id} className="px-3 py-1 bg-blue-100 dark:bg-zan-blue/30 text-zan-blue dark:text-blue-300 rounded-full text-sm font-medium">
+                                {tech.name}
                             </span>
                         ))}
                     </div>
