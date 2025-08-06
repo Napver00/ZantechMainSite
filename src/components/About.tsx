@@ -1,6 +1,7 @@
 import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const About = () => {
     const [aboutData, setAboutData] = useState({ 
@@ -10,7 +11,7 @@ const About = () => {
     });
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/company')
+        fetch(`${API_BASE_URL}/api/company`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

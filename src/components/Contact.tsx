@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const Contact = () => {
     const [contactInfo, setContactInfo] = useState({ email: '', phone: '', location: '' });
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/company')
+        fetch(`${API_BASE_URL}/api/company`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -46,7 +47,7 @@ const Contact = () => {
             formDataToSend.append('project_type', formData.projectType);
             formDataToSend.append('message', formData.message);
 
-            const response = await fetch('https://zantechbackend.desklago.com/api/contact', {
+            const response = await fetch(`${API_BASE_URL}/api/contact`, {
                 method: 'POST',
                 body: formDataToSend,
             });

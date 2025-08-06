@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Star, X, Upload } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 // --- Swiper Imports ---
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -64,7 +65,7 @@ const AmbassadorApplicationPopup = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch('https://zantechbackend.desklago.com/api/ambassadors', {
+            const response = await fetch(`${API_BASE_URL}/api/ambassadors`, {
                 method: 'POST',
                 body: formData,
             });
@@ -145,7 +146,7 @@ const CampusAmbassadors = () => {
     const [ambassadors, setAmbassadors] = useState([]);
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/ourambassadors/active')
+        fetch(`${API_BASE_URL}/api/ourambassadors/active`)
             .then(response => response.json())
             .then(apiResponse => {
                 // Extract the data array from the API response

@@ -1,5 +1,6 @@
 import { Bot, Wifi, Cpu, Zap, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Hero = () => {
     const [heroData, setHeroData] = useState({ 
@@ -9,7 +10,7 @@ const Hero = () => {
     });
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/company')
+        fetch(`${API_BASE_URL}/api/company`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

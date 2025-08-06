@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 // 1. Import Swiper components and styles
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,7 +12,7 @@ const Projects = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/projects/active')
+        fetch(`${API_BASE_URL}/api/projects/active`)
             .then(response => response.json())
             .then(apiResponse => {
                 // Extract the data array from the API response

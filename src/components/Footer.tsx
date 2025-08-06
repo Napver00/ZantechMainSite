@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -11,7 +12,7 @@ const Footer = () => {
     });
 
     useEffect(() => {
-        fetch('https://zantechbackend.desklago.com/api/company')
+        fetch(`${API_BASE_URL}/api/company`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
