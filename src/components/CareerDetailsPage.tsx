@@ -73,7 +73,7 @@ const CareerDetailsPage = () => {
                         </h1>
                         <div className="flex items-center text-gray-500 dark:text-gray-400 mt-2">
                             <MapPin className="w-5 h-5 mr-2" />
-                            <span>Zantech HQ (Gulshan-2, Dhaka)</span>
+                            <span>Zantech HQ (Dhaka)</span>
                         </div>
                     </div>
                     {/* Updated Link to the application form */}
