@@ -48,6 +48,7 @@ const Navbar = () => {
         { href: '#services', text: 'Services' },
         { href: '#projects', text: 'Projects' },
         { href: '#ambassadors', text: 'Campus Ambassadors' },
+        { href: '/career', text: 'Career' }, // Added Career link
         { href: '#about', text: 'About' },
         { href: '#contact', text: 'Contact' },
     ];
@@ -66,9 +67,9 @@ const Navbar = () => {
                         </span>
                     </Link>
 
-                    <div className="hidden md:flex space-x-8">
+                    <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => {
-                            if (link.href.startsWith('/')) {
+                            if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
                                 return (
                                     <Link key={link.text} to={link.href} className="text-gray-700 dark:text-gray-300 hover:text-zan-red dark:hover:text-red-400 transition-colors">
                                         {link.text}
@@ -82,6 +83,7 @@ const Navbar = () => {
                             );
                         })}
                     </div>
+
 
                     <div className="flex items-center space-x-4">
                         <button
