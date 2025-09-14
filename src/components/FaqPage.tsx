@@ -37,42 +37,59 @@ const FaqPage = () => {
     };
 
     return (
-        // Changed background to a light gray for better contrast
         <section className="pt-32 pb-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
                         Frequently Asked Questions
                     </h1>
+                    <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                        Have a question? We're here to help. Find answers to our most common inquiries below.
+                    </p>
                 </div>
 
                 <div className="space-y-4">
                     {loading && <p className="text-center text-gray-600 dark:text-gray-300">Loading FAQs...</p>}
                     {error && <p className="text-center text-red-500">Error: {error}</p>}
 
-                    {!loading && !error && faqs.map((faq) => (
-                        // Updated container for each FAQ item
-                        <div key={faq.id} className="bg-emerald-50 dark:bg-gray-800 rounded-lg shadow-sm">
-                            <button
-                                onClick={() => handleToggle(faq.id)}
-                                className="w-full flex justify-between items-center p-5 text-left text-lg font-semibold text-gray-800 dark:text-gray-200"
-                            >
-                                <span>{faq.question}</span>
-                                <ChevronDown
-                                    className={`w-5 h-5 transition-transform duration-300 ${openFaqId === faq.id ? 'rotate-180' : ''}`}
-                                />
-                            </button>
-                            {/* Animated container for the answer */}
+                    {!loading && !error && faqs.map((faq) => {
+                        const isOpen = openFaqId === faq.id;
+                        return (
                             <div
-                                className={`overflow-hidden transition-all duration-500 ease-in-out ${openFaqId === faq.id ? 'max-h-screen' : 'max-h-0'
-                                    }`}
+                                key={faq.id}
+                                className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border transition-all duration-300 ${
+                                    isOpen ? 'border-zan-blue shadow-lg' : 'border-gray-200 dark:border-gray-700'
+                                }`}
                             >
-                                <div className="px-5 pb-5 border-t border-emerald-200 dark:border-gray-700 pt-4">
-                                    <p className="text-gray-600 dark:text-gray-300">{faq.answer}</p>
+                                <button
+                                    onClick={() => handleToggle(faq.id)}
+                                    className="w-full flex justify-between items-center p-6 text-left"
+                                >
+                                    <span className={`text-lg font-semibold transition-colors ${
+                                        isOpen ? 'text-zan-blue dark:text-blue-400' : 'text-gray-800 dark:text-gray-200'
+                                    }`}>
+                                        {faq.question}
+                                    </span>
+                                    <ChevronDown
+                                        className={`w-6 h-6 flex-shrink-0 transition-all duration-300 ${
+                                            isOpen ? 'rotate-180 text-zan-blue dark:text-blue-400' : 'text-gray-500'
+                                        }`}
+                                    />
+                                </button>
+                                <div
+                                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                                        isOpen ? 'max-h-screen' : 'max-h-0'
+                                    }`}
+                                >
+                                    <div className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+                                        <div className="prose prose-gray dark:prose-invert max-w-none">
+                                            <p>{faq.answer}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

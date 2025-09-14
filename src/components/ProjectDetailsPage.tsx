@@ -24,28 +24,41 @@ const ProjectDetailsPage = () => {
     }, [id]);
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center pt-24">Loading...</div>;
     }
 
     if (!project) {
-        return <div className="min-h-screen flex items-center justify-center">Project not found.</div>;
+        return <div className="min-h-screen flex items-center justify-center pt-24">Project not found.</div>;
     }
 
     return (
         <section className="pt-32 pb-20 bg-white dark:bg-gray-900">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-8">
-                    <img src={project.image_url} alt={project.title} className="w-full h-auto max-h-[500px] object-cover rounded-2xl shadow-lg" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Two-column grid layout */}
+                <div className="grid lg:grid-cols-3 gap-12">
+                    
+                    {/* Left Column: Image, Title, and Technologies */}
+                    <div className="lg:col-span-1 space-y-6">
+                        <img src={project.image_url} alt={project.title} className="w-full h-auto object-cover rounded-2xl shadow-lg" />
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{project.title}</h1>
+                        <div className="flex flex-wrap gap-2">
+                            {project.technologies && project.technologies.map((tech) => (
+                                <span key={tech.id} className="px-3 py-1 bg-blue-100 dark:bg-zan-blue/30 text-zan-blue dark:text-blue-300 rounded-full text-sm font-medium">
+                                    {tech.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Right Column: Long Description */}
+                    <div className="lg:col-span-2">
+                        <div 
+                            className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300" 
+                            dangerouslySetInnerHTML={{ __html: project.longdescription || project.description }} 
+                        />
+                    </div>
+
                 </div>
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{project.title}</h1>
-                <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.map((tech) => (
-                        <span key={tech.id} className="px-3 py-1 bg-blue-100 dark:bg-zan-blue/30 text-zan-blue dark:text-blue-300 rounded-full text-sm font-medium">
-                            {tech.name}
-                        </span>
-                    ))}
-                </div>
-                <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: project.details || project.description }} />
             </div>
         </section>
     );
