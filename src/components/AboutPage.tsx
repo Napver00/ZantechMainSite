@@ -1,116 +1,136 @@
 import React from 'react';
-import { Target, Eye, ShoppingBag, FlaskConical, Cpu, Users, LayoutGrid, MapPin, Sparkles, HeartHandshake, ArrowRight } from 'lucide-react';
+import { 
+    Target, 
+    Eye, 
+    XCircle, 
+    CheckCircle, 
+    Sparkles, 
+    Users, 
+    Flag, 
+    HeartHandshake, 
+    Rocket,
+    ArrowRight 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AboutPage = () => {
-    // Data for "What We Do" section
-    const whatWeDo = [
+    // Data for "Our Culture" section
+    const cultureValues = [
         {
-            icon: <ShoppingBag className="w-10 h-10 mb-4 text-zan-blue" />,
-            title: "Selling Robotics and IoT Parts",
-            description: "We sell high-quality, original parts for your projects. From basics like Arduino boards and sensors to advanced components, we have everything you need to get started. We always make sure our products are reliable."
+            icon: <Sparkles className="w-8 h-8 mx-auto mb-3 text-zan-blue" />,
+            title: "Innovation First",
+            description: "Encourage creative thinking and problem-solving."
         },
         {
-            icon: <FlaskConical className="w-10 h-10 mb-4 text-zan-red" />,
-            title: "Research and Development (R&D) Help",
-            description: "Have a great idea but need some help? Our expert team is here for you. We can help you design, build, and test your projects, from simple school projects to complex inventions for your business."
+            icon: <Users className="w-8 h-8 mx-auto mb-3 text-zan-blue" />,
+            title: "Equal Access",
+            description: "Technology for every student, no matter their background."
         },
         {
-            icon: <Cpu className="w-10 h-10 mb-4 text-zan-red" />,
-            title: "Making Our Own IoT Devices",
-            description: "We are not just sellers; we are makers, too! We design and build our own IoT devices right here in Bangladesh. Our products are made to solve local problems, from smart farming to making industries more efficient."
+            icon: <Flag className="w-8 h-8 mx-auto mb-3 text-zan-blue" />,
+            title: "Made in Bangladesh",
+            description: "Nurture local talent to build world-class innovations."
         },
         {
-            icon: <Users className="w-10 h-10 mb-4 text-zan-blue" />,
-            title: "Community and Support",
-            description: "We believe that learning together is best. We run a helpful Facebook community, host workshops, and provide friendly support even after you purchase a product. You are never alone on your tech journey with Zantech."
+            icon: <HeartHandshake className="w-8 h-8 mx-auto mb-3 text-zan-blue" />,
+            title: "Helping Hand",
+            description: "Provide free guidance and support to empower learners."
+        },
+        {
+            icon: <Rocket className="w-8 h-8 mx-auto mb-3 text-zan-blue" />,
+            title: "Future-Focused",
+            description: "Prepare students for a tech-driven world from an early age."
         }
     ];
 
-    // Data for "Why Choose Zantech?" section
-    const whyChooseUs = [
-        { icon: <LayoutGrid className="w-8 h-8 text-white" />, text: "Everything in One Place" },
-        { icon: <MapPin className="w-8 h-8 text-white" />, text: "Local Experts" },
-        { icon: <Sparkles className="w-8 h-8 text-white" />, text: "We Love Innovation" },
-        { icon: <HeartHandshake className="w-8 h-8 text-white" />, text: "Friendly Support" }
-    ];
-
     return (
-        <section className="pt-32 pb-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="text-center mb-16">
-                    <img src="/ZAN Tech Logo.png" alt="ZAN Tech Logo" className="w-40 mx-auto mb-6" />
-                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                        Welcome to <span className="text-zan-blue">ZAN Tech</span>
+        <div className="bg-gray-50 dark:bg-gray-900">
+            {/* --- Header Section --- */}
+            <section className="pt-32 pb-20 text-center">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                        Building Bangladesh's Next Generation of <span className="text-zan-blue">Innovators</span>
                     </h1>
-                    <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                        We are more than just a company; we are a dream to make technology easy to access for everyone in Bangladesh. We don’t just sell parts—we build a community where students, hobbyists, and businesses can learn, create, and grow together.
+                    <p className="text-xl text-gray-600 dark:text-gray-300">
+                        Zantech is dedicated to building Bangladesh's next generation of innovators. We provide free, hands-on robotics and programming workshops for students, supply essential components for creators, and offer custom R&D solutions for businesses. Our mission is to make technology accessible and foster a vibrant tech ecosystem across the nation.
                     </p>
                 </div>
+            </section>
 
-                {/* Mission and Vision Cards with 3D effect */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 [perspective:1000px]">
-                    <div className="group bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/50 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:rotate-x-3">
+            {/* --- Mission & Vision Section --- */}
+            <section className="py-20 bg-white dark:bg-gray-800">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10">
+                    <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl">
                         <Target className="w-12 h-12 text-zan-red mb-4" />
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Mission</h2>
                         <p className="text-gray-600 dark:text-gray-300">
-                            Our mission is simple: to give every student, creator, and company in Bangladesh the tools, knowledge, and support they need to build amazing things with robotics and the Internet of Things (IoT).
+                            To bring robotics, AI, and new technologies to every corner of Bangladesh. While the world is moving forward by adopting technology from an early age, Zantech is on a mission to make the same happen in Bangladesh through education, free guidance, and hands-on learning.
                         </p>
                     </div>
-                    <div className="group bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700/50 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:rotate-x-3">
+                    <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-2xl">
                         <Eye className="w-12 h-12 text-zan-blue mb-4" />
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Vision</h2>
                         <p className="text-gray-600 dark:text-gray-300">
-                            We dream of a Bangladesh that is a leader in technology. We want the "Made in Bangladesh" tag to be famous for high-quality, innovative smart devices. We are here to help build that future, one project at a time.
+                            To see Bangladesh become self-sufficient in technology and innovation, where every student contributes to the future under the proud tag “Made by Bangladeshi Students, Made in Bangladesh.”
                         </p>
                     </div>
                 </div>
+            </section>
+            
+            {/* --- Problem & Solution Section --- */}
+            <section className="py-20 bg-gray-50 dark:bg-gray-900">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-start">
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">The Problem We See</h2>
+                        <ul className="space-y-4">
+                            <li className="flex items-start"><XCircle className="w-6 h-6 text-red-500 mr-3 mt-1 flex-shrink-0" /><span>The world is adopting robotics and AI education from an early age, but Bangladesh still lags behind.</span></li>
+                            <li className="flex items-start"><XCircle className="w-6 h-6 text-red-500 mr-3 mt-1 flex-shrink-0" /><span>Most students don’t have access to proper training, equipment, or mentorship.</span></li>
+                            <li className="flex items-start"><XCircle className="w-6 h-6 text-red-500 mr-3 mt-1 flex-shrink-0" /><span>Limited awareness about how robotics and AI shape the future economy.</span></li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Solution</h2>
+                        <ul className="space-y-4">
+                            <li className="flex items-start"><CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" /><span>Deliver workshops in schools, colleges, and universities nationwide.</span></li>
+                            <li className="flex items-start"><CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" /><span>Offer free guidance and mentorship for students passionate about robotics.</span></li>
+                            <li className="flex items-start"><CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" /><span>Provide robotics and IoT equipment so learners can practice and innovate.</span></li>
+                            <li className="flex items-start"><CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" /><span>Build a community where students exchange ideas, projects, and innovations.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
 
-                {/* What We Do Section */}
-                <div className="text-center mb-20">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-12">What We Do</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                        {whatWeDo.map((item, index) => (
-                            <div key={index} className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-100 dark:border-gray-700/50">
+            {/* --- Our Culture Section --- */}
+            <section className="py-20 bg-white dark:bg-gray-800">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-12">Our Culture & Values</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                        {cultureValues.map((item, index) => (
+                            <div key={index} className="text-center">
                                 {item.icon}
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{item.title}</h3>
-                                <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+                                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-1">{item.title}</h3>
                             </div>
                         ))}
                     </div>
                 </div>
+            </section>
 
-                {/* Why Choose Zantech Section */}
-                <div className="bg-zan-blue text-white p-12 rounded-2xl mb-20">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-center mb-10">Why Choose ZAN Tech?</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                        {whyChooseUs.map((item, index) => (
-                            <div key={index} className="flex flex-col items-center transition-transform duration-300 hover:scale-110">
-                                <div className="bg-white/10 p-4 rounded-full mb-3">
-                                    {item.icon}
-                                </div>
-                                <p className="font-semibold">{item.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Join Our Journey CTA */}
-                <div className="text-center">
+            {/* --- Join Our Journey CTA --- */}
+             <section className="py-20 bg-gray-50 dark:bg-gray-900">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                      <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Join Our Journey</h2>
                      <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
-                        Whether you are a student with your first project, a hobbyist building something fun, or a business looking for a tech solution, we welcome you. Explore our products, join our online community, or contact us to talk about your next big idea.
+                        Whether you are a student with your first project, a hobbyist building something fun, or a business looking for a tech solution, we welcome you.
                     </p>
                     <Link to="/#contact">
-                        <button className="bg-zan-blue text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:-translate-y-1 flex items-center justify-center space-x-2 mx-auto">
-                            <span>Let's build a smarter future!</span>
+                        <button className="bg-zan-blue text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 mx-auto">
+                            <span>Let's Build a Smarter Future!</span>
                             <ArrowRight className="w-5 h-5" />
                         </button>
                     </Link>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     );
 };
 

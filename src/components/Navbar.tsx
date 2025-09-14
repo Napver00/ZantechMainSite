@@ -5,12 +5,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 const Navbar = () => {
     const [isDark, setIsDark] = useState(false);
     const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
-    const [isCareerDropdownOpen, setCareerDropdownOpen] = useState(false); // State for Career dropdown
+    const [isCareerDropdownOpen, setCareerDropdownOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    
+
     const aboutDropdownRef = useRef(null);
-    const careerDropdownRef = useRef(null); // Ref for Career dropdown
+    const careerDropdownRef = useRef(null);
 
     useEffect(() => {
         if (isDark) {
@@ -58,14 +58,15 @@ const Navbar = () => {
         { href: '#about', text: 'About Us' },
         { href: '#services', text: 'Services' },
         { href: '#projects', text: 'Projects' },
-        { href: '#Impact', text: 'Impact' },
-        { href: '#Blog', text: 'Blog' },
+        { href: '/impact', text: 'Impact' },
+        { href: '/blog', text: 'Blog' },
         { href: '/career', text: 'Career' },
         { href: '#contact', text: 'Contact' },
     ];
 
     return (
-        <nav className="fixed w-full z-50 bg-transparent">
+        // Updated Navbar: Fixed position with a solid dark background
+        <nav className="fixed w-full z-50 bg-gray-900 shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <Link to="/" className="flex items-center space-x-2">
@@ -77,7 +78,8 @@ const Navbar = () => {
 
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => {
-                            const linkClasses = "font-bold text-white transition-colors duration-300 hover:text-red-300";
+                            // Link styles updated: hover effect removed
+                            const linkClasses = "font-bold text-white";
 
                             if (link.text === 'About Us') {
                                 return (
@@ -88,10 +90,10 @@ const Navbar = () => {
                                         </button>
                                         {isAboutDropdownOpen && (
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
-                                                <Link to="/about" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setAboutDropdownOpen(false)}>
+                                                <Link to="/about" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setAboutDropdownOpen(false)}>
                                                     About Company
                                                 </Link>
-                                                <a href="#team" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setAboutDropdownOpen(false)}>
+                                                <a href="#team" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setAboutDropdownOpen(false)}>
                                                     About Team
                                                 </a>
                                             </div>
@@ -99,7 +101,7 @@ const Navbar = () => {
                                     </div>
                                 );
                             }
-                            
+
                             if (link.text === 'Career') {
                                 return (
                                     <div key={link.text} className="relative" ref={careerDropdownRef}>
@@ -109,10 +111,10 @@ const Navbar = () => {
                                         </button>
                                         {isCareerDropdownOpen && (
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
-                                                <Link to="/career" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setCareerDropdownOpen(false)}>
+                                                <Link to="/career" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setCareerDropdownOpen(false)}>
                                                     Join Our Team
                                                 </Link>
-                                                <Link to="/ambassadors" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setCareerDropdownOpen(false)}>
+                                                <Link to="/ambassadors" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setCareerDropdownOpen(false)}>
                                                     Become an Ambassador
                                                 </Link>
                                             </div>
@@ -122,15 +124,15 @@ const Navbar = () => {
                             }
 
                             if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
-                                return ( <Link key={link.text} to={link.href} className={linkClasses}>{link.text}</Link> );
+                                return (<Link key={link.text} to={link.href} className={linkClasses}>{link.text}</Link>);
                             }
-                            return ( <a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}</a> );
+                            return (<a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}</a>);
                         })}
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <button onClick={toggleTheme} className="p-2 rounded-lg transition-colors bg-white/20">
-                            {isDark ? <Sun className="w-5 h-5 text-white" /> : <Moon className="w-5 h-5 text-gray-800" />}
+                        <button onClick={toggleTheme} className="p-2 rounded-lg bg-gray-700">
+                            {isDark ? <Sun className="w-5 h-5 text-white" /> : <Moon className="w-5 h-5 text-white" />}
                         </button>
                         <a href="https://zantechbd.com/">
                             <button className="bg-zan-red text-white px-6 py-2 rounded-full hover:bg-red-600 transition-all duration-300 transform hover:scale-105">
