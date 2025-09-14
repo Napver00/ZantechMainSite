@@ -22,15 +22,13 @@ const Hero = () => {
             });
     }, []);
 
-    // Using the stats from your original component as they are relevant to a tech company
     const stats = [
         { number: "50+", label: "Projects Completed" },
-        { number: "25+", label: "Happy Clients" },
-        { number: "5+", label: "Years Experience" },
+        { number: "25+", label: "Workshop" },
+        { number: "3+", label: "Years Experience" },
         { number: "100%", label: "Innovation Focus" }
     ];
 
-    // Split the title into two lines for the hero display
     const titleWords = heroData.hero_title.split(' ');
     const firstLine = titleWords.slice(0, Math.ceil(titleWords.length / 2)).join(' ');
     const secondLine = titleWords.slice(Math.ceil(titleWords.length / 2)).join(' ');
@@ -38,14 +36,14 @@ const Hero = () => {
     return (
         <section id="home" className="min-h-screen flex flex-col justify-between items-center relative text-white text-center p-4">
             {/* Background Image & Overlay */}
-            {/* You can replace the URL with your own background image */}
             <div
                 className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-[-2]"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1606818266942-7c5769aacdd5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}
             ></div>
-            <div className="absolute top-0 left-0 w-full h-full opacity-80 z-[-1]"></div>
+            {/* Added bg-black to create the shadow effect */}
+            <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40 z-[-1]"></div>
 
-            {/* Main Title Content (takes up remaining space) */}
+            {/* Main Title Content */}
             <div className="relative z-10 flex-grow flex flex-col justify-center items-center w-full">
                 <div className="max-w-4xl">
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight tracking-tight drop-shadow-md">
