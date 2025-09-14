@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 import { ArrowRight, Instagram, Twitter, Facebook, Linkedin } from 'lucide-react';
 
-// 1. Create a custom component for the TikTok icon
+// Custom component for the TikTok icon
 const TikTokIcon = ({ className }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@ const TikTokIcon = ({ className }) => (
     </svg>
 );
 
-// 2. Update the SocialIcon helper to use the new TikTokIcon component
+// Helper to render the correct social media icon
 const SocialIcon = ({ platform }) => {
     switch (platform?.toLowerCase()) {
         case 'facebook':
@@ -72,32 +72,33 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+        // Updated Footer Styles: Dark background and light text
+        <footer className="bg-gray-900 text-gray-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
                     {/* Contact Column */}
                     <div className="space-y-4">
-                        <h4 className="font-bold text-gray-900 dark:text-white mb-4">Contact</h4>
+                        <h4 className="font-bold text-white mb-4">Contact</h4>
                         <p>Email</p>
-                        <a href={`mailto:${footerData.email}`} className="hover:text-zan-blue">{footerData.email}</a>
+                        <a href={`mailto:${footerData.email}`} className="hover:text-zan-red">{footerData.email}</a>
                         <p className="pt-2">Zantech Helpline</p>
-                        <a href={`tel:${footerData.phone}`} className="hover:text-zan-blue">{footerData.phone}</a>
+                        <a href={`tel:${footerData.phone}`} className="hover:text-zan-red">{footerData.phone}</a>
                         <p className="pt-2">Calling Hours</p>
                         <p>Sat-Thu, 10AM - 06PM</p>
                     </div>
 
                     {/* Location Column */}
                     <div className="space-y-4">
-                        <h4 className="font-bold text-gray-900 dark:text-white mb-4">Location</h4>
+                        <h4 className="font-bold text-white mb-4">Location</h4>
                         <p>Bangladesh</p>
                         <p>{footerData.location}</p>
                         {/* <p className="pt-2">Visiting Hours</p>
                         <p>Sun-Thu, (Appointment Basis)</p> */}
                     </div>
 
-                    {/* Business Information Column */}
+                    {/* Business Information Column (Commented out as per your code) */}
                     {/* <div className="space-y-4">
-                        <h4 className="font-bold text-gray-900 dark:text-white mb-4">Business Information</h4>
+                        <h4 className="font-bold text-white mb-4">Business Information</h4>
                         <p>Trade License Number</p>
                         <p>TRAD/DNCC/123456/2024</p>
                         <p className="pt-2">BIN Number</p>
@@ -106,11 +107,11 @@ const Footer = () => {
 
                     {/* Legal Column */}
                     <div className="space-y-4">
-                        <h4 className="font-bold text-gray-900 dark:text-white mb-4">Legal</h4>
+                        <h4 className="font-bold text-white mb-4">Legal</h4>
                         <ul className="space-y-3">
                             {legalLinks.map(link => (
                                 <li key={link.text}>
-                                    <a href={link.href} className="flex items-center hover:text-zan-blue">
+                                    <a href={link.href} className="flex items-center hover:text-zan-red">
                                         <span>{link.text}</span>
                                         <ArrowRight className="w-4 h-4 ml-2" />
                                     </a>
@@ -121,11 +122,11 @@ const Footer = () => {
 
                     {/* Company Column */}
                     <div className="space-y-4">
-                        <h4 className="font-bold text-gray-900 dark:text-white mb-4">Company</h4>
+                        <h4 className="font-bold text-white mb-4">Company</h4>
                         <ul className="space-y-3">
                             {companyLinks.map(link => (
                                 <li key={link.text}>
-                                    <Link to={link.href} className="flex items-center hover:text-zan-blue">
+                                    <Link to={link.href} className="flex items-center hover:text-zan-red">
                                         <span>{link.text}</span>
                                         <ArrowRight className="w-4 h-4 ml-2" />
                                     </Link>
@@ -136,7 +137,7 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-gray-200 dark:border-gray-700 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
+                <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
                     <p className="text-sm text-gray-500">&copy; {currentYear} ZAN Tech. All rights reserved.</p>
                     <div className="flex space-x-4 mt-4 sm:mt-0">
                         {footerData.social_links.map((social) => (
@@ -145,7 +146,7 @@ const Footer = () => {
                                 href={social.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-500 hover:text-zan-blue dark:hover:text-white transition-colors"
+                                className="text-gray-400 hover:text-white transition-colors"
                             >
                                 <SocialIcon platform={social.platform} />
                             </a>

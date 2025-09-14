@@ -16,6 +16,10 @@ import AmbassadorsPage from './components/AmbassadorsPage';
 import ImpactPage from './components/ImpactPage';
 import BlogPage from './components/BlogPage';
 import FaqPage from './components/FaqPage';
+import Testimonials from './components/Testimonials';
+import Partners from './components/Partners';
+import ProjectPage from './components/ProjectPage';
+import ProjectDetailsPage from './components/ProjectDetailsPage';
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -43,7 +47,9 @@ function App() {
         <Route path="/ambassadors" element={<AmbassadorsPage />} />
         <Route path="/impact" element={<ImpactPage />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path="/faq" element={<FaqPage />} /> 
+        <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/project/:id" element={<ProjectDetailsPage />} />
+        <Route path="/faq" element={<FaqPage />} />
       </Routes>
       <Footer />
     </div>
@@ -55,8 +61,8 @@ const HomePage = () => (
     <Hero />
     <About />
     <Services />
-    <Projects />
-    {/* <CampusAmbassadors /> */}
+    <Testimonials />
+    <Partners />
     <Contact />
   </>
 );
