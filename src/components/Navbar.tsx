@@ -1,21 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Moon, Sun, ChevronDown } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [isDark, setIsDark] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
+    const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+    const [isCareerDropdownOpen, setCareerDropdownOpen] = useState(false); // State for Career dropdown
     const location = useLocation();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    
+    const aboutDropdownRef = useRef(null);
+    const careerDropdownRef = useRef(null); // Ref for Career dropdown
 
     useEffect(() => {
         if (isDark) {
@@ -24,6 +19,22 @@ const Navbar = () => {
             document.documentElement.classList.remove('dark');
         }
     }, [isDark]);
+
+    // Effect to handle clicks outside of the dropdown menus
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
+                setAboutDropdownOpen(false);
+            }
+            if (careerDropdownRef.current && !careerDropdownRef.current.contains(event.target)) {
+                setCareerDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const toggleTheme = () => {
         setIsDark(!isDark);
@@ -42,55 +53,84 @@ const Navbar = () => {
         }
     };
 
-
     const navLinks = [
         { href: '#home', text: 'Home' },
+        { href: '#about', text: 'About Us' },
         { href: '#services', text: 'Services' },
         { href: '#projects', text: 'Projects' },
-        { href: '#ambassadors', text: 'Campus Ambassadors' },
-        { href: '/career', text: 'Career' }, // Added Career link
-        { href: '#about', text: 'About' },
+        { href: '#Impact', text: 'Impact' },
+        { href: '#Blog', text: 'Blog' },
+        { href: '/career', text: 'Career' },
         { href: '#contact', text: 'Contact' },
     ];
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg'
-                : 'bg-transparent'
-            }`}>
+        <nav className="fixed w-full z-50 bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <Link to="/" className="flex items-center space-x-2">
-                        <img src="/Asset 2.png" alt="ZAN Tech Logo" className="w-10 h-10" />
-                        <span className="text-2xl font-bold text-zan-blue">
-                            ZAN <span className="text-zan-red">Tech</span>
+                        <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="w-15 h-10" />
+                        <span className="text-2xl font-bold text-white">
+                            ZAN <span className="text-white">Tech</span>
                         </span>
                     </Link>
 
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => {
-                            if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
+                            const linkClasses = "font-bold text-white transition-colors duration-300 hover:text-red-300";
+
+                            if (link.text === 'About Us') {
                                 return (
-                                    <Link key={link.text} to={link.href} className="text-gray-700 dark:text-gray-300 hover:text-zan-red dark:hover:text-red-400 transition-colors">
-                                        {link.text}
-                                    </Link>
+                                    <div key={link.text} className="relative" ref={aboutDropdownRef}>
+                                        <button onClick={() => setAboutDropdownOpen(prev => !prev)} className={`flex items-center space-x-1 ${linkClasses}`}>
+                                            <span>About Us</span>
+                                            <ChevronDown className="w-4 h-4" />
+                                        </button>
+                                        {isAboutDropdownOpen && (
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
+                                                <Link to="/about" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setAboutDropdownOpen(false)}>
+                                                    About Company
+                                                </Link>
+                                                <a href="#team" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setAboutDropdownOpen(false)}>
+                                                    About Team
+                                                </a>
+                                            </div>
+                                        )}
+                                    </div>
                                 );
                             }
-                            return (
-                                <a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className="text-gray-700 dark:text-gray-300 hover:text-zan-red dark:hover:text-red-400 transition-colors">
-                                    {link.text}
-                                </a>
-                            );
+                            
+                            if (link.text === 'Career') {
+                                return (
+                                    <div key={link.text} className="relative" ref={careerDropdownRef}>
+                                        <button onClick={() => setCareerDropdownOpen(prev => !prev)} className={`flex items-center space-x-1 ${linkClasses}`}>
+                                            <span>Career</span>
+                                            <ChevronDown className="w-4 h-4" />
+                                        </button>
+                                        {isCareerDropdownOpen && (
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
+                                                <Link to="/career" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setCareerDropdownOpen(false)}>
+                                                    Join Our Team
+                                                </Link>
+                                                <Link to="/ambassadors" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onClick={() => setCareerDropdownOpen(false)}>
+                                                    Become an Ambassador
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            }
+
+                            if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
+                                return ( <Link key={link.text} to={link.href} className={linkClasses}>{link.text}</Link> );
+                            }
+                            return ( <a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}</a> );
                         })}
                     </div>
 
-
                     <div className="flex items-center space-x-4">
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        <button onClick={toggleTheme} className="p-2 rounded-lg transition-colors bg-white/20">
+                            {isDark ? <Sun className="w-5 h-5 text-white" /> : <Moon className="w-5 h-5 text-gray-800" />}
                         </button>
                         <a href="https://zantechbd.com/">
                             <button className="bg-zan-red text-white px-6 py-2 rounded-full hover:bg-red-600 transition-all duration-300 transform hover:scale-105">

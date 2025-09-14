@@ -1,13 +1,11 @@
-import { Globe, Shield, Users, Star, Bot, Wifi, Lightbulb, Cpu, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 
 const About = () => {
-    const [aboutData, setAboutData] = useState({ 
-        about_title: '', 
-        about_description1: '', 
-        about_description2: '' 
+    const [aboutData, setAboutData] = useState({
+        about_title: '',
+        about_description1: '',
+        about_description2: ''
     });
 
     useEffect(() => {
@@ -25,73 +23,51 @@ const About = () => {
             .catch(error => console.error('Error fetching about data:', error));
     }, []);
 
-    return (
-        <section id="about" className="py-20 bg-white dark:bg-gray-900">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    <div className="space-y-8">
-                        <div>
-                            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                                {aboutData.about_title.split(' ')[0]} <span className="text-zan-blue">{aboutData.about_title.split(' ').slice(1).join(' ')}</span>
-                            </h2>
-                            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                                {aboutData.about_description1}
-                            </p>
-                            <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">
-                                {aboutData.about_description2}
-                            </p>
-                        </div>
+    // Content adapted for ZAN Tech's focus areas, matching the new UI structure
+    const ourFocus = [
+        {
+            title: 'Students & Educators',
+            description: 'We partner with schools, colleges, and universities across Bangladesh to conduct free, hands-on workshops. Our mission is to ignite a passion for technology by teaching students the fundamentals of robotics, programming, and AI/ML, preparing them for the challenges of tomorrow.'
+        },
+        {
+            title: 'Innovators & Hobbyists',
+            description: 'For the builders, dreamers, and creators, we provide a curated selection of high-quality robotic equipment. From essentials like Arduino Uno and ESP modules to motor drivers and sensors, we supply the crucial components needed to bring innovative projects to life.'
+        },
+        {
+            title: 'Future Creators',
+            description: 'Our next frontier is developing intuitive and engaging educational products. We are designing kits and tools that will make learning robotics and programming a simple and enjoyable experience for students and children, breaking down complex concepts into fun, accessible projects.'
+        },
+        {
+            title: 'Business & Industry Partners',
+            description: 'We leverage our technical expertise to drive corporate innovation. Zantech offers specialized Research and Development (R&D) services, collaborating with other companies to design, build, and prototype cutting-edge solutions for their unique business challenges.'
+        }
+    ];
 
-                        <div className="grid grid-cols-2 gap-6">
-                            {[
-                                { icon: <Globe className="w-8 h-8" />, title: "Global Reach", desc: "Serving clients worldwide" },
-                                { icon: <Shield className="w-8 h-8" />, title: "Quality Assured", desc: "100% tested solutions" },
-                                { icon: <Users className="w-8 h-8" />, title: "Expert Team", desc: "Skilled professionals" },
-                                { icon: <Star className="w-8 h-8" />, title: "Innovation First", desc: "Cutting-edge technology" }
-                            ].map((item, index) => (
-                                <div key={index} className="flex items-start space-x-4">
-                                    <div className="bg-zan-blue text-white rounded-lg p-2">
-                                        {item.icon}
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 dark:text-white">{item.title}</h4>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">{item.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <Link to="/about">
-                            <button className="mt-6 bg-zan-blue text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
-                                <span>See More About Us</span>
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </Link>
+    return (
+        <section id="about" className="py-20 bg-zan-blue text-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid lg:grid-cols-3 gap-16 items-start">
+
+                    {/* Left Column: "Who We Are" */}
+                    <div className="lg:col-span-1">
+                        <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+                            {aboutData.about_title}
+                        </h2>
+                        <p className="text-lg text-gray-300 leading-relaxed">
+                            {aboutData.about_description1}
+                        </p>
                     </div>
 
-                    <div className="relative">
-                        <div className="bg-blue-50 dark:bg-zan-blue/10 rounded-3xl p-8">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 text-center">
-                                    <Bot className="w-12 h-12 text-zan-blue mx-auto mb-3" />
-                                    <h4 className="font-semibold text-gray-900 dark:text-white">Robotics</h4>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Advanced automation</p>
+                    {/* Right Column: List of focus areas */}
+                    <div className="lg:col-span-2">
+                        <div>
+                            {ourFocus.map((item, index) => (
+                                <div key={index}>
+                                    {index > 0 && <hr className="my-8 border-blue-900" />}
+                                    <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                                    <p className="text-gray-300 leading-relaxed">{item.description}</p>
                                 </div>
-                                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 text-center">
-                                    <Wifi className="w-12 h-12 text-zan-blue mx-auto mb-3" />
-                                    <h4 className="font-semibold text-gray-900 dark:text-white">IoT</h4>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Smart connectivity</p>
-                                </div>
-                                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 text-center">
-                                    <Lightbulb className="w-12 h-12 text-zan-blue mx-auto mb-3" />
-                                    <h4 className="font-semibold text-gray-900 dark:text-white">R&D</h4>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Innovation labs</p>
-                                </div>
-                                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 text-center">
-                                    <Cpu className="w-12 h-12 text-zan-blue mx-auto mb-3" />
-                                    <h4 className="font-semibold text-gray-900 dark:text-white">AI/ML</h4>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">Intelligent systems</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

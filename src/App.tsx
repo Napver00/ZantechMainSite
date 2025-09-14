@@ -11,8 +11,9 @@ import Contact from './components/Contact';
 import AboutPage from './components/AboutPage';
 import CareerPage from './components/CareerPage'; 
 import CareerDetailsPage from './components/CareerDetailsPage';
-import CareerApplicationPage from './components/CareerApplicationPage'; // Import the new application page
+import CareerApplicationPage from './components/CareerApplicationPage';
 import { useEffect } from 'react';
+import AmbassadorsPage from './components/AmbassadorsPage'; // 1. Import the new page
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/career" element={<CareerPage />} /> 
         <Route path="/career/:id" element={<CareerDetailsPage />} />
         <Route path="/career/:id/apply" element={<CareerApplicationPage />} /> 
+        <Route path="/ambassadors" element={<AmbassadorsPage />} /> 
       </Routes>
       <Footer />
     </div>
@@ -49,7 +51,7 @@ const HomePage = () => (
     <About />
     <Services />
     <Projects />
-    <CampusAmbassadors />
+    {/* <CampusAmbassadors /> */}
     <Contact />
   </>
 );
