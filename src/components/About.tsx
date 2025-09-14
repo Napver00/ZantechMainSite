@@ -23,7 +23,7 @@ const About = () => {
             .catch(error => console.error('Error fetching about data:', error));
     }, []);
 
-    // Content adapted for ZAN Tech's focus areas, matching the new UI structure
+    // Content adapted for ZAN Tech's focus areas
     const ourFocus = [
         {
             title: 'Students & Educators',
@@ -63,7 +63,8 @@ const About = () => {
                         <div>
                             {ourFocus.map((item, index) => (
                                 <div key={index}>
-                                    {index > 0 && <hr className="my-8 border-blue-900" />}
+                                    {/* Updated the separator line to be white */}
+                                    {index > 0 && <hr className="my-8 border-white/30" />}
                                     <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                                     <p className="text-gray-300 leading-relaxed">{item.description}</p>
                                 </div>
