@@ -14,7 +14,7 @@ const Navbar = () => {
     const aboutDropdownRef = useRef(null);
     const careerDropdownRef = useRef(null);
     const showcaseDropdownRef = useRef(null);
-    const mobileMenuNode = useRef(null); // Ref for the entire mobile menu + toggle button
+    const mobileMenuNode = useRef(null); 
 
     useEffect(() => {
         if (isDark) {
