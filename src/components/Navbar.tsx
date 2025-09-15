@@ -171,7 +171,7 @@ const Navbar = () => {
                                 <span>About Us</span> <ChevronDown className={`w-5 h-5 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
                             {isAboutDropdownOpen && <div className="pl-4 mt-1 space-y-1">
-                                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">About Company</Link>
+                                <Link to="/about" onClick={() => setMobileMenuOpen(true)} className="block text-gray-300 px-3 py-2 rounded-md">About Company</Link>
                                 <a href="#team" onClick={(e) => handleNavClick(e, '#team')} className="block text-gray-300 px-3 py-2 rounded-md">About Team</a>
                                 <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Impact</Link>
                             </div>}
