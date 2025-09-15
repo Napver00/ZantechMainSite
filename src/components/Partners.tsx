@@ -8,6 +8,7 @@ const partners = [
     { src: 'https://th.bing.com/th/id/R.648c35d20baa133db5aeb29162fab957?rik=oO7gWAI4delLnw&riu=http%3a%2f%2fupload.wikimedia.org%2fwikipedia%2fen%2f3%2f3f%2fScholastica_school_logo.png&ehk=C5ybHRv99T1v3uXfVIw4KE2qoD%2f6PWlq3vG2Urrviqg%3d&risl=&pid=ImgRaw&r=0', alt: 'scholastica school Logo' },
     { src: 'https://media.licdn.com/dms/image/C560BAQG6yYchlzVRxg/company-logo_200_200/0/1672760960978/faridpur_engineering_college_fec_logo?e=2147483647&v=beta&t=RM_zsJK96MNKMMFPzc4aVgFWOTWU4_-OfIM637zZ-Dg', alt: 'faridpur engineering college Logo' },
     { src: 'https://iiec.iubat.edu/assets/images/iiec-logo.png', alt: 'iubat iiec Logo' },
+    { src: 'https://th.bing.com/th/id/R.ad08d41a78fa1b957b689cd79df9deaa?rik=A0QumI1J%2bDVQ9g&riu=http%3a%2f%2ffablabiub.com%2fwp-content%2fuploads%2f2022%2f03%2ffab-logo-1.png&ehk=05M%2bajETtNeRKGrGoSlBWWTpIa4osY9Vwo%2brcZvjFZI%3d&risl=&pid=ImgRaw&r=0', alt: 'iub fablab Logo' },
 ];
 
 const Partners = () => {

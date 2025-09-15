@@ -67,8 +67,8 @@ const Footer = () => {
     ];
 
     const legalLinks = [
-        { text: "Privacy Policy", href: "#" },
-        { text: "Terms & Services", href: "#" },
+        { text: "Privacy Policy", href: "/privacy-policy" },
+        { text: "Terms & Services", href: "/terms-and-conditions" },
     ];
 
     return (
@@ -111,10 +111,10 @@ const Footer = () => {
                         <ul className="space-y-3">
                             {legalLinks.map(link => (
                                 <li key={link.text}>
-                                    <a href={link.href} className="flex items-center hover:text-zan-red">
+                                    <Link to={link.href} className="flex items-center hover:text-zan-red">
                                         <span>{link.text}</span>
                                         <ArrowRight className="w-4 h-4 ml-2" />
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

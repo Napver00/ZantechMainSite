@@ -6,7 +6,7 @@ const Navbar = () => {
     const [isDark, setIsDark] = useState(false);
     const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
     const [isCareerDropdownOpen, setCareerDropdownOpen] = useState(false);
-    const [isShowcaseDropdownOpen, setShowcaseDropdownOpen] = useState(false); // State for Showcase dropdown
+    const [isShowcaseDropdownOpen, setShowcaseDropdownOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -108,6 +108,7 @@ const Navbar = () => {
                                         {isShowcaseDropdownOpen && (
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
                                                 {/* Updated Link Here */}
+                                                <Link to="/workshops" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
                                                 <Link to="/projects" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
                                                 <Link to="/blog" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Blog</Link>
                                             </div>

@@ -20,6 +20,10 @@ import Testimonials from './components/Testimonials';
 import Partners from './components/Partners';
 import ProjectPage from './components/ProjectPage';
 import ProjectDetailsPage from './components/ProjectDetailsPage';
+import WorkshopPage from './components/WorkshopPage';
+import WorkshopDetailsPage from './components/WorkshopDetailsPage';
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
+import TermsAndConditionsPage from './components/TermsAndConditionsPage';
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -50,6 +54,10 @@ function App() {
         <Route path="/projects" element={<ProjectPage />} />
         <Route path="/project/:id" element={<ProjectDetailsPage />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/workshops" element={<WorkshopPage />} />
+        <Route path="/workshop/:id" element={<WorkshopDetailsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} /> 
       </Routes>
       <Footer />
     </div>
