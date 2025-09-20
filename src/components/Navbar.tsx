@@ -14,7 +14,7 @@ const Navbar = () => {
     const aboutDropdownRef = useRef(null);
     const careerDropdownRef = useRef(null);
     const showcaseDropdownRef = useRef(null);
-    const mobileMenuNode = useRef(null); 
+    const mobileMenuNode = useRef(null);
 
     useEffect(() => {
         if (isDark) {
@@ -27,6 +27,9 @@ const Navbar = () => {
     // Effect to handle clicks outside of all menus
     useEffect(() => {
         const handleClickOutside = (event) => {
+            // only run on desktop
+            if (window.innerWidth < 768) return; // md breakpoint
+
             if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
                 setAboutDropdownOpen(false);
             }
@@ -36,20 +39,19 @@ const Navbar = () => {
             if (showcaseDropdownRef.current && !showcaseDropdownRef.current.contains(event.target)) {
                 setShowcaseDropdownOpen(false);
             }
-            if (mobileMenuNode.current && !mobileMenuNode.current.contains(event.target)) {
-                setMobileMenuOpen(false);
-            }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
+
     const toggleTheme = () => {
         setIsDark(!isDark);
     };
-    
+
     const handleMobileLinkClick = (path) => {
         setMobileMenuOpen(false);
         navigate(path);
@@ -164,14 +166,14 @@ const Navbar = () => {
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         {/* Mobile Links */}
                         <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="block text-white px-3 py-2 rounded-md text-base font-medium">Home</a>
-                        
+
                         {/* Mobile About Us Dropdown */}
                         <div>
                             <button onClick={() => setAboutDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-white px-3 py-2 rounded-md text-base font-medium">
                                 <span>About Us</span> <ChevronDown className={`w-5 h-5 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
                             {isAboutDropdownOpen && <div className="pl-4 mt-1 space-y-1">
-                                <Link to="/about" onClick={() => setMobileMenuOpen(true)} className="block text-gray-300 px-3 py-2 rounded-md">About Company</Link>
+                                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">About Company</Link>
                                 <a href="#team" onClick={(e) => handleNavClick(e, '#team')} className="block text-gray-300 px-3 py-2 rounded-md">About Team</a>
                                 <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Impact</Link>
                             </div>}
@@ -199,12 +201,12 @@ const Navbar = () => {
                                 <Link to="/ambassadors" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Become an Ambassador</Link>
                             </div>}
                         </div>
-                        
+
                         <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-white px-3 py-2 rounded-md text-base font-medium">Contact</a>
 
                         {/* Mobile Buttons */}
                         <div className="pt-4 border-t border-gray-700 flex items-center justify-center space-x-4">
-                             <button onClick={toggleTheme} className="p-2 rounded-lg bg-gray-700"><Moon className="w-5 h-5 text-white" /></button>
+                            <button onClick={toggleTheme} className="p-2 rounded-lg bg-gray-700"><Moon className="w-5 h-5 text-white" /></button>
                             <a href="https://zantechbd.com/"><button className="bg-zan-red text-white px-6 py-2 rounded-full">Store</button></a>
                         </div>
                     </div>
