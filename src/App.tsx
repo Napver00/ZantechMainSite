@@ -24,6 +24,7 @@ import WorkshopPage from './components/WorkshopPage';
 import WorkshopDetailsPage from './components/WorkshopDetailsPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsAndConditionsPage from './components/TermsAndConditionsPage';
+import WorkshopsSection from './components/WorkshopsSection';
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -69,6 +70,7 @@ const HomePage = () => (
     <Hero />
     <About />
     <Services />
+    <WorkshopsSection />
     <Testimonials />
     <Partners />
     <Contact />
