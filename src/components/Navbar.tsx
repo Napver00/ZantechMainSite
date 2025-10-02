@@ -75,6 +75,7 @@ const Navbar = () => {
     const navLinks = [
         { href: '#home', text: 'Home' },
         { href: '#about', text: 'About Us' },
+        { href: '/workshops', text: 'Workshops' },
         { href: '#showcase', text: 'Showcase' },
         { href: '/career', text: 'Career' },
         { href: '#contact', text: 'Contact' },
@@ -109,6 +110,7 @@ const Navbar = () => {
                                     </div>
                                 );
                             }
+                            
                             if (link.text === 'Showcase') {
                                 return (
                                     <div key={link.text} className="relative" ref={showcaseDropdownRef}>
@@ -117,7 +119,6 @@ const Navbar = () => {
                                         </button>
                                         {isShowcaseDropdownOpen && (
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 border border-gray-200 dark:border-gray-700">
-                                                <Link to="/workshops" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
                                                 <Link to="/projects" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
                                                 <Link to="/blog" className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowcaseDropdownOpen(false)}>Blog</Link>
                                             </div>
@@ -179,13 +180,15 @@ const Navbar = () => {
                             </div>}
                         </div>
 
+                        {/* Mobile Workshops - Standalone */}
+                        <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-white px-3 py-2 rounded-md text-base font-medium">Workshops</Link>
+
                         {/* Mobile Showcase Dropdown */}
                         <div>
                             <button onClick={() => setShowcaseDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-white px-3 py-2 rounded-md text-base font-medium">
                                 <span>Showcase</span> <ChevronDown className={`w-5 h-5 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
                             {isShowcaseDropdownOpen && <div className="pl-4 mt-1 space-y-1">
-                                <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Workshops</Link>
                                 <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Projects</Link>
                                 <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Blog</Link>
                             </div>}
