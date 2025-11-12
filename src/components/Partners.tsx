@@ -9,6 +9,10 @@ const partners = [
     { src: 'https://media.licdn.com/dms/image/C560BAQG6yYchlzVRxg/company-logo_200_200/0/1672760960978/faridpur_engineering_college_fec_logo?e=2147483647&v=beta&t=RM_zsJK96MNKMMFPzc4aVgFWOTWU4_-OfIM637zZ-Dg', alt: 'faridpur engineering college Logo' },
     { src: 'https://iiec.iubat.edu/assets/images/iiec-logo.png', alt: 'iubat iiec Logo' },
     { src: 'https://th.bing.com/th/id/R.ad08d41a78fa1b957b689cd79df9deaa?rik=A0QumI1J%2bDVQ9g&riu=http%3a%2f%2ffablabiub.com%2fwp-content%2fuploads%2f2022%2f03%2ffab-logo-1.png&ehk=05M%2bajETtNeRKGrGoSlBWWTpIa4osY9Vwo%2brcZvjFZI%3d&risl=&pid=ImgRaw&r=0', alt: 'iub fablab Logo' },
+    { src: 'https://upload.wikimedia.org/wikipedia/bn/d/da/%E0%A6%AB%E0%A7%87%E0%A6%A8%E0%A7%80_%E0%A6%B8%E0%A6%B0%E0%A6%95%E0%A6%BE%E0%A6%B0%E0%A6%BF_%E0%A6%AA%E0%A6%BE%E0%A6%87%E0%A6%B2%E0%A6%9F_%E0%A6%89%E0%A6%9A%E0%A7%8D%E0%A6%9A_%E0%A6%AC%E0%A6%BF%E0%A6%A6%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%B2%E0%A6%AF%E0%A6%BC%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.jpeg', alt: 'ফেনী সরকারি পাইলট উচ্চ বিদ্যালয়' },
+    { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-HgNpLXrm6gRYAzs_hrqMIHXK5_skV18GJQ&s', alt: 'Sonagazi Girl Pilot hign School' },
+    { src: 'https://lh5.googleusercontent.com/proxy/0FzVLVmdXW-li9fPXf37oCSQxiOXUz6WsoIHS-GqJa_uiQbP9ilV_W9KlQ-svPiXBiQKb7ST', alt: 'Sharishadi High School' },
+    { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7HLUi-ZK7sNWYcU_dUj6zqmbBB62Vn509Pg&s', alt: 'Feni Govt. College Science Club' },
 ];
 
 const Partners = () => {

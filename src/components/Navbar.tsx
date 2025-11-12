@@ -210,7 +210,7 @@ const Navbar = () => {
                         {/* Mobile Buttons */}
                         <div className="pt-4 border-t border-gray-700 flex items-center justify-center space-x-4">
                             <button onClick={toggleTheme} className="p-2 rounded-lg bg-gray-700"><Moon className="w-5 h-5 text-white" /></button>
-                            <a href="https://zantechbd.com/"><button className="bg-zan-red text-white px-6 py-2 rounded-full">Store</button></a>
+                            <a href="https://store.zantechbd.com"><button className="bg-zan-red text-white px-6 py-2 rounded-full">Store</button></a>
                         </div>
                     </div>
                 </div>
