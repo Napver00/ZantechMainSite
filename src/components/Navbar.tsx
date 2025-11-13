@@ -78,6 +78,8 @@ const Navbar = () => {
         { href: '/workshops', text: 'Workshops' },
         { href: '#showcase', text: 'Showcase' },
         { href: '/career', text: 'Career' },
+        // NEW: Project Uddipon as main item after Career
+        { href: 'https://projectuddipon.zantechbd.com/', text: 'Project Uddipon' },
         { href: '#contact', text: 'Contact' },
     ];
 
@@ -94,6 +96,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => {
                             const linkClasses = "font-bold text-white";
+
                             if (link.text === 'About Us') {
                                 return (
                                     <div key={link.text} className="relative" ref={aboutDropdownRef}>
@@ -126,6 +129,7 @@ const Navbar = () => {
                                     </div>
                                 );
                             }
+
                             if (link.text === 'Career') {
                                 return (
                                     <div key={link.text} className="relative" ref={careerDropdownRef}>
@@ -141,6 +145,22 @@ const Navbar = () => {
                                     </div>
                                 );
                             }
+
+                            // NEW: external link handling (e.g., Project Uddipon)
+                            if (link.href.startsWith('http')) {
+                                return (
+                                    <a
+                                        key={link.text}
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={linkClasses}
+                                    >
+                                        {link.text}
+                                    </a>
+                                );
+                            }
+
                             if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
                                 return (<Link key={link.text} to={link.href} className={linkClasses}>{link.text}</Link>);
                             }
@@ -204,6 +224,17 @@ const Navbar = () => {
                                 <Link to="/ambassadors" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 px-3 py-2 rounded-md">Become an Ambassador</Link>
                             </div>}
                         </div>
+
+                        {/* NEW: Project Uddipon in mobile, after Career */}
+                        <a
+                            href="https://projectuddipon.zantechbd.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-white px-3 py-2 rounded-md text-base font-medium"
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            Project Uddipon
+                        </a>
 
                         <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-white px-3 py-2 rounded-md text-base font-medium">Contact</a>
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 import { ArrowRight } from 'lucide-react';
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaTiktok, wh } from 'react-icons/fa6';
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaTiktok } from 'react-icons/fa6';
 
 // Helper to render the correct social media icon
 const SocialIcon = ({ platform }) => {
@@ -40,7 +40,10 @@ const Footer = () => {
                 if (data.success) {
                     setFooterData(prevData => ({
                         ...prevData,
-                        social_links: [...data.data.social_links, { platform: 'whatsapp', url: 'https://wa.me/+8801894634149' }],
+                        social_links: [
+                            ...data.data.social_links,
+                            { platform: 'whatsapp', url: 'https://wa.me/+8801894634149' }
+                        ],
                         phone: data.data.phone,
                         location: data.data.location
                     }));
@@ -55,6 +58,8 @@ const Footer = () => {
         { text: "Impact", href: "/impact" },
         { text: "Blog", href: "/blog" },
         { text: "FAQ", href: "/faq" },
+        // NEW: Project Uddipon in footer (external)
+        { text: "Project Uddipon", href: "https://projectuddipon.zantechbd.com/" },
     ];
 
     const legalLinks = [
@@ -63,7 +68,6 @@ const Footer = () => {
     ];
 
     return (
-        // Updated Footer Styles: Dark background and light text
         <footer className="bg-gray-900 text-gray-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
@@ -83,18 +87,7 @@ const Footer = () => {
                         <h4 className="font-bold text-white mb-4">Location</h4>
                         <p>Bangladesh</p>
                         <p>{footerData.location}</p>
-                        {/* <p className="pt-2">Visiting Hours</p>
-                        <p>Sun-Thu, (Appointment Basis)</p> */}
                     </div>
-
-                    {/* Business Information Column (Commented out as per your code) */}
-                    {/* <div className="space-y-4">
-                        <h4 className="font-bold text-white mb-4">Business Information</h4>
-                        <p>Trade License Number</p>
-                        <p>TRAD/DNCC/123456/2024</p>
-                        <p className="pt-2">BIN Number</p>
-                        <p>001234567-0101</p>
-                    </div> */}
 
                     {/* Legal Column */}
                     <div className="space-y-4">
@@ -117,10 +110,24 @@ const Footer = () => {
                         <ul className="space-y-3">
                             {companyLinks.map(link => (
                                 <li key={link.text}>
-                                    <Link to={link.href} className="flex items-center hover:text-zan-red">
-                                        <span>{link.text}</span>
-                                        <ArrowRight className="w-4 h-4 ml-2" />
-                                    </Link>
+                                    {link.href.startsWith('http')
+                                        ? (
+                                            <a
+                                                href={link.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center hover:text-zan-red"
+                                            >
+                                                <span>{link.text}</span>
+                                                <ArrowRight className="w-4 h-4 ml-2" />
+                                            </a>
+                                        ) : (
+                                            <Link to={link.href} className="flex items-center hover:text-zan-red">
+                                                <span>{link.text}</span>
+                                                <ArrowRight className="w-4 h-4 ml-2" />
+                                            </Link>
+                                        )
+                                    }
                                 </li>
                             ))}
                         </ul>
