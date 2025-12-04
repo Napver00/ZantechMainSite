@@ -2,12 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-zan-light text-gray-900 dark:bg-zan-dark dark:text-gray-100 antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/30 backdrop-blur-md border border-white/10;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zan-blue to-zan-red;
+  }
+}
+
 /* Custom styles for Swiper navigation buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #EF4444 !important; /* This is zan-red */
+  color: #ed2626 !important;
+  /* zan-red */
 }
 
 .swiper-pagination-bullet-active {
-  background: #EF4444 !important; /* This is zan-red */
+  background: #ed2626 !important;
+  /* zan-red */
 }

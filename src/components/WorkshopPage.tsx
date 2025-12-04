@@ -1,34 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
-const WorkshopCard = ({ workshop }) => (
+// Workshop Card Component (Consistent with WorkshopsSection)
+const WorkshopCard = ({ workshop }: { workshop: any }) => (
     <div className="group h-full flex flex-col">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col">
-            <div className="relative overflow-hidden">
+        <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl overflow-hidden border border-gray-100 dark:border-white/10 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col">
+            <div className="relative overflow-hidden h-56">
                 <img
                     src={workshop.thumbnail}
                     alt={workshop.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4">
+                    <div className="bg-white/90 dark:bg-black/80 backdrop-blur-sm text-zan-blue dark:text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                        Workshop
+                    </div>
+                </div>
             </div>
-            <div className="p-6 flex-grow flex flex-col">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+            <div className="p-8 flex-grow flex flex-col">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-blue dark:group-hover:text-blue-400 transition-colors">
                     {workshop.title}
                 </h3>
-                <Link to={`/workshop/${workshop.id}`} className="w-full mt-auto bg-zan-blue text-white py-2 rounded-xl font-semibold text-center hover:bg-blue-800 transition-all duration-300 transform hover:scale-105">
-                    View Details
+                <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm">
+                    {workshop.excerpt || 'Join us for an exciting hands-on workshop experience.'}
+                </p>
+
+                <Link
+                    to={`/workshop/${workshop.id}`}
+                    className="w-full mt-auto bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white py-4 rounded-xl font-semibold text-center hover:bg-zan-blue hover:text-white dark:hover:bg-zan-blue transition-all duration-300 flex items-center justify-center space-x-2 group/btn border border-gray-100 dark:border-white/5"
+                >
+                    <span>View Details</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
             </div>
         </div>
     </div>
 );
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+// Pagination Component
+const Pagination = ({ currentPage, totalPages, onPageChange }: { currentPage: number, totalPages: number, onPageChange: (page: number) => void }) => {
     const getPageNumbers = () => {
         const pages = [];
         const maxVisible = 5;
-        
+
         if (totalPages <= maxVisible) {
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(i);
@@ -50,55 +67,54 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 pages.push(totalPages);
             }
         }
-        
+
         return pages;
     };
 
     return (
-        <div className="flex items-center justify-center gap-2 mt-12">
+        <div className="flex items-center justify-center gap-2 mt-16">
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="p-3 rounded-xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-300"
             >
-                Previous
+                <ChevronLeft className="w-5 h-5" />
             </button>
-            
+
             <div className="flex gap-2">
                 {getPageNumbers().map((page, index) => (
                     page === '...' ? (
-                        <span key={`ellipsis-${index}`} className="px-3 py-2 text-gray-500">
+                        <span key={`ellipsis-${index}`} className="px-4 py-2 text-gray-500 dark:text-gray-400 font-medium">
                             ...
                         </span>
                     ) : (
                         <button
                             key={page}
-                            onClick={() => onPageChange(page)}
-                            className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                                currentPage === page
-                                    ? 'bg-zan-blue text-white'
-                                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                            }`}
+                            onClick={() => onPageChange(page as number)}
+                            className={`w-10 h-10 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center ${currentPage === page
+                                    ? 'bg-zan-blue text-white shadow-lg shadow-blue-500/30'
+                                    : 'bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10'
+                                }`}
                         >
                             {page}
                         </button>
                     )
                 ))}
             </div>
-            
+
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="p-3 rounded-xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-300"
             >
-                Next
+                <ChevronRight className="w-5 h-5" />
             </button>
         </div>
     );
 };
 
 const WorkshopPage = () => {
-    const [workshops, setWorkshops] = useState([]);
+    const [workshops, setWorkshops] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
@@ -129,38 +145,55 @@ const WorkshopPage = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentWorkshops = workshops.slice(indexOfFirstItem, indexOfLastItem);
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
 
     return (
-        <section className="pt-32 pb-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pt-32 pb-24 bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[5%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-[10%] left-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                        Our <span className="text-zan-blue">Workshops</span>
+                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 font-heading">
+                        Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Workshops</span>
                     </h1>
-                    <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
                         Explore our hands-on workshops designed to inspire the next generation of innovators in robotics, programming, and AI.
                     </p>
                 </div>
 
                 {loading ? (
-                    <div className="text-center text-gray-600 dark:text-gray-300">Loading workshops...</div>
+                    <div className="text-center text-gray-600 dark:text-gray-300 py-20">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-zan-blue"></div>
+                        <p className="mt-4 font-medium">Loading workshops...</p>
+                    </div>
                 ) : (
                     <>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {currentWorkshops.map((workshop) => (
-                                <WorkshopCard key={workshop.id} workshop={workshop} />
-                            ))}
-                        </div>
-                        
-                        {workshops.length > itemsPerPage && (
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={handlePageChange}
-                            />
+                        {workshops.length === 0 ? (
+                            <div className="text-center text-gray-600 dark:text-gray-300 py-20 bg-white dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
+                                <p className="text-lg">No workshops available at the moment. Check back soon!</p>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {currentWorkshops.map((workshop) => (
+                                        <WorkshopCard key={workshop.id} workshop={workshop} />
+                                    ))}
+                                </div>
+
+                                {workshops.length > itemsPerPage && (
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={handlePageChange}
+                                    />
+                                )}
+                            </>
                         )}
                     </>
                 )}

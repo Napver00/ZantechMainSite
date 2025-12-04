@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
-import { ArrowRight } from 'lucide-react';
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaTiktok } from 'react-icons/fa6';
+import { ArrowRight, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaTiktok, FaYoutube } from 'react-icons/fa6';
 
 // Helper to render the correct social media icon
-const SocialIcon = ({ platform }) => {
+const SocialIcon = ({ platform }: { platform: string }) => {
     switch (platform?.toLowerCase()) {
         case 'facebook':
             return <FaFacebook className="w-5 h-5" />;
@@ -19,14 +19,28 @@ const SocialIcon = ({ platform }) => {
             return <FaWhatsapp className="w-5 h-5" />;
         case 'tiktok':
             return <FaTiktok className="w-5 h-5" />;
+        case 'youtube':
+            return <FaYoutube className="w-5 h-5" />;
         default:
             return null;
     }
 };
 
+interface SocialLink {
+    platform: string;
+    url: string;
+}
+
+interface FooterData {
+    social_links: SocialLink[];
+    email: string;
+    phone: string;
+    location: string;
+}
+
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-    const [footerData, setFooterData] = useState({
+    const [footerData, setFooterData] = useState<FooterData>({
         social_links: [],
         email: 'zantechbd@gmail.com',
         phone: '',
@@ -41,7 +55,7 @@ const Footer = () => {
                     setFooterData(prevData => ({
                         ...prevData,
                         social_links: [
-                            ...data.data.social_links,
+                            ...(data.data.social_links || []),
                             { platform: 'whatsapp', url: 'https://wa.me/+8801894634149' }
                         ],
                         phone: data.data.phone,
@@ -58,7 +72,6 @@ const Footer = () => {
         { text: "Impact", href: "/impact" },
         { text: "Blog", href: "/blog" },
         { text: "FAQ", href: "/faq" },
-        // NEW: Project Uddipon in footer (external)
         { text: "Project Uddipon", href: "https://projectuddipon.zantechbd.com/" },
     ];
 
@@ -68,88 +81,117 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-gray-900 text-gray-300">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-sm">
-                    {/* Contact Column */}
-                    <div className="space-y-4">
-                        <h4 className="font-bold text-white mb-4">Contact</h4>
-                        <p>Email</p>
-                        <a href={`mailto:${footerData.email}`} className="hover:text-zan-red">{footerData.email}</a>
-                        <p className="pt-2">Zantech Helpline</p>
-                        <a href={`tel:${footerData.phone}`} className="hover:text-zan-red">{footerData.phone}</a>
-                        <p className="pt-2">Calling Hours</p>
-                        <p>Sat-Thu, 10AM - 06PM</p>
+        <footer className="bg-zan-dark text-gray-300 border-t border-white/10 relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-[-20%] left-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+                    {/* Brand & Contact Column */}
+                    <div className="space-y-6">
+                        <div>
+                            <h3 className="text-2xl font-bold text-white font-heading mb-2">ZAN Tech</h3>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Bridging the gap between education and industry through innovation.
+                            </p>
+                        </div>
+
+                        <div className="space-y-3">
+                            <div className="flex items-start space-x-3">
+                                <MapPin className="w-5 h-5 text-zan-red mt-1 shrink-0" />
+                                <div>
+                                    <p className="text-white font-medium">Bangladesh</p>
+                                    <p className="text-sm text-gray-400">{footerData.location}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                                <Mail className="w-5 h-5 text-zan-red shrink-0" />
+                                <a href={`mailto:${footerData.email}`} className="hover:text-white transition-colors">{footerData.email}</a>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                                <Phone className="w-5 h-5 text-zan-red shrink-0" />
+                                <a href={`tel:${footerData.phone}`} className="hover:text-white transition-colors">{footerData.phone}</a>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                                <Clock className="w-5 h-5 text-zan-red shrink-0" />
+                                <span className="text-sm">Sat-Thu, 10AM - 06PM</span>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Location Column */}
-                    <div className="space-y-4">
-                        <h4 className="font-bold text-white mb-4">Location</h4>
-                        <p>Bangladesh</p>
-                        <p>{footerData.location}</p>
+                    {/* Company Links */}
+                    <div>
+                        <h4 className="font-bold text-white mb-6 text-lg">Company</h4>
+                        <ul className="space-y-3">
+                            {companyLinks.map(link => (
+                                <li key={link.text}>
+                                    {link.href.startsWith('http') ? (
+                                        <a
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center hover:text-zan-red transition-colors"
+                                        >
+                                            <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                                            <span>{link.text}</span>
+                                        </a>
+                                    ) : (
+                                        <Link to={link.href} className="group flex items-center hover:text-zan-red transition-colors">
+                                            <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                                            <span>{link.text}</span>
+                                        </Link>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
-                    {/* Legal Column */}
-                    <div className="space-y-4">
-                        <h4 className="font-bold text-white mb-4">Legal</h4>
+                    {/* Legal Links */}
+                    <div>
+                        <h4 className="font-bold text-white mb-6 text-lg">Legal</h4>
                         <ul className="space-y-3">
                             {legalLinks.map(link => (
                                 <li key={link.text}>
-                                    <Link to={link.href} className="flex items-center hover:text-zan-red">
+                                    <Link to={link.href} className="group flex items-center hover:text-zan-red transition-colors">
+                                        <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                                         <span>{link.text}</span>
-                                        <ArrowRight className="w-4 h-4 ml-2" />
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Company Column */}
-                    <div className="space-y-4">
-                        <h4 className="font-bold text-white mb-4">Company</h4>
-                        <ul className="space-y-3">
-                            {companyLinks.map(link => (
-                                <li key={link.text}>
-                                    {link.href.startsWith('http')
-                                        ? (
-                                            <a
-                                                href={link.href}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center hover:text-zan-red"
-                                            >
-                                                <span>{link.text}</span>
-                                                <ArrowRight className="w-4 h-4 ml-2" />
-                                            </a>
-                                        ) : (
-                                            <Link to={link.href} className="flex items-center hover:text-zan-red">
-                                                <span>{link.text}</span>
-                                                <ArrowRight className="w-4 h-4 ml-2" />
-                                            </Link>
-                                        )
-                                    }
-                                </li>
+                    {/* Newsletter / Socials */}
+                    <div>
+                        <h4 className="font-bold text-white mb-6 text-lg">Connect With Us</h4>
+                        <p className="text-sm text-gray-400 mb-6">
+                            Stay updated with our latest workshops, products, and innovations.
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                            {footerData.social_links.map((social, index) => (
+                                <a
+                                    key={index}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-zan-red hover:text-white text-gray-400 transition-all duration-300 border border-white/10"
+                                >
+                                    <SocialIcon platform={social.platform} />
+                                </a>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
-                    <p className="text-sm text-gray-500">&copy; {currentYear} ZAN Tech. All rights reserved.</p>
-                    <div className="flex space-x-4 mt-4 sm:mt-0">
-                        {footerData.social_links.map((social, index) => (
-                            <a
-                                key={index}
-                                href={social.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-400 hover:text-white transition-colors"
-                            >
-                                <SocialIcon platform={social.platform} />
-                            </a>
-                        ))}
-                    </div>
+                <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                    <p>&copy; {currentYear} ZAN Tech. All rights reserved.</p>
+                    <p className="mt-2 md:mt-0">
+                        Designed & Developed by ZAN Tech Team
+                    </p>
                 </div>
             </div>
         </footer>

@@ -17,29 +17,56 @@ const partners = [
 
 const Partners = () => {
     return (
-        <section className="py-20 bg-white dark:bg-gray-900">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-                        Our Trusted Collaborators
+        <section className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading mb-4">
+                        Our Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Collaborators</span>
                     </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                        We collaborate with top organizations to deliver excellence and innovation.
+                    </p>
                 </div>
 
-                <div className="mt-12 w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-                    <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-scroll">
-                        {/* Render the list of logos */}
-                        {partners.map((partner, index) => (
-                            <li key={index}>
-                                <img src={partner.src} alt={partner.alt} className="max-h-16" />
-                            </li>
-                        ))}
-                        {/* Render the list of logos again for a seamless loop */}
-                        {partners.map((partner, index) => (
-                             <li key={`clone-${index}`} aria-hidden="true">
-                                <img src={partner.src} alt={partner.alt} className="max-h-16" />
-                            </li>
-                        ))}
-                    </ul>
+                <div className="relative w-full overflow-hidden">
+                    {/* Gradient Masks for smooth fade edges */}
+                    <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-zan-light dark:from-zan-dark to-transparent"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-zan-light dark:from-zan-dark to-transparent"></div>
+
+                    <div className="flex w-full">
+                        <ul className="flex items-center gap-12 animate-scroll py-8">
+                            {/* Original List */}
+                            {partners.map((partner, index) => (
+                                <li key={index} className="flex-shrink-0 group">
+                                    <div className="bg-white dark:bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transform hover:-translate-y-1">
+                                        <img
+                                            src={partner.src}
+                                            alt={partner.alt}
+                                            className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                        />
+                                    </div>
+                                </li>
+                            ))}
+                            {/* Clone List for Loop */}
+                            {partners.map((partner, index) => (
+                                <li key={`clone-${index}`} className="flex-shrink-0 group" aria-hidden="true">
+                                    <div className="bg-white dark:bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transform hover:-translate-y-1">
+                                        <img
+                                            src={partner.src}
+                                            alt={partner.alt}
+                                            className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                        />
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>

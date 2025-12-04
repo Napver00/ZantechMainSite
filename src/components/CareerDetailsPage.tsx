@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom'; // Make sure Link is imported
-import { MapPin, Briefcase, Users, Banknote, CalendarClock, ArrowRight } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { MapPin, Briefcase, Users, Banknote, CalendarClock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const CareerDetailsPage = () => {
     const { id } = useParams();
-    const [job, setJob] = useState(null);
+    const [job, setJob] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchJobDetails = async () => {
@@ -24,7 +24,7 @@ const CareerDetailsPage = () => {
                 } else {
                     throw new Error(apiResponse.message || 'Could not find job details');
                 }
-            } catch (err) {
+            } catch (err: any) {
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -34,7 +34,7 @@ const CareerDetailsPage = () => {
         fetchJobDetails();
     }, [id]);
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString: string) => {
         if (!dateString) return 'N/A';
         return new Date(dateString).toLocaleDateString('en-US', {
             day: 'numeric',
@@ -44,17 +44,31 @@ const CareerDetailsPage = () => {
     };
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center pt-32 pb-20 bg-gray-50 dark:bg-gray-900"><p>Loading...</p></div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-zan-light dark:bg-zan-dark">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-zan-blue"></div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="min-h-screen flex items-center justify-center pt-32 pb-20 bg-gray-50 dark:bg-gray-900"><p className="text-red-500">Error: {error}</p></div>;
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-zan-light dark:bg-zan-dark text-gray-600 dark:text-gray-300">
+                <p className="text-red-500 mb-4">Error: {error}</p>
+                <Link to="/career" className="text-zan-blue hover:underline">Back to Careers</Link>
+            </div>
+        );
     }
 
     if (!job) {
-        return <div className="min-h-screen flex items-center justify-center pt-32 pb-20 bg-gray-50 dark:bg-gray-900"><p>Job not found.</p></div>;
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-zan-light dark:bg-zan-dark text-gray-600 dark:text-gray-300">
+                <p className="text-xl mb-4">Job not found.</p>
+                <Link to="/career" className="text-zan-blue hover:underline">Back to Careers</Link>
+            </div>
+        );
     }
-    
+
     const detailItems = [
         { icon: <Users className="w-5 h-5" />, label: 'Vacancy', value: job.vacancy },
         { icon: <Briefcase className="w-5 h-5" />, label: 'Job Type', value: job.job_type },
@@ -63,50 +77,71 @@ const CareerDetailsPage = () => {
     ];
 
     return (
-        <section className="pt-32 pb-20 bg-white dark:bg-gray-900">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-                            {job.job_title}
-                        </h1>
-                        <div className="flex items-center text-gray-500 dark:text-gray-400 mt-2">
-                            <MapPin className="w-5 h-5 mr-2" />
-                            <span>Zantech HQ (Dhaka)</span>
+        <section className="pt-32 pb-24 bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[10%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-[10%] left-[-5%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <Link to="/career" className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-zan-blue dark:hover:text-blue-400 mb-8 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Careers
+                </Link>
+
+                <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-gray-100 dark:border-white/10 shadow-xl">
+                    {/* Header */}
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-gray-100 dark:border-white/10 pb-10">
+                        <div>
+                            <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-zan-blue dark:text-blue-300 border border-blue-100 dark:border-blue-500/20 mb-3">
+                                {job.department}
+                            </span>
+                            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading leading-tight">
+                                {job.job_title}
+                            </h1>
+                            <div className="flex items-center text-gray-500 dark:text-gray-400 mt-3">
+                                <MapPin className="w-5 h-5 mr-2" />
+                                <span>Zantech HQ (Dhaka)</span>
+                            </div>
                         </div>
+
+                        <Link
+                            to={`/career/${id}/apply`}
+                            className="w-full md:w-auto bg-gradient-to-r from-zan-blue to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+                        >
+                            <span>Apply Now</span>
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
                     </div>
-                    {/* Updated Link to the application form */}
-                    <Link to={`/career/${id}/apply`} className="mt-4 sm:mt-0 bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors flex items-center space-x-2">
-                        <span>Apply Now</span>
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
-                </div>
 
-                {/* Main Content */}
-                <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl">
-                    <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">
-                        {job.description}
-                    </p>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border-y border-gray-200 dark:border-gray-700 py-6 mb-8">
+                    {/* Key Details Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
                         {detailItems.map(item => (
-                             <div key={item.label}>
-                                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{item.label}</h3>
-                                <p className="text-md font-bold text-gray-800 dark:text-white mt-1">{item.value}</p>
+                            <div key={item.label} className="bg-gray-50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/5">
+                                <div className="text-zan-blue dark:text-blue-400 mb-2">{item.icon}</div>
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{item.label}</h3>
+                                <p className="text-sm font-bold text-gray-900 dark:text-white">{item.value}</p>
                             </div>
                         ))}
                     </div>
 
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Department</h2>
-                        <p className="text-gray-600 dark:text-gray-300">{job.department}</p>
+                    {/* Description */}
+                    <div className="mb-10">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 font-heading">About the Role</h2>
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            {job.description}
+                        </p>
                     </div>
 
+                    {/* Responsibilities */}
                     <div>
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Job Responsibilities</h2>
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 font-heading">Job Responsibilities</h2>
                         <div
-                            className="prose prose-gray dark:prose-invert max-w-none"
+                            className="prose prose-lg dark:prose-invert max-w-none 
+                            prose-headings:font-heading prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
+                            prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+                            prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:marker:text-zan-blue"
                             dangerouslySetInnerHTML={{ __html: job.responsibilities }}
                         />
                     </div>

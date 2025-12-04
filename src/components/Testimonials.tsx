@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Star, Quote } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 
 // Import Swiper components and styles
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,21 +9,21 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // Helper component to render star ratings
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating }: { rating: number }) => {
     const totalStars = 5;
     return (
-        <div className="flex">
+        <div className="flex space-x-0.5">
             {[...Array(totalStars)].map((_, index) => (
                 <Star
                     key={index}
-                    className={`w-5 h-5 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                    className={`w-4 h-4 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
                 />
             ))}
         </div>
     );
 };
 
-// Static data for testimonials - Corrected and without imageUrl
+// Static data for testimonials
 const testimonials = [
     {
         id: 1,
@@ -55,7 +55,7 @@ const testimonials = [
     },
     {
         id: 5,
-        name: 'Farhana Akhter, CEO of AgriTech Solutions',
+        name: 'Farhana Akhter',
         course: 'Custom R&D Services',
         quote: 'Zantech\'s R&D team was instrumental in developing a prototype for our automated irrigation system. Their technical expertise and innovative approach saved us significant time and resources, giving us a competitive edge.',
         rating: 5
@@ -84,66 +84,75 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
-    const renderTestimonialCard = (testimonial) => (
-        // Updated Card Styles for Dark Background
-        <div className="h-full bg-white/10 p-8 rounded-2xl backdrop-blur-md border border-white/20 flex flex-col">
-            <Quote className="w-10 h-10 text-gray-400 mb-4" />
-            <p className="text-gray-300 mb-6 flex-grow">
-                {testimonial.quote}
-            </p>
-            <div>
-                <h4 className="font-bold text-white">{testimonial.name}</h4>
-                <p className="text-sm text-gray-400">{testimonial.course}</p>
-                <div className="mt-1">
+    const renderTestimonialCard = (testimonial: typeof testimonials[0]) => (
+        <div className="h-full bg-white dark:bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-gray-100 dark:border-white/10 flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div className="mb-6">
+                <div className="w-12 h-12 bg-zan-blue/10 dark:bg-zan-blue/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Quote className="w-5 h-5 text-zan-blue dark:text-blue-400" />
+                </div>
+                <div className="flex mb-4">
                     <StarRating rating={testimonial.rating} />
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 flex-grow leading-relaxed italic relative z-10">
+                    "{testimonial.quote}"
+                </p>
+            </div>
+            <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zan-blue to-zan-red flex items-center justify-center text-white font-bold text-sm mr-3">
+                    {testimonial.name.charAt(0)}
+                </div>
+                <div>
+                    <h4 className="font-bold text-gray-900 dark:text-white text-sm">{testimonial.name}</h4>
+                    <p className="text-xs text-zan-blue dark:text-blue-400 font-medium">{testimonial.course}</p>
                 </div>
             </div>
         </div>
     );
 
     return (
-        // Updated Section Styles
-        <section id="testimonials" className="py-20 bg-zan-blue">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="testimonials" className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[20%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-[10%] left-[-5%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-                        What Learners Say's About Us
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading mb-4">
+                        What Learners <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Say About Us</span>
                     </h2>
-                    <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-4">
-                        Hear from our students—real experiences, real growth.
+                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                        Hear from our students and partners about their real experiences and growth with Zantech.
                     </p>
                 </div>
 
-                {testimonials.length > 3 ? (
+                <div className="testimonial-slider-container">
                     <Swiper
                         slidesPerView={1}
                         spaceBetween={30}
                         loop={true}
-                        pagination={{ clickable: true }}
+                        pagination={{
+                            clickable: true,
+                            dynamicBullets: true,
+                        }}
                         navigation={true}
-                        autoplay={{ delay: 3500, disableOnInteraction: false }}
+                        autoplay={{ delay: 4000, disableOnInteraction: false }}
                         modules={[Pagination, Navigation, Autoplay]}
                         breakpoints={{
-                            768: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 },
+                            640: { slidesPerView: 1, spaceBetween: 20 },
+                            768: { slidesPerView: 2, spaceBetween: 30 },
+                            1024: { slidesPerView: 3, spaceBetween: 30 },
                         }}
-                        className="mySwiper"
+                        className="!pb-16" // Add padding bottom for pagination
                     >
                         {testimonials.map((item) => (
-                            <SwiperSlide key={item.id} className="pb-12">
+                            <SwiperSlide key={item.id} className="h-auto">
                                 {renderTestimonialCard(item)}
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {testimonials.map((item) => (
-                            <div key={item.id}>
-                                {renderTestimonialCard(item)}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                </div>
             </div>
         </section>
     );
