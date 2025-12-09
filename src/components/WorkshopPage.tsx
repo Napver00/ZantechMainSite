@@ -29,7 +29,7 @@ const WorkshopCard = ({ workshop }: { workshop: any }) => (
                 </p>
 
                 <Link
-                    to={`/workshop/${workshop.id}`}
+                    to={`/workshop/${workshop.slug}`}
                     className="w-full mt-auto bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white py-4 rounded-xl font-semibold text-center hover:bg-zan-blue hover:text-white dark:hover:bg-zan-blue transition-all duration-300 flex items-center justify-center space-x-2 group/btn border border-gray-100 dark:border-white/5"
                 >
                     <span>View Details</span>
@@ -92,8 +92,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: { currentPage: nu
                             key={page}
                             onClick={() => onPageChange(page as number)}
                             className={`w-10 h-10 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center ${currentPage === page
-                                    ? 'bg-zan-blue text-white shadow-lg shadow-blue-500/30'
-                                    : 'bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10'
+                                ? 'bg-zan-blue text-white shadow-lg shadow-blue-500/30'
+                                : 'bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10'
                                 }`}
                         >
                             {page}

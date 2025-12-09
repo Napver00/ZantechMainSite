@@ -4,13 +4,13 @@ import { ArrowLeft, Tag } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const WorkshopDetailsPage = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
     const [workshop, setWorkshop] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!id) return;
-        fetch(`${API_BASE_URL}/api/posts/${id}`)
+        if (!slug) return;
+        fetch(`${API_BASE_URL}/api/posts/${slug}`)
             .then(response => response.json())
             .then(apiResponse => {
                 if (apiResponse.success && apiResponse.data) {
@@ -22,7 +22,7 @@ const WorkshopDetailsPage = () => {
                 console.error('Error fetching workshop details:', error);
                 setLoading(false);
             });
-    }, [id]);
+    }, [slug]);
 
     if (loading) {
         return (

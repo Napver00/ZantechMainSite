@@ -56,9 +56,9 @@ function App() {
         <Route path="/project/:id" element={<ProjectDetailsPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/workshops" element={<WorkshopPage />} />
-        <Route path="/workshop/:id" element={<WorkshopDetailsPage />} />
+        <Route path="/workshop/:slug" element={<WorkshopDetailsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} /> 
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
       </Routes>
       <Footer />
     </div>
