@@ -6,23 +6,23 @@ const Services = () => {
         {
             title: "Fostering Tech Education",
             description: "We create access to practical, hands-on technical education for students nationwide. Zantech partners with schools, colleges, and universities to deliver free workshops on robotics, programming, and AI/ML.",
-            imageUrl: "/RoboFostering Tech Education Across Bangladeshtics Prototyping.png",
+            imageUrl: "/IMG-20251102-WA0087.jpg",
             learnMoreUrl: "/workshops",
             color: "from-blue-500 to-cyan-400",
             icon: <Sparkles className="w-6 h-6" />
         },
         {
-            title: "Empowering Innovators",
-            description: "We empower creators by providing a one-stop solution for all their robotics and electronics needs. Our platform offers a curated supply of essential components like Arduino Uno, ESP modules, and sensors.",
-            imageUrl: "/Empowering Innovators with Quality Components.png",
+            title: "Empowering Women",
+            description: "We support and uplift women by giving them easy access to robotics and electronics tools. From Arduino Uno to ESP modules and sensors everything in one place to help women learn, build, and lead in tech.",
+            imageUrl: "/20251101_123434.jpg",
             learnMoreUrl: "https://store.zantechbd.com",
             color: "from-zan-red to-orange-500",
             icon: <Cpu className="w-6 h-6" />
         },
         {
             title: "Accelerating Innovation",
-            description: "We use our deep technical expertise to help other companies solve complex engineering problems. Zantech offers custom Research and Development (R&D) services to design, prototype, and develop innovative products.",
-            imageUrl: "/Accelerating Innovation for Businesses.jpg",
+            description: "We use our deep technical expertise to help other companies solve complex engineering problems. ZAN Tech offers custom Research and Development (R&D) services to design, prototype, and develop innovative products.",
+            imageUrl: "/IMG_7483.HEI.jpg",
             learnMoreUrl: "/projects",
             color: "from-purple-500 to-indigo-500",
             icon: <Rocket className="w-6 h-6" />
