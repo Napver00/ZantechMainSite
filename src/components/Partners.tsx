@@ -13,6 +13,7 @@ const partners = [
     { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-HgNpLXrm6gRYAzs_hrqMIHXK5_skV18GJQ&s', alt: 'Sonagazi Girl Pilot hign School' },
     { src: 'https://lh5.googleusercontent.com/proxy/0FzVLVmdXW-li9fPXf37oCSQxiOXUz6WsoIHS-GqJa_uiQbP9ilV_W9KlQ-svPiXBiQKb7ST', alt: 'Sharishadi High School' },
     { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7HLUi-ZK7sNWYcU_dUj6zqmbBB62Vn509Pg&s', alt: 'Feni Govt. College Science Club' },
+    { src: 'https://tse3.mm.bing.net/th/id/OIP.M7nIQsm1yCHG2LNeE5N1oAHaHa?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3', alt: 'St Joseph International School' },
 ];
 
 const Partners = () => {
