@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Tag, Calendar, Clock, Share2 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const WorkshopDetailsPage = () => {
     const { slug } = useParams();
+    const navigate = useNavigate();
     const [workshop, setWorkshop] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -43,13 +44,13 @@ const WorkshopDetailsPage = () => {
                 <div className="text-6xl mb-4">😕</div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Workshop Not Found</h2>
                 <p className="text-lg mb-8 text-center max-w-md">The workshop you're looking for might have been removed or is temporarily unavailable.</p>
-                <Link
-                    to="/workshops"
+                <button
+                    onClick={() => navigate(-1)}
                     className="inline-flex items-center px-6 py-3 bg-zan-blue hover:bg-blue-700 text-white rounded-xl transition-all shadow-lg hover:shadow-zan-blue/30 font-medium"
                 >
                     <ArrowLeft className="w-5 h-5 mr-2" />
                     Back to Workshops
-                </Link>
+                </button>
             </div>
         );
     }
@@ -70,13 +71,13 @@ const WorkshopDetailsPage = () => {
                 {/* Navbar Placeholder/Back Button */}
                 <div className="absolute top-0 left-0 w-full p-6 z-20">
                     <div className="max-w-7xl mx-auto">
-                        <Link
-                            to="/workshops"
+                        <button
+                            onClick={() => navigate(-1)}
                             className="inline-flex items-center text-white/80 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md px-4 py-2 rounded-full transition-all border border-white/10"
                         >
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Back to Workshops
-                        </Link>
+                        </button>
                     </div>
                 </div>
 

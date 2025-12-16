@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import Pagination from './Pagination';
 
 const ProjectCard = ({ project }: { project: any }) => (
     <div className="group h-full flex flex-col">
@@ -42,6 +43,11 @@ const ProjectCard = ({ project }: { project: any }) => (
 const ProjectPage = () => {
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Get current page from URL or default to 1
+    const currentPage = parseInt(searchParams.get('page') || '1');
+    const itemsPerPage = 6;
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/api/projects/active`)
@@ -57,6 +63,20 @@ const ProjectPage = () => {
                 setLoading(false);
             });
     }, []);
+
+    // Scroll to top when page changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
+    const totalPages = Math.ceil(projects.length / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentProjects = projects.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePageChange = (pageNumber: number) => {
+        setSearchParams({ page: pageNumber.toString() });
+    };
 
     return (
         <section className="pt-32 pb-24 bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
@@ -88,11 +108,21 @@ const ProjectPage = () => {
                                 <p className="text-lg">No projects available at the moment. Check back soon!</p>
                             </div>
                         ) : (
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {projects.map((project) => (
-                                    <ProjectCard key={project.id} project={project} />
-                                ))}
-                            </div>
+                            <>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {currentProjects.map((project) => (
+                                        <ProjectCard key={project.id} project={project} />
+                                    ))}
+                                </div>
+
+                                {projects.length > itemsPerPage && (
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={handlePageChange}
+                                    />
+                                )}
+                            </>
                         )}
                     </>
                 )}
