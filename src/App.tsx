@@ -53,7 +53,7 @@ function App() {
         <Route path="/impact" element={<ImpactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/projects" element={<ProjectPage />} />
-        <Route path="/project/:id" element={<ProjectDetailsPage />} />
+        <Route path="/project/:slug" element={<ProjectDetailsPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/workshops" element={<WorkshopPage />} />
         <Route path="/workshop/:slug" element={<WorkshopDetailsPage />} />

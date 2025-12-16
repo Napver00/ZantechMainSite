@@ -4,13 +4,13 @@ import { ArrowLeft, Code2, Calendar, Share2, Layers } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 
 const ProjectDetailsPage = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
     const [project, setProject] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!id) return;
-        fetch(`${API_BASE_URL}/api/projects/${id}`)
+        if (!slug) return;
+        fetch(`${API_BASE_URL}/api/projects/${slug}`)
             .then(response => response.json())
             .then(apiResponse => {
                 if (apiResponse.success && apiResponse.data) {
@@ -22,7 +22,7 @@ const ProjectDetailsPage = () => {
                 console.error('Error fetching project details:', error);
                 setLoading(false);
             });
-    }, [id]);
+    }, [slug]);
 
     if (loading) {
         return (

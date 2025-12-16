@@ -28,7 +28,7 @@ const ProjectCard = ({ project }: { project: any }) => (
                 </p>
 
                 <Link
-                    to={`/project/${project.id}`}
+                    to={`/project/${project.slug}`}
                     className="w-full mt-auto bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white py-4 rounded-xl font-semibold text-center hover:bg-zan-blue hover:text-white dark:hover:bg-zan-blue transition-all duration-300 flex items-center justify-center space-x-2 group/btn border border-gray-100 dark:border-white/5"
                 >
                     <span>View Details</span>
