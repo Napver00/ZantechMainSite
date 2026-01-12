@@ -6,14 +6,12 @@ const Navbar = () => {
     const [isDark, setIsDark] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
-    const [isCareerDropdownOpen, setCareerDropdownOpen] = useState(false);
     const [isShowcaseDropdownOpen, setShowcaseDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
     const aboutDropdownRef = useRef<HTMLDivElement>(null);
-    const careerDropdownRef = useRef<HTMLDivElement>(null);
     const showcaseDropdownRef = useRef<HTMLDivElement>(null);
     const mobileMenuNode = useRef<HTMLElement>(null);
 
@@ -40,9 +38,6 @@ const Navbar = () => {
 
             if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
                 setAboutDropdownOpen(false);
-            }
-            if (careerDropdownRef.current && !careerDropdownRef.current.contains(event.target as Node)) {
-                setCareerDropdownOpen(false);
             }
             if (showcaseDropdownRef.current && !showcaseDropdownRef.current.contains(event.target as Node)) {
                 setShowcaseDropdownOpen(false);
@@ -78,10 +73,9 @@ const Navbar = () => {
     const navLinks = [
         { href: '#home', text: 'Home' },
         { href: '#about', text: 'About Us' },
-        { href: '/workshops', text: 'Workshops' },
+        { href: '/courses', text: 'Courses' },
         { href: '#showcase', text: 'Showcase' },
-        { href: '/career', text: 'Career' },
-        { href: 'https://projectuddipon.zantechbd.com/', text: 'Project Uddipon' },
+        { href: '/custom-robot', text: 'Custom Robot' },
         { href: '#contact', text: 'Contact' },
     ];
 
@@ -140,6 +134,8 @@ const Navbar = () => {
                                         </button>
                                         {isShowcaseDropdownOpen && (
                                             <div className={dropdownClasses}>
+                                                <Link to="/workshops" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
+                                                <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Project Uddipon</a>
                                                 <Link to="/projects" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
                                                 <Link to="/blog" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Blog</Link>
                                             </div>
@@ -148,21 +144,6 @@ const Navbar = () => {
                                 );
                             }
 
-                            if (link.text === 'Career') {
-                                return (
-                                    <div key={link.text} className="relative" ref={careerDropdownRef}>
-                                        <button onClick={() => setCareerDropdownOpen(p => !p)} className={`flex items-center space-x-1 ${linkClasses}`}>
-                                            <span>Career</span> <ChevronDown className={`w-4 h-4 transition-transform ${isCareerDropdownOpen ? 'rotate-180' : ''}`} />
-                                        </button>
-                                        {isCareerDropdownOpen && (
-                                            <div className={dropdownClasses}>
-                                                <Link to="/career" className={dropdownItemClasses} onClick={() => setCareerDropdownOpen(false)}>Join Our Team</Link>
-                                                <Link to="/ambassadors" className={dropdownItemClasses} onClick={() => setCareerDropdownOpen(false)}>Become an Ambassador</Link>
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            }
 
                             if (link.href.startsWith('http')) {
                                 return (
@@ -223,7 +204,8 @@ const Navbar = () => {
                             </div>}
                         </div>
 
-                        <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Workshops</Link>
+
+                        <Link to="/courses" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Courses</Link>
 
                         {/* Mobile Showcase Dropdown */}
                         <div>
@@ -231,31 +213,16 @@ const Navbar = () => {
                                 <span>Showcase</span> <ChevronDown className={`w-5 h-5 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
                             {isShowcaseDropdownOpen && <div className="pl-4 space-y-1 bg-gray-50 dark:bg-white/5 rounded-lg my-1">
+                                <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Workshops</Link>
+                                <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Project Uddipon</a>
                                 <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Projects</Link>
                                 <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Blog</Link>
                             </div>}
                         </div>
 
-                        {/* Mobile Career Dropdown */}
-                        <div>
-                            <button onClick={() => setCareerDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">
-                                <span>Career</span> <ChevronDown className={`w-5 h-5 transition-transform ${isCareerDropdownOpen ? 'rotate-180' : ''}`} />
-                            </button>
-                            {isCareerDropdownOpen && <div className="pl-4 space-y-1 bg-gray-50 dark:bg-white/5 rounded-lg my-1">
-                                <Link to="/career" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Join Our Team</Link>
-                                <Link to="/ambassadors" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Become an Ambassador</Link>
-                            </div>}
-                        </div>
 
-                        <a
-                            href="https://projectuddipon.zantechbd.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            Project Uddipon
-                        </a>
+
+                        <Link to="/custom-robot" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Custom Robot</Link>
 
                         <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Contact</a>
 

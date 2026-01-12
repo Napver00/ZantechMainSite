@@ -25,6 +25,9 @@ import WorkshopDetailsPage from './components/WorkshopDetailsPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsAndConditionsPage from './components/TermsAndConditionsPage';
 import WorkshopsSection from './components/WorkshopsSection';
+import CustomRobotPage from './components/CustomRobotPage';
+import CoursesPage from './components/CoursesPage';
+import CourseDetailsPage from './components/CourseDetailsPage';
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -57,8 +60,11 @@ function App() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/workshops" element={<WorkshopPage />} />
         <Route path="/workshop/:slug" element={<WorkshopDetailsPage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/course/:slug" element={<CourseDetailsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+        <Route path="/custom-robot" element={<CustomRobotPage />} />
       </Routes>
       <Footer />
     </div>

@@ -7,7 +7,7 @@ const Contact = () => {
         firstName: '',
         lastName: '',
         email: '',
-        projectType: 'Robotics Prototyping',
+        subject: '',
         message: ''
     });
 
@@ -45,7 +45,7 @@ const Contact = () => {
             formDataToSend.append('f_name', formData.firstName);
             formDataToSend.append('l_name', formData.lastName);
             formDataToSend.append('email', formData.email);
-            formDataToSend.append('project_type', formData.projectType);
+            formDataToSend.append('project_type', formData.subject); // Mapping subject to project_type for backend compatibility
             formDataToSend.append('message', formData.message);
 
             const response = await fetch(`${API_BASE_URL}/api/contact`, {
@@ -59,7 +59,7 @@ const Contact = () => {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    projectType: 'Robotics Prototyping',
+                    subject: '',
                     message: ''
                 });
             } else {
@@ -181,23 +181,16 @@ const Contact = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Project Type</label>
-                                <div className="relative">
-                                    <select
-                                        name="projectType"
-                                        value={formData.projectType}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-zan-blue/50 focus:border-zan-blue outline-none transition-all text-gray-900 dark:text-white appearance-none cursor-pointer"
-                                    >
-                                        <option>Robotics Prototyping</option>
-                                        <option>IoT Development</option>
-                                        <option>R&D Solutions</option>
-                                        <option>Consultation</option>
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                                    </div>
-                                </div>
+                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
+                                <input
+                                    type="text"
+                                    name="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-zan-blue/50 focus:border-zan-blue outline-none transition-all text-gray-900 dark:text-white placeholder-gray-400"
+                                    placeholder="Project Inquiry"
+                                    required
+                                />
                             </div>
 
                             <div className="space-y-2">
