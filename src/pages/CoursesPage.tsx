@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, BookOpen, Clock, Users } from 'lucide-react';
-import Pagination from './Pagination';
+import Pagination from '../components/Pagination';
 
 // Mock Data for Courses
 export const COURSES_DATA = [

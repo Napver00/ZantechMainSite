@@ -1,5 +1,5 @@
 import React from 'react';
-import CampusAmbassadors from './CampusAmbassadors';
+import CampusAmbassadors from '../components/CampusAmbassadors';
 
 const AmbassadorsPage = () => {
     return (

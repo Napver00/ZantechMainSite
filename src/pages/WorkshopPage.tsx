@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { API_BASE_URL } from '../config';
-import Pagination from './Pagination';
+import Pagination from '../components/Pagination';
 
 // Workshop Card Component (Consistent with WorkshopsSection)
 const WorkshopCard = ({ workshop }: { workshop: any }) => (

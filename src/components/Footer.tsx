@@ -71,7 +71,6 @@ const Footer = () => {
         { text: "Join Our Team", href: "/career" },
         { text: "Ambassador", href: "/ambassadors" },
         { text: "Impact", href: "/impact" },
-        { text: "Blog", href: "/blog" },
         { text: "FAQ", href: "/faq" },
         { text: "Project Uddipon", href: "https://projectuddipon.zantechbd.com/" },
     ];
