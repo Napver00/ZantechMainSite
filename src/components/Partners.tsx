@@ -18,12 +18,12 @@ const partners = [
 
 const Partners = () => {
     return (
-        <section className="py-20 bg-zan-dark relative overflow-hidden border-t border-white/5">
+        <section className="py-12 md:py-20 bg-zan-dark relative overflow-hidden border-t border-white/5">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-12">
+                <div className="text-center mb-8 md:mb-12">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
                         &lt;Network /&gt;
                     </p>
@@ -38,7 +38,7 @@ const Partners = () => {
                     <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-zan-dark to-transparent pointer-events-none"></div>
 
                     <div className="flex w-full">
-                        <ul className="flex items-center gap-12 animate-scroll py-8">
+                        <ul className="flex items-center gap-8 md:gap-12 animate-scroll py-8">
                             {/* Original List */}
                             {partners.map((partner, index) => (
                                 <li key={index} className="flex-shrink-0 group">

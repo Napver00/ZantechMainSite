@@ -49,7 +49,7 @@ const About = () => {
     ];
 
     return (
-        <section id="about" className="py-24 bg-zan-dark relative overflow-hidden">
+        <section id="about" className="py-16 md:py-24 bg-zan-dark relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
                 <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -58,11 +58,11 @@ const About = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-16">
+                <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
                         &lt;Identity /&gt;
                     </p>
-                    <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-white font-heading">
+                    <h2 className="text-3xl md:text-5xl lg:text-5xl font-bold mb-6 text-white font-heading">
                         {aboutData.about_title || 'Who We Are'}
                     </h2>
                     <p className="text-lg text-gray-300 leading-relaxed font-light">

@@ -202,7 +202,7 @@ const CampusAmbassadors = () => {
 
     return (
         <>
-            <section id="ambassadors" className="py-24 bg-zan-dark relative overflow-hidden">
+            <section id="ambassadors" className="py-16 md:py-24 bg-zan-dark relative overflow-hidden">
                 {/* Background Elements */}
                 <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -211,11 +211,11 @@ const CampusAmbassadors = () => {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-12 md:mb-16">
                         <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
                             &lt;Field Operatives /&gt;
                         </p>
-                        <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 font-heading uppercase tracking-wide">
+                        <h2 className="text-3xl md:text-3xl lg:text-4xl font-bold text-white mb-6 font-heading uppercase tracking-wide">
                             Meet Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Campus Ambassadors</span>
                         </h2>
                         <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">

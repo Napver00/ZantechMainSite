@@ -63,7 +63,7 @@ const CustomRobotPage = () => {
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
             {/* Hero Section */}
-            <section className="relative py-20 px-4 overflow-hidden">
+            <section className="relative py-16 md:py-20 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[10%] right-[-5%] w-96 h-96 bg-zan-cyan/10 rounded-full blur-[100px]"></div>
                     <div className="absolute bottom-[10%] left-[-5%] w-96 h-96 bg-zan-red/10 rounded-full blur-[100px]"></div>
@@ -76,7 +76,7 @@ const CustomRobotPage = () => {
                     <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-heading">
                         Build Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Custom Robot</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
+                    <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
                         Turn your robotic concepts into reality. Whether it's for industrial automation, educational purposes, or a unique prototype, our team of experts is ready to build it for you.
                     </p>
                 </div>

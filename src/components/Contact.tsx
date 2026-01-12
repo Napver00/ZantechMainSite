@@ -74,7 +74,7 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-24 bg-zan-dark relative overflow-hidden">
+        <section id="contact" className="py-16 md:py-24 bg-zan-dark relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -83,49 +83,49 @@ const Contact = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-12 md:mb-16">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
                         &lt;Communication Channel /&gt;
                     </p>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 font-heading">
+                    <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6 font-heading">
                         Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Touch</span>
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
                         Ready to bring your innovative ideas to life? Let's discuss your project.
                     </p>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
                     {/* Contact Info & Value Prop */}
-                    <div className="space-y-8">
-                        <div className="grid gap-6">
+                    <div className="space-y-6 md:space-y-8">
+                        <div className="grid gap-4 md:gap-6">
                             {[
                                 { icon: <Mail className="w-6 h-6" />, label: "Email Us", value: contactInfo.email, href: `mailto:${contactInfo.email}` },
                                 { icon: <Phone className="w-6 h-6" />, label: "Call Us", value: contactInfo.phone, href: `tel:${contactInfo.phone}` },
                                 { icon: <MapPin className="w-6 h-6" />, label: "Visit Us", value: contactInfo.location, href: null }
                             ].map((contact, index) => (
-                                <div key={index} className="group flex items-center p-6 bg-surface-dark backdrop-blur-sm rounded-sm border border-white/5 hover:border-zan-cyan/50 transition-all duration-300 relative overflow-hidden">
+                                <div key={index} className="group flex items-center p-5 md:p-6 bg-surface-dark backdrop-blur-sm rounded-sm border border-white/5 hover:border-zan-cyan/50 transition-all duration-300 relative overflow-hidden">
                                     <div className="absolute left-0 top-0 h-full w-[2px] bg-zan-cyan/20 group-hover:bg-zan-cyan transition-colors"></div>
-                                    <div className="w-12 h-12 flex items-center justify-center rounded-sm bg-zan-cyan/5 text-zan-cyan border border-zan-cyan/20 group-hover:bg-zan-cyan group-hover:text-black transition-all duration-300">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-sm bg-zan-cyan/5 text-zan-cyan border border-zan-cyan/20 group-hover:bg-zan-cyan group-hover:text-black transition-all duration-300">
                                         {contact.icon}
                                     </div>
-                                    <div className="ml-6">
+                                    <div className="ml-4 md:ml-6">
                                         <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">{contact.label}</h4>
                                         {contact.href ? (
-                                            <a href={contact.href} className="text-lg font-medium text-white hover:text-zan-cyan transition-colors font-mono">
+                                            <a href={contact.href} className="text-base md:text-lg font-medium text-white hover:text-zan-cyan transition-colors font-mono block break-all">
                                                 {contact.value}
                                             </a>
                                         ) : (
-                                            <p className="text-lg font-medium text-white font-mono">{contact.value}</p>
+                                            <p className="text-base md:text-lg font-medium text-white font-mono">{contact.value}</p>
                                         )}
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="bg-surface-dark border border-zan-cyan/20 rounded-sm p-8 text-white relative overflow-hidden">
+                        <div className="bg-surface-dark border border-zan-cyan/20 rounded-sm p-6 md:p-8 text-white relative overflow-hidden">
                             <div className="absolute inset-0 bg-zan-cyan/5"></div>
-                            <h3 className="text-2xl font-bold mb-6 relative z-10 font-heading text-zan-cyan">Why Choose Zantech?</h3>
+                            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 relative z-10 font-heading text-zan-cyan">Why Choose Zantech?</h3>
                             <div className="space-y-4 relative z-10">
                                 {[
                                     "Expert team with technical depth",
@@ -143,7 +143,7 @@ const Contact = () => {
                     </div>
 
                     {/* Contact Form */}
-                    <div className="bg-surface-dark backdrop-blur-md rounded-sm p-8 lg:p-10 border border-white/10 shadow-2xl relative">
+                    <div className="bg-surface-dark backdrop-blur-md rounded-sm p-6 md:p-8 lg:p-10 border border-white/10 shadow-2xl relative">
                         {/* Corner Decors */}
                         <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-zan-cyan"></div>
                         <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-zan-cyan"></div>

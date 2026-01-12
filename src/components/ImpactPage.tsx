@@ -29,24 +29,24 @@ const ImpactPage = () => {
             </div>
 
             {/* --- Header Section --- */}
-            <section className="pt-32 pb-20 text-center relative z-10">
+            <section className="pt-24 pb-12 md:pt-32 md:pb-20 text-center relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
                         &lt;Social Impact Report /&gt;
                     </p>
-                    <h1 className="text-4xl lg:text-6xl font-bold text-white mb-8 font-heading leading-tight">
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 font-heading leading-tight">
                         Our Impact: Engineering the <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Future of Bangladesh</span>
                     </h1>
-                    <p className="text-xl text-gray-400 leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
                         At Zantech, our impact extends beyond selling components; we are building a foundation for technological self-reliance and innovation across Bangladesh. We believe that by placing the tools of creation and knowledge into the hands of our youth and businesses, we can collectively solve the challenges of tomorrow.
                     </p>
                 </div>
             </section>
 
             {/* --- Key Areas Section --- */}
-            <section className="py-20 relative z-10">
+            <section className="py-12 md:py-20 relative z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-12 md:mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold text-white font-heading uppercase tracking-wide">Our Contributions Are Focused on Three Key Areas</h2>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
@@ -69,7 +69,7 @@ const ImpactPage = () => {
             </section>
 
             {/* --- Vision for the Future Section --- */}
-            <section className="py-20 relative z-10">
+            <section className="py-12 md:py-20 relative z-10">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="bg-surface-dark backdrop-blur-md p-10 md:p-16 rounded-sm border border-white/10 shadow-[0_0_20px_rgba(0,240,255,0.05)] relative overflow-hidden">
                         <div className="absolute left-0 bottom-0 w-full h-1 bg-gradient-to-r from-transparent via-zan-cyan to-transparent opacity-50"></div>

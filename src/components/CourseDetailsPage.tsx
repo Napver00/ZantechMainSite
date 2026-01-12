@@ -98,7 +98,7 @@ const CourseDetailsPage = () => {
                 <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2">
-                        <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-8 md:p-12">
+                        <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-6 md:p-12">
                             <article
                                 className="prose prose-lg prose-invert max-w-none
                                 prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white

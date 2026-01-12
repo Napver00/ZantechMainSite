@@ -44,16 +44,16 @@ const FaqPage = () => {
                 <div className="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
             </div>
 
-            <section className="pt-32 pb-24 relative z-10">
+            <section className="pt-24 pb-16 md:pt-32 md:pb-24 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-12 md:mb-16">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-2xl mb-6 animate-bounce">
                             <HelpCircle className="w-8 h-8 text-zan-blue dark:text-blue-400" />
                         </div>
-                        <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white font-heading mb-6">
+                        <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white font-heading mb-6">
                             Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Questions</span>
                         </h1>
-                        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
                             Have a question? We're here to help. Find answers to our most common inquiries below.
                         </p>
                     </div>
@@ -78,13 +78,13 @@ const FaqPage = () => {
                                 <div
                                     key={faq.id}
                                     className={`bg-white dark:bg-white/5 backdrop-blur-md rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen
-                                            ? 'border-zan-blue/50 shadow-lg shadow-blue-500/10'
-                                            : 'border-gray-100 dark:border-white/10 shadow-sm hover:border-zan-blue/30 hover:shadow-md'
+                                        ? 'border-zan-blue/50 shadow-lg shadow-blue-500/10'
+                                        : 'border-gray-100 dark:border-white/10 shadow-sm hover:border-zan-blue/30 hover:shadow-md'
                                         }`}
                                 >
                                     <button
                                         onClick={() => handleToggle(faq.id)}
-                                        className="w-full flex justify-between items-center p-6 text-left group"
+                                        className="w-full flex justify-between items-center p-5 md:p-6 text-left group"
                                     >
                                         <div className="flex items-start space-x-4">
                                             <div className={`mt-1 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-zan-blue text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:text-zan-blue'

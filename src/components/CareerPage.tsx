@@ -36,15 +36,15 @@ const CareerPage = () => {
             </div>
 
             {/* --- Header Section --- */}
-            <section className="pt-32 pb-20 text-center relative z-10">
+            <section className="pt-24 pb-12 md:pt-32 md:pb-20 text-center relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
                         &lt;Join The Crew /&gt;
                     </p>
-                    <h1 className="text-4xl lg:text-6xl font-bold text-white mb-8 font-heading leading-tight">
+                    <h1 className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 font-heading leading-tight">
                         Build the Future <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">With Us</span>
                     </h1>
-                    <p className="text-xl text-gray-400 leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-light">
                         We are always looking for passionate individuals who want to make a difference in the tech landscape of Bangladesh. If you love robots, code, or teaching, you belong here.
                     </p>
                 </div>

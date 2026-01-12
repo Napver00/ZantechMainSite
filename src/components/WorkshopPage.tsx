@@ -85,7 +85,7 @@ const WorkshopPage = () => {
     };
 
     return (
-        <section className="pt-32 pb-24 bg-zan-dark min-h-screen relative overflow-hidden">
+        <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-zan-dark min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -94,14 +94,14 @@ const WorkshopPage = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-12 md:mb-16">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
                         &lt;Workshop Modules /&gt;
                     </p>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 font-heading">
+                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">
                         Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Workshops</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
                         Explore our hands-on workshops designed to inspire the next generation of innovators in robotics, programming, and AI.
                     </p>
                 </div>

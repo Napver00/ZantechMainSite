@@ -133,7 +133,7 @@ const ProjectDetailsPage = () => {
                     <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden">
 
                         {/* Article Content */}
-                        <div className="p-8 md:p-12">
+                        <div className="p-6 md:p-12">
                             <article
                                 className="prose prose-lg prose-invert max-w-none
                                 prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white

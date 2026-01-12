@@ -9,10 +9,10 @@ const TermsAndConditionsPage = () => {
                 <div className="absolute bottom-[10%] left-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
             </div>
 
-            <section className="pt-32 pb-24 relative z-10">
+            <section className="pt-24 pb-16 md:pt-32 md:pb-24 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white font-heading mb-4">
+                    <div className="text-center mb-12 md:mb-16">
+                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold text-gray-900 dark:text-white font-heading mb-4">
                             Terms and Conditions
                         </h1>
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium bg-white dark:bg-white/5 px-4 py-2 rounded-full inline-block backdrop-blur-sm border border-gray-100 dark:border-white/10">
@@ -20,7 +20,7 @@ const TermsAndConditionsPage = () => {
                         </p>
                     </div>
 
-                    <div className="bg-white dark:bg-white/5 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-gray-100 dark:border-white/10 shadow-xl">
+                    <div className="bg-white dark:bg-white/5 backdrop-blur-md p-6 md:p-12 rounded-3xl border border-gray-100 dark:border-white/10 shadow-xl">
                         <div className="prose prose-lg dark:prose-invert max-w-none 
                             prose-headings:font-heading prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
                             prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed

@@ -77,7 +77,7 @@ const CareerDetailsPage = () => {
     ];
 
     return (
-        <section className="pt-32 pb-24 bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
+        <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[10%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
@@ -85,30 +85,30 @@ const CareerDetailsPage = () => {
             </div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <Link to="/career" className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-zan-blue dark:hover:text-blue-400 mb-8 transition-colors">
+                <Link to="/career" className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-zan-blue dark:hover:text-blue-400 mb-8 transition-colors text-sm">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Careers
                 </Link>
 
-                <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-gray-100 dark:border-white/10 shadow-xl">
+                <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl p-6 md:p-12 border border-gray-100 dark:border-white/10 shadow-xl">
                     {/* Header */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-gray-100 dark:border-white/10 pb-10">
                         <div>
                             <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-zan-blue dark:text-blue-300 border border-blue-100 dark:border-blue-500/20 mb-3">
                                 {job.department}
                             </span>
-                            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading leading-tight">
+                            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading leading-tight">
                                 {job.job_title}
                             </h1>
-                            <div className="flex items-center text-gray-500 dark:text-gray-400 mt-3">
-                                <MapPin className="w-5 h-5 mr-2" />
+                            <div className="flex items-center text-gray-500 dark:text-gray-400 mt-3 text-sm">
+                                <MapPin className="w-4 h-4 mr-2" />
                                 <span>Zantech HQ (Dhaka)</span>
                             </div>
                         </div>
 
                         <Link
                             to={`/career/${id}/apply`}
-                            className="w-full md:w-auto bg-gradient-to-r from-zan-blue to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+                            className="w-full md:w-auto bg-gradient-to-r from-zan-blue to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center space-x-2 text-sm uppercase tracking-wide"
                         >
                             <span>Apply Now</span>
                             <ArrowRight className="w-5 h-5" />
@@ -116,12 +116,12 @@ const CareerDetailsPage = () => {
                     </div>
 
                     {/* Key Details Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
                         {detailItems.map(item => (
                             <div key={item.label} className="bg-gray-50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/5">
                                 <div className="text-zan-blue dark:text-blue-400 mb-2">{item.icon}</div>
                                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{item.label}</h3>
-                                <p className="text-sm font-bold text-gray-900 dark:text-white">{item.value}</p>
+                                <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{item.value}</p>
                             </div>
                         ))}
                     </div>
@@ -129,7 +129,7 @@ const CareerDetailsPage = () => {
                     {/* Description */}
                     <div className="mb-10">
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 font-heading">About the Role</h2>
-                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm md:text-base">
                             {job.description}
                         </p>
                     </div>
@@ -138,7 +138,7 @@ const CareerDetailsPage = () => {
                     <div>
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 font-heading">Job Responsibilities</h2>
                         <div
-                            className="prose prose-lg dark:prose-invert max-w-none 
+                            className="prose prose-sm md:prose-lg dark:prose-invert max-w-none 
                             prose-headings:font-heading prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
                             prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed
                             prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:marker:text-zan-blue"

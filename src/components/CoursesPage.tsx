@@ -74,7 +74,7 @@ const CourseCard = ({ course }: { course: any }) => (
                     </div>
                 </div>
             </div>
-            <div className="p-8 flex-grow flex flex-col relative">
+            <div className="p-6 md:p-8 flex-grow flex flex-col relative">
                 <div className="flex items-center space-x-6 mb-4 text-xs font-mono uppercase tracking-wide text-gray-500">
                     <div className="flex items-center">
                         <Clock className="w-3 h-3 mr-1.5 text-zan-cyan" />
@@ -85,7 +85,7 @@ const CourseCard = ({ course }: { course: any }) => (
                         <span>{course.students} Students</span>
                     </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-cyan transition-colors tracking-wide">
+                <h3 className="text-lg md:text-xl font-bold text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-cyan transition-colors tracking-wide">
                     {course.title}
                 </h3>
                 <p className="text-gray-400 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm font-light">
@@ -127,7 +127,7 @@ const CoursesPage = () => {
     }, [currentPage]);
 
     return (
-        <section className="pt-32 pb-24 bg-zan-dark min-h-screen relative overflow-hidden">
+        <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-zan-dark min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -136,14 +136,14 @@ const CoursesPage = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-12 md:mb-16">
                     <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
                         &lt;Education Database /&gt;
                     </p>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 font-heading">
+                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">
                         Available <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Courses</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
+                    <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
                         Expand your skills with our industry-leading courses in robotics, AI, and engineering.
                     </p>
                 </div>

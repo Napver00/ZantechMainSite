@@ -55,7 +55,7 @@ const Projects = () => {
     );
 
     return (
-        <section id="projects" className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+        <section id="projects" className="py-16 md:py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[20%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
@@ -63,8 +63,8 @@ const Projects = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 font-heading">
+                <div className="text-center mb-12 md:mb-16">
+                    <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 font-heading">
                         Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Projects</span>
                     </h2>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
