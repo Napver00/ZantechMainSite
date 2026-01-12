@@ -14,31 +14,35 @@ import 'swiper/css/navigation';
 // Card component for displaying a workshop
 const WorkshopCard = ({ workshop }: { workshop: any }) => (
     <div className="group h-full flex flex-col">
-        <div className="bg-white dark:bg-white/5 backdrop-blur-md rounded-3xl overflow-hidden border border-gray-100 dark:border-white/10 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col">
-            <div className="relative overflow-hidden h-56">
+        <div className="bg-surface-dark backdrop-blur-md rounded-sm overflow-hidden border border-white/5 hover:border-zan-cyan/50 hover:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col relative">
+            {/* Tech Corner Accents */}
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-zan-cyan opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+            <div className="relative overflow-hidden h-56 clip-path-slant-bottom">
                 <img
                     src={workshop.thumbnail}
                     alt={workshop.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
                 <div className="absolute top-4 right-4">
-                    <div className="bg-white/90 dark:bg-black/80 backdrop-blur-sm text-zan-blue dark:text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                    <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-cyan px-4 py-1.5 rounded-sm text-xs font-bold uppercase tracking-wider border border-zan-cyan/20">
                         Workshop
                     </div>
                 </div>
             </div>
-            <div className="p-8 flex-grow flex flex-col">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-blue dark:group-hover:text-blue-400 transition-colors">
+            <div className="p-8 flex-grow flex flex-col relative">
+                <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-cyan transition-colors uppercase tracking-wide">
                     {workshop.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm">
+                <p className="text-gray-400 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm font-light">
                     {workshop.excerpt || 'Join us for an exciting hands-on workshop experience.'}
                 </p>
 
                 <Link
                     to={`/workshop/${workshop.slug}`}
-                    className="w-full mt-auto bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white py-4 rounded-xl font-semibold text-center hover:bg-zan-blue hover:text-white dark:hover:bg-zan-blue transition-all duration-300 flex items-center justify-center space-x-2 group/btn border border-gray-100 dark:border-white/5"
+                    className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
                 >
                     <span>Learn More</span>
                     <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
@@ -70,31 +74,31 @@ const WorkshopsSection = () => {
     }, []);
 
     return (
-        <section id="workshops" className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+        <section id="workshops" className="py-24 bg-zan-dark relative overflow-hidden">
             {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[10%] left-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
-            </div>
+            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading mb-4">
-                        Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Workshops</span>
+                    <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
+                        &lt;Training Modules /&gt;
+                    </p>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-white font-heading mb-4">
+                        Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Workshops</span>
                     </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light">
                         Hands-on learning experiences designed to inspire the next generation of innovators in robotics, programming, and AI.
                     </p>
                 </div>
 
                 {loading ? (
-                    <div className="text-center text-gray-600 dark:text-gray-300 py-20">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-zan-blue"></div>
-                        <p className="mt-4 font-medium">Loading workshops...</p>
+                    <div className="text-center text-gray-400 py-20">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white/10 border-t-zan-cyan"></div>
+                        <p className="mt-4 font-mono text-sm tracking-widest uppercase">Initializing modules...</p>
                     </div>
                 ) : workshops.length === 0 ? (
-                    <div className="text-center text-gray-600 dark:text-gray-300 py-20 bg-white dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
-                        <p className="text-lg">No workshops available at the moment. Check back soon!</p>
+                    <div className="text-center text-gray-400 py-20 bg-surface-dark rounded-sm border border-white/10">
+                        <p className="text-lg font-light">No workshops available at the moment. Check back soon!</p>
                     </div>
                 ) : workshops.length > 3 ? (
                     <div className="workshop-slider-container">
@@ -134,7 +138,7 @@ const WorkshopsSection = () => {
                 <div className="mt-16 text-center">
                     <Link
                         to="/workshops"
-                        className="inline-flex items-center space-x-2 bg-gradient-to-r from-zan-blue to-blue-700 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1"
+                        className="inline-flex items-center space-x-2 bg-zan-cyan text-black px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                     >
                         <span>View All Workshops</span>
                         <ArrowRight className="w-5 h-5" />

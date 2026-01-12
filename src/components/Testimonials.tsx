@@ -12,11 +12,11 @@ import 'swiper/css/navigation';
 const StarRating = ({ rating }: { rating: number }) => {
     const totalStars = 5;
     return (
-        <div className="flex space-x-0.5">
+        <div className="flex space-x-1">
             {[...Array(totalStars)].map((_, index) => (
                 <Star
                     key={index}
-                    className={`w-4 h-4 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                    className={`w-3 h-3 ${index < rating ? 'text-zan-neon fill-zan-neon' : 'text-gray-700'}`}
                 />
             ))}
         </div>
@@ -85,45 +85,53 @@ const testimonials = [
 
 const Testimonials = () => {
     const renderTestimonialCard = (testimonial: typeof testimonials[0]) => (
-        <div className="h-full bg-white dark:bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-gray-100 dark:border-white/10 flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 group">
+        <div className="h-full bg-surface-dark backdrop-blur-md p-8 rounded-sm border border-white/5 flex flex-col shadow-lg hover:border-zan-cyan/30 transition-all duration-300 group relative">
+            {/* Tech Decoration */}
+            <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-zan-cyan/20 group-hover:border-zan-cyan/50 transition-colors"></div>
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-zan-cyan/20 group-hover:border-zan-cyan/50 transition-colors"></div>
+
             <div className="mb-6">
-                <div className="w-12 h-12 bg-zan-blue/10 dark:bg-zan-blue/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Quote className="w-5 h-5 text-zan-blue dark:text-blue-400" />
+                <div className="w-10 h-10 bg-zan-cyan/5 rounded-full flex items-center justify-center mb-4 group-hover:bg-zan-cyan/10 transition-colors duration-300 border border-zan-cyan/10">
+                    <Quote className="w-4 h-4 text-zan-cyan" />
                 </div>
                 <div className="flex mb-4">
                     <StarRating rating={testimonial.rating} />
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 flex-grow leading-relaxed italic relative z-10">
+                <p className="text-gray-400 mb-6 flex-grow leading-relaxed italic relative z-10 text-sm font-light">
                     "{testimonial.quote}"
                 </p>
             </div>
-            <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/10 flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zan-blue to-zan-red flex items-center justify-center text-white font-bold text-sm mr-3">
+            <div className="mt-auto pt-6 border-t border-white/5 flex items-center">
+                <div className="w-10 h-10 rounded-sm bg-gradient-to-br from-zan-dark to-black border border-white/10 flex items-center justify-center text-zan-cyan font-bold text-sm mr-3 font-mono">
                     {testimonial.name.charAt(0)}
                 </div>
                 <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white text-sm">{testimonial.name}</h4>
-                    <p className="text-xs text-zan-blue dark:text-blue-400 font-medium">{testimonial.course}</p>
+                    <h4 className="font-bold text-white text-sm font-heading tracking-wide">{testimonial.name}</h4>
+                    <p className="text-xs text-zan-cyan/70 font-mono uppercase tracking-wider">{testimonial.course}</p>
                 </div>
             </div>
         </div>
     );
 
     return (
-        <section id="testimonials" className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+        <section id="testimonials" className="py-24 bg-zan-dark relative overflow-hidden">
             {/* Background Elements */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[20%] right-[-5%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-[10%] left-[-5%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-[20%] right-[-5%] w-96 h-96 bg-zan-cyan/5 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[10%] left-[-5%] w-96 h-96 bg-zan-red/5 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading mb-4">
-                        What Learners <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Say About Us</span>
+                    <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
+                        &lt;Testimonials /&gt;
+                    </p>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-white font-heading mb-4">
+                        What Learners <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Say About Us</span>
                     </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        Hear from our students and partners about their real experiences and growth with Zantech.
+                    <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light">
+                        Real experiences and growth stories from our community.
                     </p>
                 </div>
 

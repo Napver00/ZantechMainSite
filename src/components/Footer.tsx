@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
-import { ArrowRight, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaWhatsapp, FaTiktok, FaYoutube } from 'react-icons/fa6';
 
 // Helper to render the correct social media icon
@@ -82,11 +82,12 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-zan-dark text-gray-300 border-t border-white/10 relative overflow-hidden">
+        <footer className="bg-zan-dark text-gray-300 relative overflow-hidden border-t border-zan-cyan/20">
             {/* Background Elements */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-[-20%] left-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-[-20%] right-[-10%] w-96 h-96 bg-zan-cyan/5 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[-20%] left-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
@@ -94,30 +95,46 @@ const Footer = () => {
                     {/* Brand & Contact Column */}
                     <div className="space-y-6">
                         <div>
-                            <h3 className="text-2xl font-bold text-white font-heading mb-2">ZAN Tech</h3>
-                            <p className="text-sm text-gray-400 leading-relaxed">
+                            <div className="flex items-center space-x-2 mb-4 group">
+                                <div className="relative">
+                                    <div className="absolute -inset-1 bg-zan-cyan/30 blur-sm rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                                    <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="w-10 h-auto relative" />
+                                </div>
+                                <span className="text-2xl font-bold font-heading text-white tracking-widest leading-none">
+                                    ZAN<span className="text-zan-red">TECH</span>
+                                </span>
+                            </div>
+                            <p className="text-sm text-gray-400 leading-relaxed border-l-2 border-zan-cyan/20 pl-3">
                                 Bridging the gap between education and industry through innovation.
                             </p>
                         </div>
 
                         <div className="space-y-3">
-                            <div className="flex items-start space-x-3">
-                                <MapPin className="w-5 h-5 text-zan-red mt-1 shrink-0" />
+                            <div className="flex items-start space-x-3 group">
+                                <div className="p-2 bg-white/5 rounded-sm group-hover:bg-zan-red/10 group-hover:text-zan-red transition-colors">
+                                    <MapPin className="w-5 h-5 shrink-0" />
+                                </div>
                                 <div>
-                                    <p className="text-white font-medium">Bangladesh</p>
+                                    <p className="text-white font-medium text-sm uppercase tracking-wide">Bangladesh</p>
                                     <p className="text-sm text-gray-400">{footerData.location}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <Mail className="w-5 h-5 text-zan-red shrink-0" />
-                                <a href={`mailto:${footerData.email}`} className="hover:text-white transition-colors">{footerData.email}</a>
+                            <div className="flex items-center space-x-3 group">
+                                <div className="p-2 bg-white/5 rounded-sm group-hover:bg-zan-red/10 group-hover:text-zan-red transition-colors">
+                                    <Mail className="w-5 h-5 shrink-0" />
+                                </div>
+                                <a href={`mailto:${footerData.email}`} className="hover:text-zan-cyan transition-colors text-sm">{footerData.email}</a>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <Phone className="w-5 h-5 text-zan-red shrink-0" />
-                                <a href={`tel:${footerData.phone}`} className="hover:text-white transition-colors">{footerData.phone}</a>
+                            <div className="flex items-center space-x-3 group">
+                                <div className="p-2 bg-white/5 rounded-sm group-hover:bg-zan-red/10 group-hover:text-zan-red transition-colors">
+                                    <Phone className="w-5 h-5 shrink-0" />
+                                </div>
+                                <a href={`tel:${footerData.phone}`} className="hover:text-zan-cyan transition-colors text-sm">{footerData.phone}</a>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <Clock className="w-5 h-5 text-zan-red shrink-0" />
+                            <div className="flex items-center space-x-3 group">
+                                <div className="p-2 bg-white/5 rounded-sm group-hover:bg-zan-red/10 group-hover:text-zan-red transition-colors">
+                                    <Clock className="w-5 h-5 shrink-0" />
+                                </div>
                                 <span className="text-sm">Sat-Thu, 10AM - 06PM</span>
                             </div>
                         </div>
@@ -125,7 +142,7 @@ const Footer = () => {
 
                     {/* Company Links */}
                     <div>
-                        <h4 className="font-bold text-white mb-6 text-lg">Company</h4>
+                        <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-widest border-b border-white/10 pb-2 inline-block">Company</h4>
                         <ul className="space-y-3">
                             {companyLinks.map(link => (
                                 <li key={link.text}>
@@ -134,15 +151,15 @@ const Footer = () => {
                                             href={link.href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="group flex items-center hover:text-zan-red transition-colors"
+                                            className="group flex items-center hover:text-zan-cyan transition-colors text-sm"
                                         >
-                                            <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                                            <span>{link.text}</span>
+                                            <span className="w-1.5 h-1.5 bg-zan-red rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                            <span className="group-hover:translate-x-1 transition-transform">{link.text}</span>
                                         </a>
                                     ) : (
-                                        <Link to={link.href} className="group flex items-center hover:text-zan-red transition-colors">
-                                            <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                                            <span>{link.text}</span>
+                                        <Link to={link.href} className="group flex items-center hover:text-zan-cyan transition-colors text-sm">
+                                            <span className="w-1.5 h-1.5 bg-zan-red rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                            <span className="group-hover:translate-x-1 transition-transform">{link.text}</span>
                                         </Link>
                                     )}
                                 </li>
@@ -152,13 +169,13 @@ const Footer = () => {
 
                     {/* Legal Links */}
                     <div>
-                        <h4 className="font-bold text-white mb-6 text-lg">Legal</h4>
+                        <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-widest border-b border-white/10 pb-2 inline-block">Legal</h4>
                         <ul className="space-y-3">
                             {legalLinks.map(link => (
                                 <li key={link.text}>
-                                    <Link to={link.href} className="group flex items-center hover:text-zan-red transition-colors">
-                                        <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                                        <span>{link.text}</span>
+                                    <Link to={link.href} className="group flex items-center hover:text-zan-cyan transition-colors text-sm">
+                                        <span className="w-1.5 h-1.5 bg-zan-red rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                        <span className="group-hover:translate-x-1 transition-transform">{link.text}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -167,8 +184,8 @@ const Footer = () => {
 
                     {/* Newsletter / Socials */}
                     <div>
-                        <h4 className="font-bold text-white mb-6 text-lg">Connect With Us</h4>
-                        <p className="text-sm text-gray-400 mb-6">
+                        <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-widest border-b border-white/10 pb-2 inline-block">Connect</h4>
+                        <p className="text-sm text-gray-400 mb-6 border-l-2 border-zan-cyan/20 pl-3">
                             Stay updated with our latest workshops, products, and innovations.
                         </p>
                         <div className="flex flex-wrap gap-3">
@@ -178,7 +195,7 @@ const Footer = () => {
                                     href={social.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-zan-red hover:text-white text-gray-400 transition-all duration-300 border border-white/10"
+                                    className="w-10 h-10 flex items-center justify-center rounded-sm bg-surface-dark hover:bg-zan-cyan hover:text-black text-gray-400 transition-all duration-300 border border-white/10 hover:border-zan-cyan hover:shadow-[0_0_10px_rgba(0,240,255,0.5)]"
                                 >
                                     <SocialIcon platform={social.platform} />
                                 </a>
@@ -188,10 +205,11 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-wider">
                     <p>&copy; {currentYear} ZAN Tech. All rights reserved.</p>
-                    <p className="mt-2 md:mt-0">
-                        Designed & Developed by ZAN Tech Team
+                    <p className="mt-2 md:mt-0 flex items-center">
+                        <span className="w-2 h-2 bg-zan-neon rounded-full mr-2 animate-pulse"></span>
+                        System Operational
                     </p>
                 </div>
             </div>

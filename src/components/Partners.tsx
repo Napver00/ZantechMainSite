@@ -18,38 +18,36 @@ const partners = [
 
 const Partners = () => {
     return (
-        <section className="py-24 bg-zan-light dark:bg-zan-dark relative overflow-hidden">
+        <section className="py-20 bg-zan-dark relative overflow-hidden border-t border-white/5">
             {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
-            </div>
+            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white font-heading mb-4">
-                        Our Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-blue to-zan-red">Collaborators</span>
-                    </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        We collaborate with top organizations to deliver excellence and innovation.
+                <div className="text-center mb-12">
+                    <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-2">
+                        &lt;Network /&gt;
                     </p>
+                    <h2 className="text-2xl lg:text-3xl font-bold text-white font-heading tracking-wide">
+                        Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Collaborators</span>
+                    </h2>
                 </div>
 
                 <div className="relative w-full overflow-hidden">
                     {/* Gradient Masks for smooth fade edges */}
-                    <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-zan-light dark:from-zan-dark to-transparent"></div>
-                    <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-zan-light dark:from-zan-dark to-transparent"></div>
+                    <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-zan-dark to-transparent pointer-events-none"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-zan-dark to-transparent pointer-events-none"></div>
 
                     <div className="flex w-full">
                         <ul className="flex items-center gap-12 animate-scroll py-8">
                             {/* Original List */}
                             {partners.map((partner, index) => (
                                 <li key={index} className="flex-shrink-0 group">
-                                    <div className="bg-white dark:bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transform hover:-translate-y-1">
+                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <img
                                             src={partner.src}
                                             alt={partner.alt}
-                                            className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                            className="max-h-16 w-auto object-contain transition-all duration-300 relative z-10"
                                         />
                                     </div>
                                 </li>
@@ -57,11 +55,12 @@ const Partners = () => {
                             {/* Clone List for Loop */}
                             {partners.map((partner, index) => (
                                 <li key={`clone-${index}`} className="flex-shrink-0 group" aria-hidden="true">
-                                    <div className="bg-white dark:bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transform hover:-translate-y-1">
+                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <img
                                             src={partner.src}
                                             alt={partner.alt}
-                                            className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                            className="max-h-16 w-auto object-contain transition-all duration-300 relative z-10"
                                         />
                                     </div>
                                 </li>

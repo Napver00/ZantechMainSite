@@ -3,7 +3,7 @@ import { Moon, Sun, ChevronDown, Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const [isDark, setIsDark] = useState(false);
+    const [isDark, setIsDark] = useState(true); // Default to dark for robotic theme
     const [isScrolled, setIsScrolled] = useState(false);
     const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
     const [isShowcaseDropdownOpen, setShowcaseDropdownOpen] = useState(false);
@@ -13,13 +13,31 @@ const Navbar = () => {
 
     const aboutDropdownRef = useRef<HTMLDivElement>(null);
     const showcaseDropdownRef = useRef<HTMLDivElement>(null);
-    const mobileMenuNode = useRef<HTMLElement>(null);
+
+    // Initial Theme Setup
+    useEffect(() => {
+        // Enforce dark mode initially for the robotic feel
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.classList.add('dark');
+            setIsDark(true);
+        } else {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                setIsDark(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                setIsDark(false);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         if (isDark) {
             document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
         }
     }, [isDark]);
 
@@ -79,44 +97,57 @@ const Navbar = () => {
         { href: '#contact', text: 'Contact' },
     ];
 
-    const isHomePage = location.pathname === '/';
-    const shouldBeSolid = isScrolled || !isHomePage;
 
-    const navbarClasses = `fixed w-full z-50 transition-all duration-300 ${shouldBeSolid
-        ? 'bg-white/90 dark:bg-zan-dark/90 backdrop-blur-md shadow-lg py-2'
-        : 'bg-transparent py-4'
+    const navbarClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'py-2 bg-zan-dark/80 backdrop-blur-xl border-b border-zan-cyan/20 shadow-[0_0_15px_rgba(0,240,255,0.1)]'
+        : 'py-4 bg-transparent'
         }`;
 
-    const linkClasses = `font-medium transition-colors duration-200 ${shouldBeSolid
-        ? 'text-gray-700 dark:text-gray-200 hover:text-zan-red'
-        : 'text-white/90 hover:text-white'
-        }`;
+    // HUD-style link classes
+    const linkClasses = `relative text-sm uppercase tracking-wider font-medium transition-all duration-200 ${'text-gray-300 hover:text-zan-cyan'
+        } group`;
 
-    const dropdownClasses = "absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white/95 dark:bg-zan-dark/95 backdrop-blur-md rounded-xl shadow-xl py-2 border border-gray-100 dark:border-gray-800 transform origin-top transition-all duration-200";
-    const dropdownItemClasses = "block w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-zan-red dark:hover:text-zan-red transition-colors";
+    // Dropdown with tech styling
+    const dropdownClasses = "absolute top-full left-0 mt-4 w-56 bg-surface-dark border border-zan-cyan/30 shadow-[0_0_15px_rgba(0,240,255,0.1)] rounded-sm py-2 origin-top-left transition-all duration-200 backdrop-blur-md";
+    const dropdownItemClasses = "block w-full text-left px-4 py-2.5 text-sm uppercase tracking-wide text-gray-300 hover:bg-zan-cyan/10 hover:text-zan-cyan hover:pl-6 transition-all duration-200 border-l-2 border-transparent hover:border-zan-cyan";
 
     return (
-        <nav className={navbarClasses} ref={mobileMenuNode}>
+        <nav className={navbarClasses}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center">
-                    <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-2 group">
-                        <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="w-12 h-auto transition-transform duration-300 group-hover:scale-105" />
-                        <span className={`text-2xl font-bold tracking-tight ${shouldBeSolid ? 'text-gray-900 dark:text-white' : 'text-white'}`}>
-                            ZAN <span className={shouldBeSolid ? 'text-zan-red' : 'text-white'}>Tech</span>
-                        </span>
+                <div className="flex justify-between items-center bg-transparent">
+                    {/* Logo Section */}
+                    <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-2 group relative">
+                        {/* Tech decoration around logo */}
+                        <div className="absolute -inset-2 bg-zan-cyan/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="w-10 h-auto relative z-10" />
+                        <div className="flex flex-col relative z-10">
+                            <span className="text-xl font-bold tracking-widest text-white font-heading leading-none">
+                                ZAN<span className="text-zan-red">TECH</span>
+                            </span>
+                            <span className="text-[0.6rem] text-zan-cyan tracking-[0.2em] uppercase opacity-70 group-hover:opacity-100 transition-opacity">
+                                Robotics
+                            </span>
+                        </div>
                     </Link>
 
                     {/* --- Desktop Menu --- */}
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="hidden lg:flex items-center space-x-8 bg-surface-dark/50 px-8 py-2 rounded-full border border-white/5 backdrop-blur-sm">
                         {navLinks.map(link => {
                             if (link.text === 'About Us') {
                                 return (
                                     <div key={link.text} className="relative" ref={aboutDropdownRef}>
-                                        <button onClick={() => setAboutDropdownOpen(p => !p)} className={`flex items-center space-x-1 ${linkClasses}`}>
-                                            <span>About Us</span> <ChevronDown className={`w-4 h-4 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
+                                        <button onClick={() => setAboutDropdownOpen(p => !p)} className={`flex items-center space-x-1 ${linkClasses} ${isAboutDropdownOpen ? 'text-zan-cyan' : ''}`}>
+                                            <span>About Us</span>
+                                            <ChevronDown className={`w-3 h-3 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
+                                            {/* Hover underline effect */}
+                                            <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
                                         </button>
                                         {isAboutDropdownOpen && (
                                             <div className={dropdownClasses}>
+                                                {/* Corner decorations for tech look */}
+                                                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-zan-cyan"></div>
+                                                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan"></div>
+
                                                 <Link to="/about" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Company</Link>
                                                 <a href="#team" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Team</a>
                                                 <Link to="/impact" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>Impact</Link>
@@ -129,11 +160,15 @@ const Navbar = () => {
                             if (link.text === 'Showcase') {
                                 return (
                                     <div key={link.text} className="relative" ref={showcaseDropdownRef}>
-                                        <button onClick={() => setShowcaseDropdownOpen(p => !p)} className={`flex items-center space-x-1 ${linkClasses}`}>
-                                            <span>Showcase</span> <ChevronDown className={`w-4 h-4 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
+                                        <button onClick={() => setShowcaseDropdownOpen(p => !p)} className={`flex items-center space-x-1 ${linkClasses} ${isShowcaseDropdownOpen ? 'text-zan-cyan' : ''}`}>
+                                            <span>Showcase</span> <ChevronDown className={`w-3 h-3 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
+                                            <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
                                         </button>
                                         {isShowcaseDropdownOpen && (
                                             <div className={dropdownClasses}>
+                                                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-zan-cyan"></div>
+                                                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan"></div>
+
                                                 <Link to="/workshops" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
                                                 <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Project Uddipon</a>
                                                 <Link to="/projects" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
@@ -144,7 +179,13 @@ const Navbar = () => {
                                 );
                             }
 
+                            if (link.href.startsWith('/#')) { // Anchor link handling
+                                return (<a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}
+                                    <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
+                                </a>);
+                            }
 
+                            // External Link
                             if (link.href.startsWith('http')) {
                                 return (
                                     <a
@@ -155,89 +196,112 @@ const Navbar = () => {
                                         className={linkClasses}
                                     >
                                         {link.text}
+                                        <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
                                     </a>
                                 );
                             }
 
-                            if (link.href.startsWith('/') && !link.href.startsWith('/#')) {
-                                return (<Link key={link.text} to={link.href} className={linkClasses}>{link.text}</Link>);
+                            // Adjusting logic: if it's #contact or #home, treat as anchor if on homepage, else nav click
+                            if (link.href.startsWith('#')) {
+                                return (<a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}
+                                    <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
+                                </a>);
                             }
-                            return (<a key={link.text} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={linkClasses}>{link.text}</a>);
+
+
+                            return (<Link key={link.text} to={link.href} className={linkClasses}>{link.text}
+                                <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-zan-cyan transition-all duration-300 group-hover:w-full"></span>
+                            </Link>);
                         })}
                     </div>
 
                     {/* --- Right side buttons & Mobile Toggle --- */}
                     <div className="flex items-center space-x-4">
                         <div className="hidden md:flex items-center space-x-4">
-                            <button onClick={toggleTheme} className={`p-2 rounded-full transition-colors ${shouldBeSolid ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200' : 'bg-white/20 text-white hover:bg-white/30'}`}>
+                            <button onClick={toggleTheme} className="p-2 rounded-full border border-white/10 hover:border-zan-cyan/50 hover:bg-zan-cyan/10 transition-all text-gray-300">
                                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                             </button>
                             <a href="https://store.zantechbd.com">
-                                <button className="bg-zan-red hover:bg-red-600 text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg hover:shadow-red-500/30 transform hover:-translate-y-0.5">
-                                    Store
+                                <button className="relative overflow-hidden group bg-transparent border border-zan-red text-white px-6 py-2 font-medium transition-all hover:shadow-[0_0_15px_rgba(237,38,38,0.5)] skew-x-[-10deg]">
+                                    <div className="absolute inset-0 w-full h-full bg-zan-red/20 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+                                    <span className="block skew-x-[10deg] tracking-wider uppercase text-sm">Store</span>
                                 </button>
                             </a>
                         </div>
-                        <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className={`md:hidden p-2 rounded-lg ${shouldBeSolid ? 'text-gray-900 dark:text-white' : 'text-white'}`}>
+                        <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden p-2 text-white border border-white/20 rounded hover:bg-white/10">
                             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* --- Mobile Menu --- */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden bg-white dark:bg-zan-dark border-t border-gray-100 dark:border-gray-800 shadow-xl absolute w-full left-0 max-h-[80vh] overflow-y-auto">
-                    <div className="px-4 pt-4 pb-6 space-y-2">
+            {/* --- Mobile Menu Overlay --- */}
+            <div className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setMobileMenuOpen(false)}
+            ></div>
+
+            {/* --- Mobile Menu Drawer --- */}
+            <div className={`fixed inset-y-0 right-0 z-50 w-72 bg-zan-dark border-l border-zan-cyan/20 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                <div className="p-6 h-full flex flex-col">
+                    <div className="flex justify-between items-center mb-8 pb-4 border-b border-white/10">
+                        <span className="text-xl font-bold font-heading text-white">MENU</span>
+                        <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400 hover:text-white">
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto space-y-2">
                         {/* Mobile Links */}
-                        <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Home</a>
+                        <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="block text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">Home</a>
 
                         {/* Mobile About Us Dropdown */}
                         <div>
-                            <button onClick={() => setAboutDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">
-                                <span>About Us</span> <ChevronDown className={`w-5 h-5 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
+                            <button onClick={() => setAboutDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">
+                                <span>About Us</span> <ChevronDown className={`w-4 h-4 transition-transform ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
-                            {isAboutDropdownOpen && <div className="pl-4 space-y-1 bg-gray-50 dark:bg-white/5 rounded-lg my-1">
-                                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">About Company</Link>
-                                <a href="#team" onClick={(e) => handleNavClick(e, '#team')} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">About Team</a>
-                                <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Impact</Link>
+                            {isAboutDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-1">
+                                <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">About Company</Link>
+                                <a href="#team" onClick={(e) => handleNavClick(e, '#team')} className="block text-gray-400 hover:text-white py-2 text-sm">About Team</a>
+                                <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">Impact</Link>
                             </div>}
                         </div>
 
 
-                        <Link to="/courses" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Courses</Link>
+                        <Link to="/courses" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">Courses</Link>
 
                         {/* Mobile Showcase Dropdown */}
                         <div>
-                            <button onClick={() => setShowcaseDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">
-                                <span>Showcase</span> <ChevronDown className={`w-5 h-5 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
+                            <button onClick={() => setShowcaseDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">
+                                <span>Showcase</span> <ChevronDown className={`w-4 h-4 transition-transform ${isShowcaseDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
-                            {isShowcaseDropdownOpen && <div className="pl-4 space-y-1 bg-gray-50 dark:bg-white/5 rounded-lg my-1">
-                                <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Workshops</Link>
-                                <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Project Uddipon</a>
-                                <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Projects</Link>
-                                <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="block text-gray-600 dark:text-gray-300 px-4 py-2.5 text-sm">Blog</Link>
+                            {isShowcaseDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-1">
+                                <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">Workshops</Link>
+                                <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">Project Uddipon</a>
+                                <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">Projects</Link>
+                                <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-2 text-sm">Blog</Link>
                             </div>}
                         </div>
 
+                        <Link to="/custom-robot" onClick={() => setMobileMenuOpen(false)} className="block text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">Custom Robot</Link>
 
+                        <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-gray-300 hover:text-zan-cyan px-4 py-3 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium">Contact</a>
+                    </div>
 
-                        <Link to="/custom-robot" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Custom Robot</Link>
-
-                        <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-gray-700 dark:text-gray-200 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 font-medium">Contact</a>
-
-                        {/* Mobile Buttons */}
-                        <div className="pt-6 mt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between px-4">
-                            <button onClick={toggleTheme} className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
+                    <div className="pt-6 mt-4 border-t border-white/10 space-y-4">
+                        <div className="flex items-center justify-between px-2">
+                            <span className="text-sm text-gray-400">Theme</span>
+                            <button onClick={toggleTheme} className="p-2 rounded bg-white/5 text-gray-300 border border-white/10">
                                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                             </button>
-                            <a href="https://store.zantechbd.com" className="flex-1 ml-4">
-                                <button className="w-full bg-zan-red text-white px-6 py-3 rounded-xl font-medium shadow-lg shadow-red-500/20">Store</button>
-                            </a>
                         </div>
+                        <a href="https://store.zantechbd.com" className="block">
+                            <button className="w-full py-3 bg-zan-red text-white font-bold uppercase tracking-widest skew-x-[-10deg] hover:bg-red-600 transition-colors">
+                                <span className="block skew-x-[10deg]">Store</span>
+                            </button>
+                        </a>
                     </div>
                 </div>
-            )}
+            </div>
         </nav>
     );
 };
