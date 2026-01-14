@@ -1,31 +1,35 @@
-import React from 'react';
+
 
 const PrivacyPolicyPage = () => {
     return (
-        <div className="bg-zan-light dark:bg-zan-dark min-h-screen relative overflow-hidden">
+        <div className="bg-[#0b0c10] min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[10%] left-[-10%] w-96 h-96 bg-zan-blue/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-[10%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-[10%] left-[-10%] w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[10%] right-[-10%] w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-[120px]"></div>
             </div>
 
-            <section className="pt-24 pb-16 md:pt-32 md:pb-24 relative z-10">
+            <section className="pt-32 pb-24 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12 md:mb-16">
-                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold text-gray-900 dark:text-white font-heading mb-4">
-                            Privacy Policy
+                    <div className="text-center mb-16">
+                        <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6 tracking-tight">
+                            <span className="text-white">Privacy </span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                                Policy
+                            </span>
                         </h1>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium bg-white dark:bg-white/5 px-4 py-2 rounded-full inline-block backdrop-blur-sm border border-gray-100 dark:border-white/10">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0f1115] border border-white/5 text-gray-400 text-sm font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                             Last Updated: September 15, 2025
-                        </p>
+                        </div>
                     </div>
 
-                    <div className="bg-white dark:bg-white/5 backdrop-blur-md p-6 md:p-12 rounded-3xl border border-gray-100 dark:border-white/10 shadow-xl">
-                        <div className="prose prose-lg dark:prose-invert max-w-none 
-                            prose-headings:font-heading prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
-                            prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed
-                            prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-li:marker:text-zan-blue
-                            prose-strong:text-gray-900 dark:prose-strong:text-white">
+                    <div className="bg-[#0f1115]/80 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl shadow-black/50">
+                        <div className="prose prose-lg prose-invert max-w-none 
+                            prose-headings:font-heading prose-headings:font-bold prose-headings:text-white
+                            prose-p:text-gray-400 prose-p:leading-relaxed
+                            prose-li:text-gray-400 prose-li:marker:text-blue-500
+                            prose-strong:text-gray-200">
 
                             <h2>1. Introduction</h2>
                             <p>
