@@ -225,8 +225,8 @@ const CourseDetailsPage = () => {
                                 </div>
                             </div>
 
-                            {/* Enroll Button */}
-                            {course.reg_link ? (
+                            {/* Enroll Button Logic */}
+                            {course.reg_status === 1 ? (
                                 <a
                                     href={course.reg_link}
                                     target="_blank"
@@ -238,9 +238,26 @@ const CourseDetailsPage = () => {
                                     </button>
                                 </a>
                             ) : (
-                                <button disabled className="w-full bg-gray-600 text-white py-4 rounded-sm font-bold text-lg cursor-not-allowed font-heading uppercase tracking-wider opacity-50">
-                                    Registration Closed
-                                </button>
+                                <div className="space-y-4">
+                                    <div className="relative group z-10">
+                                        <button className="w-full bg-gray-700 text-gray-400 py-4 rounded-sm font-bold text-lg cursor-not-allowed font-heading uppercase tracking-wider border border-white/5">
+                                            Registration Closed
+                                        </button>
+
+                                        {/* Tooltip */}
+                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max max-w-[200px] bg-black/90 text-white text-xs p-2 rounded border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-center">
+                                            Registration process is off
+                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-black/90"></div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => window.location.href = '#contact'}
+                                        className="w-full bg-zan-cyan/10 hover:bg-zan-cyan/20 text-zan-cyan py-3 rounded-sm font-bold text-sm transition-all border border-zan-cyan/30 hover:border-zan-cyan font-mono uppercase tracking-wider"
+                                    >
+                                        Contact Support
+                                    </button>
+                                </div>
                             )}
 
                             <p className="text-center text-xs text-gray-500 mt-4 font-mono uppercase tracking-wider">
