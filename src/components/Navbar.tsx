@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Moon, Sun, ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -69,9 +69,7 @@ const Navbar = () => {
     }, []);
 
 
-    const toggleTheme = () => {
-        setIsDark(!isDark);
-    };
+
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
         setMobileMenuOpen(false);
@@ -219,9 +217,7 @@ const Navbar = () => {
                         {/* --- Right side buttons & Mobile Toggle --- */}
                         <div className="flex items-center space-x-4">
                             <div className="hidden md:flex items-center space-x-4">
-                                <button onClick={toggleTheme} className="p-2 rounded-full border border-white/10 hover:border-zan-cyan/50 hover:bg-zan-cyan/10 transition-all text-gray-300">
-                                    {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                                </button>
+
                                 <a href="https://store.zantechbd.com">
                                     <button className="relative overflow-hidden group bg-transparent border border-zan-red text-white px-6 py-2 font-medium transition-all hover:shadow-[0_0_15px_rgba(237,38,38,0.5)] skew-x-[-10deg]">
                                         <div className="absolute inset-0 w-full h-full bg-zan-red/20 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
@@ -290,12 +286,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="pt-6 mt-4 border-t border-white/10 space-y-4">
-                        <div className="flex items-center justify-between px-2">
-                            <span className="text-base text-gray-400">Theme</span>
-                            <button onClick={toggleTheme} className="p-3 rounded bg-white/5 text-gray-300 border border-white/10 hover:border-zan-cyan hover:text-zan-cyan transition-all">
-                                {isDark ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-                            </button>
-                        </div>
+
                         <a href="https://store.zantechbd.com" className="block">
                             <button className="w-full py-4 bg-zan-red text-white font-bold uppercase tracking-widest skew-x-[-10deg] hover:bg-red-600 transition-colors shadow-[0_0_15px_rgba(237,38,38,0.3)]">
                                 <span className="block skew-x-[10deg]">Store</span>

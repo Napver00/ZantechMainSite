@@ -188,13 +188,14 @@ const CourseDetailsPage = () => {
                             <article
                                 className="prose prose-lg prose-invert max-w-none
                                 prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white
-                                prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h3:text-zan-cyan
-                                prose-p:text-gray-400 prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light
+                                prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
+                                prose-p:text-white prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light
                                 prose-a:text-zan-cyan prose-a:no-underline hover:prose-a:underline
                                 prose-strong:text-white prose-strong:font-bold
-                                prose-ul:list-disc prose-ul:pl-6 prose-li:text-gray-400 prose-li:mb-2
+                                prose-ul:list-disc prose-ul:pl-6 prose-li:text-white prose-li:mb-2
                                 prose-img:rounded-sm prose-img:shadow-lg prose-img:my-8 prose-img:w-full prose-img:border prose-img:border-white/10
-                                prose-blockquote:border-l-4 prose-blockquote:border-zan-cyan prose-blockquote:bg-white/5 prose-blockquote:p-4 prose-blockquote:rounded-r-sm prose-blockquote:italic"
+                                prose-blockquote:border-l-4 prose-blockquote:border-zan-cyan prose-blockquote:bg-white/5 prose-blockquote:p-4 prose-blockquote:rounded-r-sm prose-blockquote:italic
+                                [&_*]:!text-white"
                                 dangerouslySetInnerHTML={{ __html: course.content }}
                             />
                         </div>
