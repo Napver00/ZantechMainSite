@@ -1,117 +1,185 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, BookOpen, Clock, Users } from 'lucide-react';
 import Pagination from '../components/Pagination';
+import { API_BASE_URL } from '../config';
 
-// Mock Data for Courses
-export const COURSES_DATA = [
-    {
-        id: 1,
-        slug: 'industrial-robotics-mastery',
-        title: 'Industrial Robotics Mastery',
-        excerpt: 'Master the fundamentals and advanced concepts of industrial robot arms, automation workflows, and safety protocols.',
-        content: `
-            <h3>Course Overview</h3>
-            <p>This comprehensive course takes you from the basics of industrial robotics to advanced programming and system integration. Designed for aspiring robotics engineers and technicians.</p>
-            <h3>Curriculum</h3>
-            <ul>
-                <li>Introduction to Industrial Arms (6-axis kinematics)</li>
-                <li>Safety Standards and Protocols</li>
-                <li>PLC Integration and Logic Control</li>
-                <li>Advanced Path Planning and Optimization</li>
-            </ul>
-            <h3>Who is this for?</h3>
-            <p>Engineering students, technicians, and anyone interested in industrial automation.</p>
-        `,
-        thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
-        duration: '8 Weeks',
-        students: 150,
-        level: 'Intermediate'
-    },
-    {
-        id: 2,
-        slug: 'ai-for-autonomous-systems',
-        title: 'AI for Autonomous Systems',
-        excerpt: 'Learn how to build and deploy artificial intelligence models for autonomous robots, drones, and self-driving vehicles.',
-        content: `
-            <h3>Course Overview</h3>
-            <p>Dive into the world of autonomous systems. Learn how to apply machine learning and computer vision to enable robots to perceive and navigate their environment safely.</p>
-            <h3>Curriculum</h3>
-            <ul>
-                <li>Computer Vision using OpenCV</li>
-                <li>SLAM (Simultaneous Localization and Mapping)</li>
-                <li>Deep Reinforcement Learning for Control</li>
-                <li>Sensor Fusion (LiDAR, Camera, IMU)</li>
-            </ul>
-            <h3>Who is this for?</h3>
-            <p>Computer scientists, electrical engineers, and AI enthusiasts.</p>
-        `,
-        thumbnail: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80',
-        duration: '10 Weeks',
-        students: 230,
-        level: 'Advanced'
-    }
-];
+interface Course {
+    id: number;
+    title: string;
+    slug: string;
+    thumbnail: string;
+    category: string;
+    tags: string[];
+    meta_description: string;
+    created_at: string;
+    serial: number | null;
+}
 
-const CourseCard = ({ course }: { course: any }) => (
-    <div className="group h-full flex flex-col">
-        <div className="bg-surface-dark backdrop-blur-md rounded-sm overflow-hidden border border-white/5 hover:border-zan-cyan/50 hover:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col relative">
-            {/* Tech Corner Accents */}
-            <div className="absolute top-0 right-0 w-8 h-8 flex justify-end">
-                <div className="w-full h-full border-t border-r border-zan-cyan/20 group-hover:border-zan-cyan/50 transition-colors"></div>
-            </div>
+const CourseCard = ({ course }: { course: Course }) => {
+    // Show category name as requested
+    const category = course.category || 'Course';
 
-            <div className="relative overflow-hidden h-56 clip-path-slant-bottom">
-                <img
-                    src={course.thumbnail}
-                    alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
-                <div className="absolute top-4 right-4">
-                    <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-cyan px-4 py-1.5 rounded-sm text-xs font-bold uppercase tracking-wider border border-zan-cyan/20">
-                        {course.level}
+    // Calculate relative time (e.g., "2 weeks ago")
+    const getRelativeTime = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+        const intervals = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+        };
+
+        if (diffInSeconds >= intervals.year) {
+            const years = Math.floor(diffInSeconds / intervals.year);
+            return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+        } else if (diffInSeconds >= intervals.month) {
+            const months = Math.floor(diffInSeconds / intervals.month);
+            return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+        } else if (diffInSeconds >= intervals.week) {
+            const weeks = Math.floor(diffInSeconds / intervals.week);
+            return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+        } else if (diffInSeconds >= intervals.day) {
+            const days = Math.floor(diffInSeconds / intervals.day);
+            return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+        }
+        return 'Recently';
+    };
+
+    const duration = getRelativeTime(course.created_at);
+
+    // Deterministic random students count between 122 and 180 based on ID
+    // Range size: 180 - 122 + 1 = 59
+    const students = 122 + ((course.id * 13) % 59);
+
+    return (
+        <div className="group h-full flex flex-col">
+            <div className="bg-surface-dark backdrop-blur-md rounded-sm overflow-hidden border border-white/5 hover:border-zan-cyan/50 hover:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all duration-500 transform hover:-translate-y-2 flex-grow flex flex-col relative">
+                {/* Tech Corner Accents */}
+                <div className="absolute top-0 right-0 w-8 h-8 flex justify-end">
+                    <div className="w-full h-full border-t border-r border-zan-cyan/20 group-hover:border-zan-cyan/50 transition-colors"></div>
+                </div>
+
+                <div className="relative overflow-hidden h-56 clip-path-slant-bottom">
+                    <img
+                        src={course.thumbnail}
+                        alt={course.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                        onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x600?text=No+Image';
+                        }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
+                    <div className="absolute top-4 right-4">
+                        <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-cyan px-4 py-1.5 rounded-sm text-xs font-bold uppercase tracking-wider border border-zan-cyan/20">
+                            {category}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="p-6 md:p-8 flex-grow flex flex-col relative">
-                <div className="flex items-center space-x-6 mb-4 text-xs font-mono uppercase tracking-wide text-gray-500">
-                    <div className="flex items-center">
-                        <Clock className="w-3 h-3 mr-1.5 text-zan-cyan" />
-                        <span>{course.duration}</span>
+                <div className="p-6 md:p-8 flex-grow flex flex-col relative">
+                    <div className="flex items-center space-x-6 mb-4 text-xs font-mono uppercase tracking-wide text-gray-500">
+                        <div className="flex items-center">
+                            <Clock className="w-3 h-3 mr-1.5 text-zan-cyan" />
+                            <span>{duration}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <Users className="w-3 h-3 mr-1.5 text-zan-cyan" />
+                            <span>{students} Students</span>
+                        </div>
                     </div>
-                    <div className="flex items-center">
-                        <Users className="w-3 h-3 mr-1.5 text-zan-cyan" />
-                        <span>{course.students} Students</span>
-                    </div>
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-cyan transition-colors tracking-wide">
-                    {course.title}
-                </h3>
-                <p className="text-gray-400 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm font-light">
-                    {course.excerpt}
-                </p>
+                    <h3 className="text-lg md:text-xl font-bold text-white mb-3 line-clamp-2 font-heading group-hover:text-zan-cyan transition-colors tracking-wide">
+                        {course.title}
+                    </h3>
+                    <p className="text-gray-400 mb-6 line-clamp-3 flex-grow leading-relaxed text-sm font-light">
+                        {course.meta_description}
+                    </p>
 
-                <Link
-                    to={`/course/${course.slug}`}
-                    className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
-                >
-                    <span>View Details</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                </Link>
+                    <Link
+                        to={`/course/${course.slug}`}
+                        className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
+                    >
+                        <span>View Details</span>
+                        <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 const CoursesPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page') || '1');
-    const itemsPerPage = 5;
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [totalRows, setTotalRows] = useState(0);
+    const itemsPerPage = 6; // Adjusted for better grid layout (2 cols on md, 3 on lg)
 
-    // Simulate mock data
-    const courses = COURSES_DATA;
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setLoading(true);
+            try {
+                // Fetching all for client-side sorting if needed, or we implement server-side pagination properly.
+                // The provided API supports pagination. Let's try to use it if possible, 
+                // but for "sorting by serial if have 1 show first", we might need to fetch all then sort client side 
+                // UNLESS the API supports sorting. The user said "orderBy('created_at', 'desc')" in backend code.
+                // Re-reading user request: "only shwo the category is Course... and shwo it by it serial number if have 1 show first that type."
+                // Since backend orders by created_at, we probably need to fetch all and sort client side 
+                // OR just accept default order. Given specific instruction "shwo it by it serial number", 
+                // I will fetch all (without limit/page for simplicity of sorting) then paginate client side 
+                // OR ask backend to change. 
+                // But looking at backend code: 
+                // $query = Post::where('status', 'published')->orderBy('created_at', 'desc');
+                // It does NOT order by serial.
+                // So I will fetch ALL courses (limit=100 or something large) and sort client-side.
 
+                const response = await fetch(`${API_BASE_URL}/api/posts/published?category=Course&limit=100`);
+                if (!response.ok) throw new Error('Failed to fetch courses');
+                const result = await response.json();
+
+                if (result.success) {
+                    let fetchedCourses: Course[] = Array.isArray(result.data) ? result.data : [result.data];
+                    // Filter just in case, though query string should handle it
+                    // Sort by serial: 1 first, then others (null or 0 or >1). 
+                    // Assuming "serial number if have 1 show first" implies specific ordering.
+                    // If serial=1 is special, it goes top. What about serial=2?
+                    // "shwo it by it serial number if have 1 show first that type" -> likely means Sort by Serial Ascending.
+                    fetchedCourses.sort((a, b) => {
+                        // If both have serial, specific sort
+                        if (a.serial && b.serial) return a.serial - b.serial;
+                        // If a has serial and b doesn't, a comes first? Or serial 1 is special?
+                        // Let's assume standard ascending sort where nulls/zeros are last.
+                        if (a.serial && a.serial > 0) {
+                            if (!b.serial || b.serial <= 0) return -1;
+                            return a.serial - b.serial;
+                        }
+                        if (b.serial && b.serial > 0) return 1;
+
+                        // Fallback to created_at
+                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                    });
+
+                    setCourses(fetchedCourses);
+                    setTotalRows(fetchedCourses.length);
+                } else {
+                    setError(result.message || 'Failed to load courses');
+                }
+            } catch (err) {
+                console.error(err);
+                setError('An error occurred while loading courses.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
+    // Client-side pagination since we needed to sort all items
     const totalPages = Math.ceil(courses.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -125,6 +193,28 @@ const CoursesPage = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-zan-dark flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-zan-cyan"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-zan-dark flex flex-col items-center justify-center text-white">
+                <p className="text-red-500 mb-4">{error}</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="px-4 py-2 bg-zan-cyan text-black rounded hover:bg-zan-cyan/80 transition"
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
         <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-zan-dark min-h-screen relative overflow-hidden">
@@ -151,7 +241,7 @@ const CoursesPage = () => {
                 {courses.length === 0 ? (
                     <div className="text-center text-gray-400 py-20 bg-surface-dark rounded-sm border border-white/10">
                         <BookOpen className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                        <p className="text-lg font-mono">No database records found.</p>
+                        <p className="text-lg font-mono">No courses found matching criteria.</p>
                     </div>
                 ) : (
                     <>

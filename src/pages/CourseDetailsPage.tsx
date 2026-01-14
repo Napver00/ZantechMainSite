@@ -1,28 +1,76 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Users, Award, CheckCircle, GraduationCap } from 'lucide-react';
-import { COURSES_DATA } from './CoursesPage'; // Importing mock data
+import { API_BASE_URL } from '../config';
+
+interface CourseDetail {
+    id: number;
+    title: string;
+    slug: string;
+    content: string;
+    thumbnail: string;
+    thumbnail_url: string;
+    category: string;
+    tags: string[];
+    meta_title: string;
+    meta_description: string;
+    views: number;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    reg_link: string;
+    reg_status: number;
+    serial: number;
+    author_name: string;
+}
 
 const CourseDetailsPage = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
-    const [course, setCourse] = useState<any>(null);
+    const [course, setCourse] = useState<CourseDetail | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        // Find course from mock data
-        const foundCourse = COURSES_DATA.find(c => c.slug === slug);
-        if (foundCourse) {
-            setCourse(foundCourse);
-        }
+        const fetchCourseDetails = async () => {
+            if (!slug) return;
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/posts/${slug}`);
+                if (!response.ok) throw new Error('Failed to fetch course details');
+                const result = await response.json();
+
+                if (result.success) {
+                    setCourse(result.data);
+                } else {
+                    setError(result.message || 'Course not found');
+                }
+            } catch (err) {
+                console.error(err);
+                setError('An error occurred while loading course details.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCourseDetails();
     }, [slug]);
 
-    if (!course && !slug) return null; // Or some loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-zan-dark flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-zan-cyan"></div>
+            </div>
+        );
+    }
 
-    if (!course) {
+    if (error || !course) {
         return (
             <div className="min-h-screen bg-zan-dark flex flex-col items-center justify-center p-4">
                 <div className="text-zan-red text-6xl mb-4 animate-pulse">!</div>
-                <h2 className="text-2xl font-bold text-white mb-2 font-heading uppercase tracking-wide">Course Not Found</h2>
+                <h2 className="text-2xl font-bold text-white mb-2 font-heading uppercase tracking-wide">
+                    {error || 'Course Not Found'}
+                </h2>
                 <button
                     onClick={() => navigate('/courses')}
                     className="mt-6 bg-white/5 text-zan-cyan border border-zan-cyan/30 px-6 py-3 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center gap-2"
@@ -33,6 +81,44 @@ const CourseDetailsPage = () => {
             </div>
         );
     }
+
+    // Default or calculated values for fields missing in API
+    const level = course.tags && course.tags.length > 0 ? course.tags[0] : 'All Levels';
+
+    // Calculate relative time (e.g., "2 weeks ago")
+    const getRelativeTime = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+        const intervals = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+        };
+
+        if (diffInSeconds >= intervals.year) {
+            const years = Math.floor(diffInSeconds / intervals.year);
+            return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+        } else if (diffInSeconds >= intervals.month) {
+            const months = Math.floor(diffInSeconds / intervals.month);
+            return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+        } else if (diffInSeconds >= intervals.week) {
+            const weeks = Math.floor(diffInSeconds / intervals.week);
+            return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+        } else if (diffInSeconds >= intervals.day) {
+            const days = Math.floor(diffInSeconds / intervals.day);
+            return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+        }
+        return 'Recently';
+    };
+
+    const duration = getRelativeTime(course.created_at);
+
+    // Deterministic random students count between 122 and 180 based on ID
+    // Range size: 180 - 122 + 1 = 59
+    const students = 122 + ((course.id * 13) % 59);
 
     return (
         <div className="min-h-screen bg-zan-dark font-sans relative overflow-hidden">
@@ -47,7 +133,7 @@ const CourseDetailsPage = () => {
             <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden border-b border-white/10">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
-                    style={{ backgroundImage: `url(${course.thumbnail})` }}
+                    style={{ backgroundImage: `url(${course.thumbnail_url || course.thumbnail})` }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-t from-zan-dark via-zan-dark/80 to-transparent"></div>
                 </div>
@@ -69,7 +155,7 @@ const CourseDetailsPage = () => {
                         <div className="flex flex-wrap gap-2 mb-6">
                             <span className="inline-flex items-center px-3 py-1 bg-zan-cyan/10 text-zan-cyan border border-zan-cyan/20 text-xs font-mono uppercase tracking-wider rounded-sm backdrop-blur-sm">
                                 <GraduationCap className="w-3 h-3 mr-1.5" />
-                                {course.level}
+                                {level}
                             </span>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 font-heading uppercase tracking-wide drop-shadow-2xl">
@@ -78,11 +164,11 @@ const CourseDetailsPage = () => {
                         <div className="flex items-center flex-wrap gap-6 text-gray-400 text-sm md:text-base font-mono">
                             <div className="flex items-center">
                                 <Clock className="w-4 h-4 mr-2 text-zan-cyan" />
-                                <span>{course.duration}</span>
+                                <span>{duration}</span>
                             </div>
                             <div className="flex items-center">
                                 <Users className="w-4 h-4 mr-2 text-zan-neon" />
-                                <span>{course.students} Enrolled</span>
+                                <span>{students} Students</span>
                             </div>
                             <div className="flex items-center">
                                 <Award className="w-4 h-4 mr-2 text-zan-red" />
@@ -127,7 +213,7 @@ const CourseDetailsPage = () => {
                             <div className="space-y-4 mb-8 relative z-10">
                                 <div className="flex items-start">
                                     <div className="w-2 h-2 mt-2 rounded-full bg-zan-cyan mr-3 shadow-[0_0_10px_rgba(0,240,255,0.5)]"></div>
-                                    <span className="text-gray-300 font-light">Hands-on autonomous projects</span>
+                                    <span className="text-gray-300 font-light">Hands-on robotics projects</span>
                                 </div>
                                 <div className="flex items-start">
                                     <div className="w-2 h-2 mt-2 rounded-full bg-zan-neon mr-3 shadow-[0_0_10px_rgba(57,255,20,0.5)]"></div>
@@ -139,11 +225,24 @@ const CourseDetailsPage = () => {
                                 </div>
                             </div>
 
-                            <a href="#contact" className="block relative z-10">
-                                <button className="w-full bg-zan-red hover:bg-red-600 text-white py-4 rounded-sm font-bold text-lg transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider clip-path-polygon">
-                                    Enroll Sequence
+                            {/* Enroll Button */}
+                            {course.reg_link ? (
+                                <a
+                                    href={course.reg_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block relative z-10"
+                                >
+                                    <button className="w-full bg-zan-red hover:bg-red-600 text-white py-4 rounded-sm font-bold text-lg transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider clip-path-polygon">
+                                        Enroll Sequence
+                                    </button>
+                                </a>
+                            ) : (
+                                <button disabled className="w-full bg-gray-600 text-white py-4 rounded-sm font-bold text-lg cursor-not-allowed font-heading uppercase tracking-wider opacity-50">
+                                    Registration Closed
                                 </button>
-                            </a>
+                            )}
+
                             <p className="text-center text-xs text-gray-500 mt-4 font-mono uppercase tracking-wider">
                                 Secure your slot via encrypted channel
                             </p>
