@@ -130,7 +130,7 @@ const CourseDetailsPage = () => {
             </div>
 
             {/* Hero Section */}
-            <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden border-b border-white/10">
+            <div className="relative h-[50vh] md:h-[70vh] w-full overflow-hidden border-b border-white/10">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105"
                     style={{ backgroundImage: `url(${course.thumbnail_url || course.thumbnail})` }}
@@ -158,7 +158,7 @@ const CourseDetailsPage = () => {
                                 {level}
                             </span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 font-heading uppercase tracking-wide drop-shadow-2xl">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 font-heading uppercase tracking-wide drop-shadow-2xl">
                             {course.title}
                         </h1>
                         <div className="flex items-center flex-wrap gap-6 text-gray-400 text-sm md:text-base font-mono">
@@ -180,22 +180,23 @@ const CourseDetailsPage = () => {
             </div>
 
             {/* Content & Enroll */}
-            <div className="relative z-10 -mt-10 px-4 pb-20">
-                <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
+            <div className="relative z-10 -mt-10 px-4 pb-20 w-full max-w-[100vw] overflow-x-hidden">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2">
-                        <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-6 md:p-12">
+                        <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-5 md:p-12">
                             <article
-                                className="prose prose-lg prose-invert max-w-none
+                                className="prose prose-base md:prose-lg prose-invert max-w-none
                                 prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white
                                 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
-                                prose-p:text-white prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light
-                                prose-a:text-zan-cyan prose-a:no-underline hover:prose-a:underline
+                                prose-p:text-white prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light prose-p:break-words
+                                prose-a:text-zan-cyan prose-a:no-underline hover:prose-a:underline prose-a:break-all
                                 prose-strong:text-white prose-strong:font-bold
                                 prose-ul:list-disc prose-ul:pl-6 prose-li:text-white prose-li:mb-2
-                                prose-img:rounded-sm prose-img:shadow-lg prose-img:my-8 prose-img:w-full prose-img:border prose-img:border-white/10
+                                prose-img:rounded-sm prose-img:shadow-lg prose-img:my-8 prose-img:w-full prose-img:h-auto prose-img:max-w-full
+                                prose-pre:max-w-[calc(100vw-3rem)] prose-pre:overflow-x-auto
                                 prose-blockquote:border-l-4 prose-blockquote:border-zan-cyan prose-blockquote:bg-white/5 prose-blockquote:p-4 prose-blockquote:rounded-r-sm prose-blockquote:italic
-                                [&_*]:!text-white"
+                                [&_*]:!text-white [&_iframe]:w-full [&_iframe]:max-w-full [&_table]:overflow-x-auto [&_table]:block"
                                 dangerouslySetInnerHTML={{ __html: course.content }}
                             />
                         </div>
