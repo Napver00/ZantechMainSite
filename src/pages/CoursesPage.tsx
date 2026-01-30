@@ -112,62 +112,67 @@ const CourseCard = ({ course }: { course: Course }) => {
 
 const CoursesPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+
+    // Derived state from URL
+    const activeTab = (searchParams.get('tab') as 'premium' | 'free') || 'premium';
     const currentPage = parseInt(searchParams.get('page') || '1');
-    const [courses, setCourses] = useState<Course[]>([]);
+
+    const [paidCourses, setPaidCourses] = useState<Course[]>([]);
+    const [freeCourses, setFreeCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [totalRows, setTotalRows] = useState(0);
-    const itemsPerPage = 6; // Adjusted for better grid layout (2 cols on md, 3 on lg)
+    const itemsPerPage = 6;
 
     useEffect(() => {
         const fetchCourses = async () => {
             setLoading(true);
             try {
-                // Fetching all for client-side sorting if needed, or we implement server-side pagination properly.
-                // The provided API supports pagination. Let's try to use it if possible, 
-                // but for "sorting by serial if have 1 show first", we might need to fetch all then sort client side 
-                // UNLESS the API supports sorting. The user said "orderBy('created_at', 'desc')" in backend code.
-                // Re-reading user request: "only shwo the category is Course... and shwo it by it serial number if have 1 show first that type."
-                // Since backend orders by created_at, we probably need to fetch all and sort client side 
-                // OR just accept default order. Given specific instruction "shwo it by it serial number", 
-                // I will fetch all (without limit/page for simplicity of sorting) then paginate client side 
-                // OR ask backend to change. 
-                // But looking at backend code: 
-                // $query = Post::where('status', 'published')->orderBy('created_at', 'desc');
-                // It does NOT order by serial.
-                // So I will fetch ALL courses (limit=100 or something large) and sort client-side.
+                // Fetch Paid Courses (Category: Course)
+                const paidResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=Course&limit=100`);
+                // Fetch Free Courses (Category: tutorial)
+                const freeResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=tutorial&limit=100`);
 
-                const response = await fetch(`${API_BASE_URL}/api/posts/published?category=Course&limit=100`);
-                if (!response.ok) throw new Error('Failed to fetch courses');
-                const result = await response.json();
+                const [paidResponse, freeResponse] = await Promise.all([paidResponsePromise, freeResponsePromise]);
 
-                if (result.success) {
-                    let fetchedCourses: Course[] = Array.isArray(result.data) ? result.data : [result.data];
-                    // Filter just in case, though query string should handle it
-                    // Sort by serial: 1 first, then others (null or 0 or >1). 
-                    // Assuming "serial number if have 1 show first" implies specific ordering.
-                    // If serial=1 is special, it goes top. What about serial=2?
-                    // "shwo it by it serial number if have 1 show first that type" -> likely means Sort by Serial Ascending.
-                    fetchedCourses.sort((a, b) => {
-                        // If both have serial, specific sort
+                if (!paidResponse.ok || !freeResponse.ok) throw new Error('Failed to fetch courses');
+
+                const paidResult = await paidResponse.json();
+                const freeResult = await freeResponse.json();
+
+                // Process Paid Courses
+                if (paidResult.success) {
+                    let fetchedPaidCourses: Course[] = Array.isArray(paidResult.data) ? paidResult.data : [paidResult.data];
+                    fetchedPaidCourses.sort((a, b) => {
                         if (a.serial && b.serial) return a.serial - b.serial;
-                        // If a has serial and b doesn't, a comes first? Or serial 1 is special?
-                        // Let's assume standard ascending sort where nulls/zeros are last.
                         if (a.serial && a.serial > 0) {
                             if (!b.serial || b.serial <= 0) return -1;
                             return a.serial - b.serial;
                         }
                         if (b.serial && b.serial > 0) return 1;
-
-                        // Fallback to created_at
                         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
                     });
-
-                    setCourses(fetchedCourses);
-                    setTotalRows(fetchedCourses.length);
+                    setPaidCourses(fetchedPaidCourses);
                 } else {
-                    setError(result.message || 'Failed to load courses');
+                    console.error('Failed to load paid courses:', paidResult.message);
                 }
+
+                // Process Free Courses
+                if (freeResult.success) {
+                    let fetchedFreeCourses: Course[] = Array.isArray(freeResult.data) ? freeResult.data : [freeResult.data];
+                    fetchedFreeCourses.sort((a, b) => {
+                        if (a.serial && b.serial) return a.serial - b.serial;
+                        if (a.serial && a.serial > 0) {
+                            if (!b.serial || b.serial <= 0) return -1;
+                            return a.serial - b.serial;
+                        }
+                        if (b.serial && b.serial > 0) return 1;
+                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                    });
+                    setFreeCourses(fetchedFreeCourses);
+                } else {
+                    console.error('Failed to load free courses:', freeResult.message);
+                }
+
             } catch (err) {
                 console.error(err);
                 setError('An error occurred while loading courses.');
@@ -179,20 +184,26 @@ const CoursesPage = () => {
         fetchCourses();
     }, []);
 
-    // Client-side pagination since we needed to sort all items
-    const totalPages = Math.ceil(courses.length / itemsPerPage);
+    // Active Courses based on Tab
+    const currentList = activeTab === 'premium' ? paidCourses : freeCourses;
+
+    // Pagination
+    const totalPages = Math.ceil(currentList.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentCourses = courses.slice(indexOfFirstItem, indexOfLastItem);
+    const currentCourses = currentList.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber: number) => {
-        setSearchParams({ page: pageNumber.toString() });
+        setSearchParams({ tab: activeTab, page: pageNumber.toString() });
     };
 
-    // Scroll to top when page changes
+    const handleTabChange = (tab: 'premium' | 'free') => {
+        setSearchParams({ tab, page: '1' });
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [currentPage]);
+    }, [currentPage, activeTab]);
 
     if (loading) {
         return (
@@ -238,10 +249,36 @@ const CoursesPage = () => {
                     </p>
                 </div>
 
-                {courses.length === 0 ? (
+                {/* Tab Navigation */}
+                <div className="flex justify-center mb-12">
+                    <div className="bg-surface-dark border border-white/10 p-1 rounded-sm inline-flex">
+                        <button
+                            onClick={() => handleTabChange('premium')}
+                            className={`px-6 py-2 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'premium'
+                                    ? 'bg-zan-cyan text-black shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            Premium Courses
+                        </button>
+                        <button
+                            onClick={() => handleTabChange('free')}
+                            className={`px-6 py-2 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'free'
+                                    ? 'bg-zan-red text-white shadow-[0_0_15px_rgba(255,50,50,0.3)]'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            Free Tutorials
+                        </button>
+                    </div>
+                </div>
+
+                {currentList.length === 0 ? (
                     <div className="text-center text-gray-400 py-20 bg-surface-dark rounded-sm border border-white/10">
                         <BookOpen className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                        <p className="text-lg font-mono">No courses found matching criteria.</p>
+                        <p className="text-lg font-mono">
+                            No {activeTab === 'premium' ? 'premium courses' : 'free tutorials'} found.
+                        </p>
                     </div>
                 ) : (
                     <>
@@ -251,7 +288,7 @@ const CoursesPage = () => {
                             ))}
                         </div>
 
-                        {courses.length > itemsPerPage && (
+                        {currentList.length > itemsPerPage && (
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}

@@ -41,6 +41,8 @@ const ScrollToTop = () => {
 }
 
 
+import Mascot from './components/Mascot';
+
 function App() {
   return (
     <div className="min-h-screen transition-colors duration-300">
@@ -67,6 +69,7 @@ function App() {
         <Route path="/custom-robot" element={<CustomRobotPage />} />
       </Routes>
       <Footer />
+      <Mascot />
     </div>
   );
 }
