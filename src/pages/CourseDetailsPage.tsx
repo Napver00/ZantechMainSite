@@ -1,7 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, Users, Award, CheckCircle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, Clock, Users, Award, CheckCircle, GraduationCap, X } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+
+interface Ambassador {
+    id: number;
+    name: string;
+    campus: string;
+    image: string;
+    status: string;
+    bio: string;
+    created_at: string;
+    updated_at: string;
+}
+
+interface Teacher {
+    id: number;
+    post_id: number;
+    ourambassadors_id: number;
+    serial: number;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    ambassador: Ambassador;
+}
 
 interface CourseDetail {
     id: number;
@@ -22,6 +44,7 @@ interface CourseDetail {
     reg_status: number;
     serial: number;
     author_name: string;
+    teachers: Teacher[];
 }
 
 const CourseDetailsPage = () => {
@@ -30,6 +53,7 @@ const CourseDetailsPage = () => {
     const [course, setCourse] = useState<CourseDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedAmbassador, setSelectedAmbassador] = useState<Ambassador | null>(null);
 
     useEffect(() => {
         const fetchCourseDetails = async () => {
@@ -183,7 +207,8 @@ const CourseDetailsPage = () => {
             <div className="relative z-10 -mt-10 px-4 pb-20 w-full max-w-[100vw] overflow-x-hidden">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                     {/* Main Content */}
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Course Content */}
                         <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-5 md:p-12">
                             <article
                                 className="prose prose-base md:prose-lg prose-invert max-w-none
@@ -200,6 +225,55 @@ const CourseDetailsPage = () => {
                                 dangerouslySetInnerHTML={{ __html: course.content }}
                             />
                         </div>
+
+                        {/* Instructors Section */}
+                        {course.teachers && course.teachers.length > 0 && (
+                            <div className="bg-surface-dark backdrop-blur-md rounded-sm shadow-2xl border border-white/5 overflow-hidden p-6 md:p-8">
+                                <h3 className="text-2xl font-bold text-white mb-8 font-heading uppercase tracking-wide flex items-center gap-3">
+                                    <span className="w-1 h-8 bg-zan-cyan rounded-full"></span>
+                                    Course Instructors
+                                </h3>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {course.teachers.map((teacher) => (
+                                        <div
+                                            key={teacher.id}
+                                            onClick={() => setSelectedAmbassador(teacher.ambassador)}
+                                            className="group relative bg-black/20 border border-white/5 hover:border-zan-cyan/30 rounded-sm p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                                        >
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-zan-cyan/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                                            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
+                                                <div className="relative shrink-0">
+                                                    <div className="w-20 h-20 rounded-full p-0.5 bg-gradient-to-br from-zan-cyan/30 to-zan-neon/30 group-hover:from-zan-cyan group-hover:to-zan-neon transition-all duration-500">
+                                                        <img
+                                                            src={teacher.ambassador.image.startsWith('http') ? teacher.ambassador.image : `${API_BASE_URL}/${teacher.ambassador.image}`}
+                                                            alt={teacher.ambassador.name}
+                                                            className="w-full h-full rounded-full object-cover border-2 border-black"
+                                                            onError={(e) => {
+                                                                (e.target as HTMLImageElement).src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(teacher.ambassador.name) + '&background=0D8ABC&color=fff';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex-grow min-w-0">
+                                                    <h4 className="text-lg font-bold text-white font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors truncate w-full">
+                                                        {teacher.ambassador.name}
+                                                    </h4>
+                                                    <div className="text-xs font-mono text-zan-cyan/80 uppercase tracking-wider mb-2 truncate w-full">
+                                                        {teacher.ambassador.campus}
+                                                    </div>
+                                                    <p className="text-gray-400 text-sm line-clamp-2 md:line-clamp-2 font-light">
+                                                        {teacher.ambassador.bio}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Sidebar / Enrollment */}
@@ -269,6 +343,52 @@ const CourseDetailsPage = () => {
                     </div>
                 </div>
             </div>
+            {/* Instructor Details Popup */}
+            {selectedAmbassador && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-md animate-fadeIn" onClick={() => setSelectedAmbassador(null)}>
+                    <div
+                        className="bg-surface-dark rounded-sm shadow-2xl w-full max-w-lg p-0 relative max-h-[90vh] overflow-y-auto border border-zan-cyan/20 animate-scaleIn"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Tech Overlay */}
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-zan-cyan via-zan-neon to-zan-cyan"></div>
+
+                        <button
+                            onClick={() => setSelectedAmbassador(null)}
+                            className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition-all z-10"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        <div className="p-8">
+                            <div className="flex flex-col items-center mb-6 text-center">
+                                <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-br from-zan-cyan to-zan-neon mb-4">
+                                    <img
+                                        src={selectedAmbassador.image.startsWith('http') ? selectedAmbassador.image : `${API_BASE_URL}/${selectedAmbassador.image}`}
+                                        alt={selectedAmbassador.name}
+                                        className="w-full h-full rounded-full object-cover border-4 border-black"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(selectedAmbassador.name) + '&background=0D8ABC&color=fff';
+                                        }}
+                                    />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white font-heading uppercase tracking-wide text-center">
+                                    {selectedAmbassador.name}
+                                </h3>
+                                <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mt-1 text-center">
+                                    {selectedAmbassador.campus}
+                                </p>
+                            </div>
+
+                            <div className="prose prose-invert prose-sm max-w-none">
+                                <p className="text-gray-300 font-light leading-relaxed text-justify">
+                                    {selectedAmbassador.bio}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
