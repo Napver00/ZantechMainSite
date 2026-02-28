@@ -29,6 +29,7 @@ import CustomRobotPage from './pages/CustomRobotPage';
 import CoursesPage from './pages/CoursesPage';
 import CourseDetailsPage from './pages/CourseDetailsPage';
 import ConnectPage from './pages/ConnectPage';
+import TeamPage from './pages/TeamPage';
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -69,6 +70,7 @@ function App() {
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/custom-robot" element={<CustomRobotPage />} />
         <Route path="/connect" element={<ConnectPage />} />
+        <Route path="/team" element={<TeamPage />} />
       </Routes>
       <Footer />
       <Mascot />

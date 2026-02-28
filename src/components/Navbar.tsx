@@ -148,7 +148,7 @@ const Navbar = () => {
                                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan"></div>
 
                                                     <Link to="/about" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Company</Link>
-                                                    <a href="#team" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Team</a>
+                                                    <Link to="/team" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Team</Link>
                                                     <Link to="/impact" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>Impact</Link>
                                                 </div>
                                             )}
@@ -259,7 +259,7 @@ const Navbar = () => {
                             </button>
                             {isAboutDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-2">
                                 <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">About Company</Link>
-                                <a href="#team" onClick={(e) => handleNavClick(e, '#team')} className="block text-gray-400 hover:text-white py-3 text-base">About Team</a>
+                                <Link to="/team" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">About Team</Link>
                                 <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Impact</Link>
                             </div>}
                         </div>
