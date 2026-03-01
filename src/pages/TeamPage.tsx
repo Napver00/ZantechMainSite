@@ -50,15 +50,16 @@ const TeamPage = () => {
             accent: "zan-red"
         },
         {
-            name: "Ali Dawood",
+            name: "Ali Daud Hossain",
             role: "Co-Founder & Chief Technology Officer (CTO)",
-            image: "/assets/team/ali_dawood.jpg",
-            bio: "Ali Dawood leads ZAN Tech's technological vision and drives innovation in robotics and intelligent systems, ensuring technical excellence across all R&D projects.",
+            image: "/assets/team/ali_daud_hossain.jpg",
+            bio: "Ali Daud Hossain leads ZAN Tech's AI-driven innovation initiatives, specializing in AI/ML, Large Language Models (LLMs), and intelligent software systems. With an interdisciplinary background spanning advanced software development, robotics, and embodied AI research, he positions the company at the forefront of next-generation AI and automation.",
             highlights: [
-                "Co-founder of ZAN Tech Robotics",
-                "Strategic advisor for robotics initiatives",
-                "Contributor to regional tech education outreach",
-                "Leadership in project coordination"
+                "AI-integrated software platforms",
+                "IoT-enabled intelligent systems",
+                "LLM-powered applications",
+                "Autonomous AI agent frameworks",
+                "Intelligent automation architectures"
             ],
             socials: {
                 linkedin: "#",
@@ -126,7 +127,7 @@ const TeamPage = () => {
                                         <div className={`h-[2px] w-12 bg-${founder.accent}`}></div>
                                         <span className={`text-${founder.accent} font-mono uppercase tracking-widest text-sm font-bold`}>{founder.role}</span>
                                     </div>
-                                    <p className="text-lg text-gray-400 leading-relaxed font-light">
+                                    <p className="text-lg text-gray-400 leading-relaxed font-light whitespace-pre-line">
                                         {founder.bio}
                                     </p>
 
