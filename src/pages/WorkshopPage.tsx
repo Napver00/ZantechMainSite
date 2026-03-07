@@ -52,15 +52,20 @@ const WorkshopPage = () => {
 
     // Get current page from URL or default to 1
     const currentPage = parseInt(searchParams.get('page') || '1');
+    const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 6;
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/posts/published?category=workshop`)
+        setLoading(true);
+        fetch(`${API_BASE_URL}/api/posts/published?category=workshop&limit=${itemsPerPage}&page=${currentPage}`)
             .then(response => response.json())
             .then(apiResponse => {
                 if (apiResponse.success && apiResponse.data) {
                     const workshopData = Array.isArray(apiResponse.data) ? apiResponse.data : [apiResponse.data];
                     setWorkshops(workshopData);
+                    if (apiResponse.pagination) {
+                        setTotalPages(apiResponse.pagination.total_pages);
+                    }
                 }
                 setLoading(false);
             })
@@ -68,17 +73,12 @@ const WorkshopPage = () => {
                 console.error('Error fetching workshops:', error)
                 setLoading(false);
             });
-    }, []);
+    }, [currentPage]);
 
     // Scroll to top when page changes
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
-
-    const totalPages = Math.ceil(workshops.length / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentWorkshops = workshops.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber: number) => {
         setSearchParams({ page: pageNumber.toString() });
@@ -120,12 +120,12 @@ const WorkshopPage = () => {
                         ) : (
                             <>
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {currentWorkshops.map((workshop) => (
+                                    {workshops.map((workshop) => (
                                         <WorkshopCard key={workshop.id} workshop={workshop} />
                                     ))}
                                 </div>
 
-                                {workshops.length > itemsPerPage && (
+                                {totalPages > 1 && (
                                     <Pagination
                                         currentPage={currentPage}
                                         totalPages={totalPages}

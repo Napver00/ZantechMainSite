@@ -121,6 +121,8 @@ const CoursesPage = () => {
     const [freeCourses, setFreeCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [paidTotalPages, setPaidTotalPages] = useState(1);
+    const [freeTotalPages, setFreeTotalPages] = useState(1);
     const itemsPerPage = 6;
 
     useEffect(() => {
@@ -128,9 +130,9 @@ const CoursesPage = () => {
             setLoading(true);
             try {
                 // Fetch Paid Courses (Category: Course)
-                const paidResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=Course&limit=100`);
+                const paidResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=Course&limit=${itemsPerPage}&page=${activeTab === 'premium' ? currentPage : 1}`);
                 // Fetch Free Courses (Category: tutorial)
-                const freeResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=tutorial&limit=100`);
+                const freeResponsePromise = fetch(`${API_BASE_URL}/api/posts/published?category=tutorial&limit=${itemsPerPage}&page=${activeTab === 'free' ? currentPage : 1}`);
 
                 const [paidResponse, freeResponse] = await Promise.all([paidResponsePromise, freeResponsePromise]);
 
@@ -142,16 +144,11 @@ const CoursesPage = () => {
                 // Process Paid Courses
                 if (paidResult.success) {
                     let fetchedPaidCourses: Course[] = Array.isArray(paidResult.data) ? paidResult.data : [paidResult.data];
-                    fetchedPaidCourses.sort((a, b) => {
-                        if (a.serial && b.serial) return a.serial - b.serial;
-                        if (a.serial && a.serial > 0) {
-                            if (!b.serial || b.serial <= 0) return -1;
-                            return a.serial - b.serial;
-                        }
-                        if (b.serial && b.serial > 0) return 1;
-                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-                    });
+                    // Sorting is still fine but server is ordered by created_at desc already
                     setPaidCourses(fetchedPaidCourses);
+                    if (paidResult.pagination) {
+                        setPaidTotalPages(paidResult.pagination.total_pages);
+                    }
                 } else {
                     console.error('Failed to load paid courses:', paidResult.message);
                 }
@@ -159,16 +156,10 @@ const CoursesPage = () => {
                 // Process Free Courses
                 if (freeResult.success) {
                     let fetchedFreeCourses: Course[] = Array.isArray(freeResult.data) ? freeResult.data : [freeResult.data];
-                    fetchedFreeCourses.sort((a, b) => {
-                        if (a.serial && b.serial) return a.serial - b.serial;
-                        if (a.serial && a.serial > 0) {
-                            if (!b.serial || b.serial <= 0) return -1;
-                            return a.serial - b.serial;
-                        }
-                        if (b.serial && b.serial > 0) return 1;
-                        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-                    });
                     setFreeCourses(fetchedFreeCourses);
+                    if (freeResult.pagination) {
+                        setFreeTotalPages(freeResult.pagination.total_pages);
+                    }
                 } else {
                     console.error('Failed to load free courses:', freeResult.message);
                 }
@@ -182,16 +173,11 @@ const CoursesPage = () => {
         };
 
         fetchCourses();
-    }, []);
+    }, [currentPage, activeTab]);
 
     // Active Courses based on Tab
     const currentList = activeTab === 'premium' ? paidCourses : freeCourses;
-
-    // Pagination
-    const totalPages = Math.ceil(currentList.length / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentCourses = currentList.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = activeTab === 'premium' ? paidTotalPages : freeTotalPages;
 
     const handlePageChange = (pageNumber: number) => {
         setSearchParams({ tab: activeTab, page: pageNumber.toString() });
@@ -255,8 +241,8 @@ const CoursesPage = () => {
                         <button
                             onClick={() => handleTabChange('premium')}
                             className={`px-6 py-2 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'premium'
-                                    ? 'bg-zan-cyan text-black shadow-[0_0_15px_rgba(0,240,255,0.3)]'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                ? 'bg-zan-cyan text-black shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             Premium Courses
@@ -264,8 +250,8 @@ const CoursesPage = () => {
                         <button
                             onClick={() => handleTabChange('free')}
                             className={`px-6 py-2 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'free'
-                                    ? 'bg-zan-red text-white shadow-[0_0_15px_rgba(255,50,50,0.3)]'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                ? 'bg-zan-red text-white shadow-[0_0_15px_rgba(255,50,50,0.3)]'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
                             Free Tutorials
@@ -283,7 +269,7 @@ const CoursesPage = () => {
                 ) : (
                     <>
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {currentCourses.map((course) => (
+                            {currentList.map((course) => (
                                 <CourseCard key={course.id} course={course} />
                             ))}
                         </div>

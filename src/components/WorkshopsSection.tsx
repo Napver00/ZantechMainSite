@@ -58,7 +58,7 @@ const WorkshopsSection = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/posts/published?category=workshop`)
+        fetch(`${API_BASE_URL}/api/posts/published?category=workshop&limit=6`)
             .then(response => response.json())
             .then(apiResponse => {
                 if (apiResponse.success && apiResponse.data) {
