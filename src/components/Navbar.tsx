@@ -169,6 +169,7 @@ const Navbar = () => {
                                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan"></div>
 
                                                     <Link to="/workshops" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
+                                                    <Link to="/tutorials" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Tutorials</Link>
                                                     <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Project Uddipon</a>
                                                     <Link to="/projects" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
 
@@ -274,6 +275,7 @@ const Navbar = () => {
                             </button>
                             {isShowcaseDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-2">
                                 <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Workshops</Link>
+                                <Link to="/tutorials" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Tutorials</Link>
                                 <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Project Uddipon</a>
                                 <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Projects</Link>
 

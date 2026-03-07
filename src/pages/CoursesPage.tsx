@@ -275,7 +275,7 @@ const CoursesPage = () => {
                             ))}
                         </div>
 
-                        {currentList.length > itemsPerPage && (
+                        {totalPages > 1 && (
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}

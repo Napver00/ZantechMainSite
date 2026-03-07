@@ -32,6 +32,7 @@ const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
+const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -73,6 +74,7 @@ function App() {
           <Route path="/workshop/:slug" element={<WorkshopDetailsPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/course/:slug" element={<CourseDetailsPage />} />
+          <Route path="/tutorials" element={<TutorialsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
           <Route path="/custom-robot" element={<CustomRobotPage />} />
