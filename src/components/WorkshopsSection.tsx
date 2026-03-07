@@ -136,7 +136,7 @@ const WorkshopsSection = () => {
                     </div>
                 )}
 
-                <div className="mt-16 text-center">
+                <div className="mt-16 flex flex-col items-center space-y-4">
                     <Link
                         to="/workshops"
                         className="inline-flex items-center space-x-2 bg-zan-cyan text-black px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
@@ -144,6 +144,16 @@ const WorkshopsSection = () => {
                         <span>View All Workshops</span>
                         <ArrowRight className="w-5 h-5" />
                     </Link>
+
+                    <a
+                        href="https://projectuddipon.zantechbd.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center space-x-2 bg-transparent text-zan-red border border-zan-red/30 px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-zan-red hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_15px_rgba(255,51,51,0.1)] hover:shadow-[0_0_25px_rgba(255,51,51,0.3)]"
+                    >
+                        <span>Explore Project Uddipon</span>
+                        <ArrowRight className="w-5 h-5" />
+                    </a>
                 </div>
             </div>
         </section>
