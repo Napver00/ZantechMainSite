@@ -66,6 +66,7 @@ const BlogPage = () => {
                                             src={post.image_url || "https://images.unsplash.com/photo-1485827404703-89955f3a77ad?auto=format&fit=crop&q=80&w=800"}
                                             alt={post.title}
                                             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                                            loading="lazy"
                                         />
                                         <div className="absolute top-4 left-4 z-20">
                                             <span className="bg-zan-cyan/90 backdrop-blur-sm text-black text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider shadow-lg">

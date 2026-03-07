@@ -68,6 +68,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                         src={course.thumbnail}
                         alt={course.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                        loading="lazy"
                         onError={(e) => {
                             (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x600?text=No+Image';
                         }}

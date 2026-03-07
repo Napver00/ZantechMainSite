@@ -69,6 +69,7 @@ const ProjectPage = () => {
                                                 src={project.image_url || "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600"}
                                                 alt={project.title}
                                                 className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                                                loading="lazy"
                                             />
                                             <div className="absolute top-2 right-2 z-20 bg-black/80 text-zan-cyan text-xs font-mono px-2 py-1 rounded-sm border border-zan-cyan/30 flex items-center gap-1">
                                                 <Calendar className="w-3 h-3" />

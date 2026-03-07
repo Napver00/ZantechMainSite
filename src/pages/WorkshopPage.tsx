@@ -17,6 +17,7 @@ const WorkshopCard = ({ workshop }: { workshop: any }) => (
                     src={workshop.thumbnail}
                     alt={workshop.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                    loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
                 <div className="absolute top-4 right-4">
