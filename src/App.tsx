@@ -31,7 +31,7 @@ const CustomRobotPage = lazy(() => import('./pages/CustomRobotPage'));
 const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
-const TeamPage = lazy(() => import('./pages/TeamPage'));
+// const TeamPage = lazy(() => import('./pages/TeamPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 
 // Scroll to top when changing routes
@@ -79,7 +79,7 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
           <Route path="/custom-robot" element={<CustomRobotPage />} />
           <Route path="/connect" element={<ConnectPage />} />
-          <Route path="/team" element={<TeamPage />} />
+          {/* <Route path="/team" element={<TeamPage />} /> */}
         </Routes>
       </Suspense>
       <Footer />
