@@ -145,7 +145,7 @@ const CourseDetailsPage = () => {
     const students = 122 + ((course.id * 13) % 59);
 
     return (
-        <div className="min-h-screen bg-zan-dark font-sans relative overflow-hidden">
+        <div className="min-h-screen bg-zan-dark font-sans relative">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -204,7 +204,7 @@ const CourseDetailsPage = () => {
             </div>
 
             {/* Content & Enroll */}
-            <div className="relative z-10 -mt-10 px-4 pb-20 w-full max-w-[100vw] overflow-x-hidden">
+            <div className="relative z-10 -mt-10 px-4 pb-32 lg:pb-20 w-full">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-8">
@@ -309,7 +309,7 @@ const CourseDetailsPage = () => {
                                     rel="noopener noreferrer"
                                     className="block relative z-10"
                                 >
-                                    <button className="w-full bg-zan-red hover:bg-red-600 text-white py-4 rounded-sm font-bold text-lg transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider clip-path-polygon">
+                                    <button className="w-full bg-zan-red hover:bg-red-600 text-white py-4 rounded-sm font-bold text-lg transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider">
                                         Enroll Sequence
                                     </button>
                                 </a>
@@ -342,6 +342,28 @@ const CourseDetailsPage = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Mobile Fixed Enroll Bar */}
+            <div className="fixed bottom-0 left-0 w-full p-4 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+                <div>
+                    <span className="text-white font-bold text-lg font-heading tracking-wide uppercase">Ready to start?</span>
+                    <p className="text-zan-cyan text-xs font-mono uppercase tracking-wider">Secure your slot now</p>
+                </div>
+                {course.reg_status === 1 ? (
+                    <a
+                        href={course.reg_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-zan-red hover:bg-red-600 text-white px-6 py-3 rounded-sm font-bold text-sm transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider"
+                    >
+                        Enroll Now
+                    </a>
+                ) : (
+                    <button className="bg-gray-700 text-gray-400 px-6 py-3 rounded-sm font-bold text-sm cursor-not-allowed font-heading uppercase tracking-wider">
+                        Closed
+                    </button>
+                )}
             </div>
             {/* Instructor Details Popup */}
             {selectedAmbassador && (

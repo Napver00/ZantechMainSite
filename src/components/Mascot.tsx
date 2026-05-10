@@ -39,7 +39,7 @@ const Mascot = () => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+        <div className="fixed bottom-28 md:bottom-6 right-4 md:right-6 z-50 flex flex-col items-end pointer-events-none">
             {/* Speech Bubble */}
             <div
                 className={`mb-4 bg-white text-zan-dark p-4 rounded-lg shadow-xl relative max-w-xs transform transition-all duration-300 pointer-events-auto border-2 border-zan-cyan ${showBubble ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
