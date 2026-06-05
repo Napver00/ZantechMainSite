@@ -52,7 +52,7 @@ const Navbar = () => {
     // Effect to handle clicks outside of all menus
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (window.innerWidth < 768) return;
+            if (window.innerWidth < 1024) return;
 
             if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
                 setAboutDropdownOpen(false);

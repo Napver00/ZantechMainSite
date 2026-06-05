@@ -111,7 +111,7 @@ const Hero = () => {
             {/* Background Image & Overlay */}
             <div
                 className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 opacity-40 mix-blend-luminosity"
-                style={{ backgroundImage: `url('/hereo_section_image.jpg')` }}
+                style={{ backgroundImage: `url('/hero_section_image.jpg')` }}
             ></div>
 
             {/* Cyberpunk Grid Overlay */}

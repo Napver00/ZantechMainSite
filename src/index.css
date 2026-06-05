@@ -37,6 +37,10 @@
     @apply bg-surface-dark border border-white/5 backdrop-blur-sm hover:border-zan-cyan/50 transition-all duration-300;
   }
   
+  .animation-delay-2000 {
+    animation-delay: 2000ms;
+  }
+
   .bg-grid-pattern {
     background-image: 
       linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
