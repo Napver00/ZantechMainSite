@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-    ArrowLeft, ArrowRight, X, ChevronDown,
+    ArrowLeft, ArrowRight, ChevronDown,
     Calendar, Award, Tag,
-    Users, Video, BookOpen, GraduationCap, CheckCircle,
+    Users, Video, BookOpen, GraduationCap,
     Monitor, PlayCircle, MapPin, Layers,
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
@@ -48,7 +48,6 @@ const CourseDetailsPage = () => {
     const [loading, setLoading]             = useState(true);
     const [error, setError]                 = useState<string | null>(null);
     const [openModules, setOpenModules]     = useState<Set<number>>(new Set());
-    const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
 
     /* fetch ─────────────────────────────────────────────── */
     useEffect(() => {
@@ -537,10 +536,7 @@ const CourseDetailsPage = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        <button onClick={() => setSelectedMentor(mentor)}
-                                            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-zan-cyan border border-zan-cyan/30 px-4 py-2 rounded-sm hover:bg-zan-cyan/10 transition-colors mx-auto lg:mx-0">
-                                            <CheckCircle className="w-3.5 h-3.5" /> View Full Profile
-                                        </button>
+
                                     </div>
                                 </div>
                             ))}
@@ -595,41 +591,6 @@ const CourseDetailsPage = () => {
                 </div>
             )}
 
-            {/* ════════════════════════════════════════════
-                MENTOR MODAL
-            ════════════════════════════════════════════ */}
-            {selectedMentor && (
-                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-md" onClick={() => setSelectedMentor(null)}>
-                    <div className="bg-surface-dark rounded-sm shadow-2xl w-full max-w-lg relative max-h-[90vh] overflow-y-auto border border-zan-cyan/20" onClick={(e) => e.stopPropagation()}>
-                        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-zan-cyan via-zan-cyan/60 to-transparent"></div>
-                        <button onClick={() => setSelectedMentor(null)} className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 sm:p-2 rounded-full bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition-all z-10">
-                            <X className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-                        <div className="p-6 sm:p-8">
-                            <div className="flex flex-col items-center mb-5 sm:mb-6 text-center">
-                                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-br from-zan-cyan to-zan-red mb-3 sm:mb-4">
-                                    <img
-                                        src={selectedMentor.image?.startsWith('http') ? selectedMentor.image : `${API_BASE_URL}/${selectedMentor.image}`}
-                                        alt={selectedMentor.name}
-                                        className="w-full h-full rounded-full object-cover border-4 border-zan-dark"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(selectedMentor.name) + '&background=0D8ABC&color=fff';
-                                        }}
-                                    />
-                                </div>
-                                <h3 className="text-xl sm:text-2xl font-bold text-white font-heading uppercase tracking-wide">{selectedMentor.name}</h3>
-                                {selectedMentor.experience && (
-                                    <p className="text-zan-cyan font-mono text-xs sm:text-sm tracking-widest uppercase mt-1">{selectedMentor.experience} Experience</p>
-                                )}
-                                {selectedMentor.is_student_mentor && (
-                                    <span className="mt-2 inline-block text-xs font-mono text-zan-neon border border-zan-neon/30 px-3 py-1 rounded-sm">Student Mentor</span>
-                                )}
-                            </div>
-                            <p className="text-gray-300 font-light leading-relaxed text-sm sm:text-base">{selectedMentor.description}</p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
