@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Testimonials from './components/Testimonials';
 import Partners from './components/Partners';
 import WorkshopsSection from './components/WorkshopsSection';
+import CoursesSection from './components/CoursesSection';
 import { Suspense, lazy, useEffect } from 'react';
 
 // Lazy load page components
@@ -91,6 +92,7 @@ const HomePage = () => (
     <Hero />
     <About />
     <Services />
+    <CoursesSection />
     <WorkshopsSection />
     <Testimonials />
     <Partners />

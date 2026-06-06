@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "zantech-admin",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "E:\\Project\\React\\Zantech-Ecommerce-Admin", "run", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "zantech-main",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "E:\\Project\\React\\ZantechMainSite", "run", "dev", "--", "--port", "5175"],
+      "port": 5175
+    }
+  ]
+}
