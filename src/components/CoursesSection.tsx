@@ -17,10 +17,13 @@ interface Course {
     short_description: string;
     price: number | null;
     discount_price: number | null;
+    payment_type: 'one_time' | 'monthly';
+    monthly_fee: number | null;
 }
 
 const CourseCard = ({ course }: { course: Course }) => {
-    const displayPrice = course.discount_price ?? course.price;
+    const isMonthly = course.payment_type === 'monthly';
+    const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
 
     return (
         <div className="group h-full flex flex-col">
@@ -43,7 +46,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                         </div>
                         {displayPrice != null && (
                             <div className="bg-zan-red/90 text-white px-3 py-1.5 rounded-sm text-xs font-bold font-mono">
-                                ৳{displayPrice}
+                                ৳{displayPrice}{isMonthly && <span className="opacity-80">/mo</span>}
                             </div>
                         )}
                     </div>

@@ -16,6 +16,8 @@ interface CourseDetail {
     id: number; title: string; slug: string; thumbnail: string;
     category: string; tags: string[]; short_description: string;
     description: string; price: number | null; discount_price: number | null;
+    payment_type: 'one_time' | 'monthly';
+    admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
     reg_link: string; serial_number: number; status: string; is_active: boolean;
     meta_title: string; meta_description: string;
     created_at: string; updated_at: string;
@@ -71,6 +73,7 @@ const CourseDetailsPage = () => {
                         category: p.category || 'Tutorial', tags: p.tags || [],
                         short_description: p.meta_description || '',
                         description: p.content || '', price: null, discount_price: null,
+                        payment_type: 'one_time', admission_fee: null, duration_months: null, monthly_fee: null,
                         reg_link: p.reg_link || '', serial_number: p.serial || 0,
                         status: p.status || 'published', is_active: true,
                         meta_title: p.meta_title || '', meta_description: p.meta_description || '',
@@ -114,8 +117,9 @@ const CourseDetailsPage = () => {
         </div>
     );
 
-    const displayPrice = course.discount_price ?? course.price;
-    const hasDiscount  = course.discount_price != null && course.price != null && course.discount_price < course.price;
+    const isMonthly    = course.payment_type === 'monthly';
+    const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
+    const hasDiscount  = !isMonthly && course.discount_price != null && course.price != null && course.discount_price < course.price;
 
     return (
         <div className="min-h-screen bg-zan-dark font-sans">
@@ -166,11 +170,22 @@ const CourseDetailsPage = () => {
                             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                                 {displayPrice != null ? (
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-1">Course Price</span>
+                                        <span className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-1">
+                                            {isMonthly ? 'Monthly Fee' : 'Course Price'}
+                                        </span>
                                         <div className="flex items-baseline gap-2 sm:gap-3">
-                                            <span className="text-2xl sm:text-3xl font-bold text-white font-heading">৳{displayPrice}</span>
+                                            <span className="text-2xl sm:text-3xl font-bold text-white font-heading">
+                                                ৳{displayPrice}{isMonthly && <span className="text-sm sm:text-base text-gray-400">/mo</span>}
+                                            </span>
                                             {hasDiscount && <span className="text-base text-gray-500 line-through">৳{course.price}</span>}
                                         </div>
+                                        {isMonthly && (course.admission_fee != null || course.duration_months != null) && (
+                                            <span className="text-xs text-gray-500 font-light mt-1">
+                                                {course.admission_fee != null && `৳${course.admission_fee} admission fee`}
+                                                {course.admission_fee != null && course.duration_months != null && ' · '}
+                                                {course.duration_months != null && `${course.duration_months} month${course.duration_months !== 1 ? 's' : ''} duration`}
+                                            </span>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="flex flex-col">
@@ -212,7 +227,7 @@ const CourseDetailsPage = () => {
                                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x500?text=Course'; }} />
                             {displayPrice != null && (
                                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-zan-red text-white font-bold font-heading px-3 sm:px-4 py-1.5 sm:py-2 rounded-sm text-xs sm:text-sm uppercase tracking-wider shadow-lg">
-                                    ৳{displayPrice}
+                                    ৳{displayPrice}{isMonthly && '/mo'}
                                 </div>
                             )}
                         </div>
@@ -276,9 +291,19 @@ const CourseDetailsPage = () => {
                             )}
                             {displayPrice != null && (
                                 <div>
-                                    <span className="font-mono text-xs uppercase tracking-widest text-gray-500 block mb-1">Price</span>
-                                    <span className="text-xl sm:text-2xl font-bold text-white font-heading">৳{displayPrice}</span>
+                                    <span className="font-mono text-xs uppercase tracking-widest text-gray-500 block mb-1">
+                                        {isMonthly ? 'Monthly Fee' : 'Price'}
+                                    </span>
+                                    <span className="text-xl sm:text-2xl font-bold text-white font-heading">
+                                        ৳{displayPrice}{isMonthly && <span className="text-sm text-gray-400">/mo</span>}
+                                    </span>
                                     {hasDiscount && <span className="text-sm text-gray-500 line-through ml-2">৳{course.price}</span>}
+                                    {isMonthly && course.admission_fee != null && (
+                                        <div className="text-xs text-gray-500 font-light mt-1">৳{course.admission_fee} admission fee</div>
+                                    )}
+                                    {isMonthly && course.duration_months != null && (
+                                        <div className="text-xs text-gray-500 font-light">{course.duration_months} month{course.duration_months !== 1 ? 's' : ''} duration</div>
+                                    )}
                                 </div>
                             )}
                             <div className="mt-auto flex items-center gap-3 pt-4 border-t border-white/5">
@@ -563,7 +588,7 @@ const CourseDetailsPage = () => {
                             {course.reg_link && (
                                 <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
                                     className="px-8 sm:px-12 py-4 sm:py-5 bg-white text-zan-dark font-bold rounded-sm hover:bg-zan-cyan transition-colors shadow-xl font-heading uppercase tracking-wider text-sm sm:text-base">
-                                    {displayPrice != null ? `Enroll · ৳${displayPrice}` : 'Enroll Now'}
+                                    {displayPrice != null ? `Enroll · ৳${displayPrice}${isMonthly ? '/mo' : ''}` : 'Enroll Now'}
                                 </a>
                             )}
                             <button onClick={() => navigate('/courses')}
@@ -582,7 +607,7 @@ const CourseDetailsPage = () => {
                 <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)]">
                     <div className="min-w-0">
                         <p className="text-white font-bold text-sm font-heading tracking-wide uppercase truncate">Ready to start?</p>
-                        {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{displayPrice}</p>}
+                        {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{displayPrice}{isMonthly && '/mo'}</p>}
                     </div>
                     <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
                         className="shrink-0 bg-zan-red hover:bg-red-600 text-white px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">
