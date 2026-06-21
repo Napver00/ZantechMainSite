@@ -295,6 +295,52 @@ const CourseDetailsPage = () => {
             </section>
 
             {/* ════════════════════════════════════════════
+                CURRICULUM
+            ════════════════════════════════════════════ */}
+            {course.curriculums?.length > 0 && (
+                <section className="py-12 sm:py-16 lg:py-20 bg-zan-dark border-t border-white/5">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-12 gap-4">
+                            <div>
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-heading uppercase tracking-wide mb-1 sm:mb-2">
+                                    Curriculum Breakdown
+                                </h2>
+                                <p className="text-gray-400 font-light text-sm">
+                                    {course.curriculums.length} module{course.curriculums.length !== 1 ? 's' : ''} — structured for progressive learning.
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-2.5 bg-surface-dark border border-white/10 rounded-sm shrink-0">
+                                <GraduationCap className="w-4 h-4 text-zan-cyan" />
+                                <span className="text-xs font-mono uppercase tracking-wider text-gray-300">Cert. Included</span>
+                            </div>
+                        </div>
+                        <div className="space-y-2 sm:space-y-3">
+                            {course.curriculums.map((mod) => (
+                                <div key={mod.id} className="group bg-surface-dark border border-white/5 rounded-sm overflow-hidden hover:border-zan-cyan/30 transition-colors">
+                                    <button className="w-full flex items-center justify-between p-4 sm:p-6 text-left gap-3" onClick={() => toggleModule(mod.id)}>
+                                        <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+                                            <span className="font-mono text-xs text-zan-cyan bg-zan-cyan/10 px-2 sm:px-3 py-1 sm:py-1.5 rounded-sm border border-zan-cyan/20 shrink-0 whitespace-nowrap">
+                                                {String(mod.module_no).padStart(2, '0')}
+                                            </span>
+                                            <h3 className="font-bold text-white font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors text-xs sm:text-sm md:text-base leading-snug">
+                                                {mod.title}
+                                            </h3>
+                                        </div>
+                                        <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transition-transform duration-300 shrink-0 ${openModules.has(mod.id) ? 'rotate-180' : ''}`} />
+                                    </button>
+                                    {openModules.has(mod.id) && mod.description && (
+                                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-white/5">
+                                            <p className="text-gray-400 font-light leading-relaxed mt-3 sm:mt-4 text-xs sm:text-sm">{mod.description}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ════════════════════════════════════════════
                 DESCRIPTION — FULL CONTENT
             ════════════════════════════════════════════ */}
             {course.description && (
@@ -443,52 +489,6 @@ const CourseDetailsPage = () => {
                     </div>
                 </div>
             </section>
-
-            {/* ════════════════════════════════════════════
-                CURRICULUM
-            ════════════════════════════════════════════ */}
-            {course.curriculums?.length > 0 && (
-                <section className="py-12 sm:py-16 lg:py-20 bg-zan-dark border-t border-white/5">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-12 gap-4">
-                            <div>
-                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-heading uppercase tracking-wide mb-1 sm:mb-2">
-                                    Curriculum Breakdown
-                                </h2>
-                                <p className="text-gray-400 font-light text-sm">
-                                    {course.curriculums.length} module{course.curriculums.length !== 1 ? 's' : ''} — structured for progressive learning.
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-2.5 bg-surface-dark border border-white/10 rounded-sm shrink-0">
-                                <GraduationCap className="w-4 h-4 text-zan-cyan" />
-                                <span className="text-xs font-mono uppercase tracking-wider text-gray-300">Cert. Included</span>
-                            </div>
-                        </div>
-                        <div className="space-y-2 sm:space-y-3">
-                            {course.curriculums.map((mod) => (
-                                <div key={mod.id} className="group bg-surface-dark border border-white/5 rounded-sm overflow-hidden hover:border-zan-cyan/30 transition-colors">
-                                    <button className="w-full flex items-center justify-between p-4 sm:p-6 text-left gap-3" onClick={() => toggleModule(mod.id)}>
-                                        <div className="flex items-center gap-3 sm:gap-5 min-w-0">
-                                            <span className="font-mono text-xs text-zan-cyan bg-zan-cyan/10 px-2 sm:px-3 py-1 sm:py-1.5 rounded-sm border border-zan-cyan/20 shrink-0 whitespace-nowrap">
-                                                {String(mod.module_no).padStart(2, '0')}
-                                            </span>
-                                            <h3 className="font-bold text-white font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors text-xs sm:text-sm md:text-base leading-snug">
-                                                {mod.title}
-                                            </h3>
-                                        </div>
-                                        <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transition-transform duration-300 shrink-0 ${openModules.has(mod.id) ? 'rotate-180' : ''}`} />
-                                    </button>
-                                    {openModules.has(mod.id) && mod.description && (
-                                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-white/5">
-                                            <p className="text-gray-400 font-light leading-relaxed mt-3 sm:mt-4 text-xs sm:text-sm">{mod.description}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* ════════════════════════════════════════════
                 MENTORS

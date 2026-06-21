@@ -12,6 +12,42 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "E:\\Project\\React\\ZantechMainSite", "run", "dev", "--", "--port", "5175"],
       "port": 5175
+    },
+    {
+      "name": "zantech-ecommerce",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "E:\\Project\\React\\Zantech-Ecommerce", "run", "dev", "--", "--port", "5174"],
+      "port": 5174
+    }
+  ,{
+      "name": "uddipon",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3456", "E:\\Project\\HTML project\\ProjectUddipon"],
+      "port": 3456
+    }
+  ,{
+      "name": "bottle-deposit-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "D:\\ZAN IT\\ZAN Tech\\Punosristi\\webiste of Punoshristi\\server\\web", "run", "dev", "--", "--port", "5180"],
+      "port": 5180
+    }
+  ,{
+      "name": "bottle-deposit-user-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "D:\\ZAN IT\\ZAN Tech\\Punosristi\\webiste of Punoshristi\\server\\user-web", "run", "dev"],
+      "port": 5181
+    }
+  ,{
+      "name": "bottle-deposit-admin",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "D:\\ZAN IT\\ZAN Tech\\Punosristi\\webiste of Punoshristi\\server\\admin", "run", "dev"],
+      "port": 5182
+    }
+  ,{
+      "name": "bootcamp-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "8124", "D:\\ZAN IT\\ZAN Tech\\Courses and boot camp\\Boot camp\\5 day boot camp\\boot camp reg website"],
+      "port": 8124
     }
   ]
 }
