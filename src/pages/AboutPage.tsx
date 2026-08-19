@@ -124,7 +124,7 @@ const AboutPage = () => {
             </section>
 
             {/* --- Philosophy & Mission --- */}
-            <section className="py-20 relative z-10">
+            <section id="mission-vision" className="py-20 relative z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div className="space-y-8">

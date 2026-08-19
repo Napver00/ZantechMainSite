@@ -12,7 +12,6 @@ export default defineConfig({
             if (id.includes('lucide-react')) return 'vendor-icons';
             if (id.includes('swiper')) return 'vendor-swiper';
             if (id.includes('react-router-dom')) return 'vendor-router';
-            if (id.includes('framer-motion')) return 'vendor-animation';
             return 'vendor';
           }
         },

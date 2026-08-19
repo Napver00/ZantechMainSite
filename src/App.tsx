@@ -15,6 +15,7 @@ import { Suspense, lazy, useEffect } from 'react';
 
 // Lazy load page components
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const TeamPage = lazy(() => import('./pages/TeamPage'));
 const CareerPage = lazy(() => import('./pages/CareerPage'));
 const CareerDetailsPage = lazy(() => import('./pages/CareerDetailsPage'));
 const CareerApplicationPage = lazy(() => import('./pages/CareerApplicationPage'));
@@ -33,6 +34,7 @@ const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
+const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -49,10 +51,13 @@ const ScrollToTop = () => {
 import Mascot from './components/Mascot';
 
 function App() {
+  const { pathname } = useLocation();
+  const isStandalonePortfolio = pathname === '/portfolio';
+
   return (
     <div className="min-h-screen transition-colors duration-300">
       <ScrollToTop />
-      <Navbar />
+      {!isStandalonePortfolio && <Navbar />}
       <Suspense fallback={
         <div className="min-h-screen bg-zan-dark flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-zan-cyan"></div>
@@ -61,6 +66,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/career" element={<CareerPage />} />
           <Route path="/career/:id" element={<CareerDetailsPage />} />
           <Route path="/career/:id/apply" element={<CareerApplicationPage />} />
@@ -79,10 +85,11 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
           <Route path="/custom-robot" element={<CustomRobotPage />} />
           <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
         </Routes>
       </Suspense>
-      <Footer />
-      <Mascot />
+      {!isStandalonePortfolio && <Footer />}
+      {!isStandalonePortfolio && <Mascot />}
     </div>
   );
 }

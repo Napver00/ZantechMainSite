@@ -91,6 +91,7 @@ const Navbar = () => {
         { href: '#about', text: 'About Us' },
         { href: '/courses', text: 'Courses' },
         { href: '#showcase', text: 'Showcase' },
+        { href: '/portfolio', text: 'Portfolio' },
         { href: '/custom-robot', text: 'Custom Robot' },
         { href: '#contact', text: 'Contact' },
     ];
@@ -148,6 +149,8 @@ const Navbar = () => {
                                                     <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-zan-cyan"></div>
 
                                                     <Link to="/about" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>About Company</Link>
+
+                                                    <Link to="/team" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>Team</Link>
 
                                                     <Link to="/impact" className={dropdownItemClasses} onClick={() => setAboutDropdownOpen(false)}>Impact</Link>
                                                 </div>
@@ -261,6 +264,8 @@ const Navbar = () => {
                             {isAboutDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-2">
                                 <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">About Company</Link>
 
+                                <Link to="/team" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Team</Link>
+
                                 <Link to="/impact" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Impact</Link>
                             </div>}
                         </div>
@@ -281,6 +286,8 @@ const Navbar = () => {
 
                             </div>}
                         </div>
+
+                        <Link to="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Portfolio</Link>
 
                         <Link to="/custom-robot" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Custom Robot</Link>
 

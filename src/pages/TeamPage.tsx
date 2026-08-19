@@ -6,14 +6,15 @@ import {
     Rocket,
     GraduationCap,
     ScrollText,
-    Briefcase
+    Briefcase,
+    User
 } from 'lucide-react';
 
 const TeamPage = () => {
     const founders = [
         {
             name: "Nakibul Islam",
-            role: "Co-Founder & Chief Executive Officer (CEO)",
+            role: "Co-Founder & Chief Everything Officer",
             image: "/assets/team/nakibul_islam.png",
             bio: "Nakibul Islam leads strategic technological development and oversees software operations. He is a Software Engineer with over 7 years of experience spanning academia and industry.",
             highlights: [
@@ -32,7 +33,7 @@ const TeamPage = () => {
         },
         {
             name: "Hana Sultan Chowdhury",
-            role: "Co-Founder & Chief Operating Officer (COO)",
+            role: "Co-Founder & Chief Technology Officer (CTO)",
             image: "/assets/team/hana_sultan_chowdhury.jpg",
             bio: "Hana Sultan Chowdhury leads company operations and drives strategic growth. He brings over 6 years of experience in Robotics, AI, and Automation, specializing in operational Excellence.",
             highlights: [
@@ -48,26 +49,14 @@ const TeamPage = () => {
                 website: "#"
             },
             accent: "zan-red"
-        },
-        {
-            name: "Ali Daud Hossain",
-            role: "Co-Founder & Chief Technology Officer (CTO)",
-            image: "/assets/team/ali_daud_hossain.jpg",
-            bio: "Ali Daud Hossain leads ZAN Tech's AI-driven innovation initiatives, specializing in AI/ML, Large Language Models (LLMs), and intelligent software systems. With an interdisciplinary background spanning advanced software development, robotics, and embodied AI research, he positions the company at the forefront of next-generation AI and automation.",
-            highlights: [
-                "AI-integrated software platforms",
-                "IoT-enabled intelligent systems",
-                "LLM-powered applications",
-                "Autonomous AI agent frameworks",
-                "Intelligent automation architectures"
-            ],
-            socials: {
-                linkedin: "#",
-                email: "ali@zantech.com.bd",
-                website: "#"
-            },
-            accent: "zan-cyan"
         }
+    ];
+
+    // Placeholder entries — swap in real names, roles, and images once provided.
+    const executiveMembers = [
+        { name: "[Executive Name]", role: "[Role Title]", image: "" },
+        { name: "[Executive Name]", role: "[Role Title]", image: "" },
+        { name: "[Executive Name]", role: "[Role Title]", image: "" },
     ];
 
     return (
@@ -139,6 +128,41 @@ const TeamPage = () => {
                                             </div>
                                         ))}
                                     </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* --- Executive Members Section --- */}
+            <section className="relative z-10 py-12">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <span className="inline-block py-1 px-3 rounded-full bg-zan-cyan/10 border border-zan-cyan/20 text-zan-cyan text-xs font-mono uppercase tracking-widest mb-6">
+                            &lt;Core_Team /&gt;
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
+                            Executive <span className="text-transparent bg-clip-text bg-gradient-to-r from-zan-cyan to-zan-red">Members</span>
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {executiveMembers.map((member, idx) => (
+                            <div key={idx} className="group">
+                                <div className="bg-surface-dark backdrop-blur-md rounded-sm p-8 border border-white/5 hover:shadow-[0_0_20px_rgba(0,240,255,0.1)] hover:border-zan-cyan/30 transition-all duration-500 transform hover:-translate-y-2 text-center">
+                                    <div className="relative mb-6 inline-block mx-auto">
+                                        <div className="w-28 h-28 rounded-full p-1 bg-gradient-to-br from-zan-cyan/50 to-zan-neon/50 group-hover:from-zan-cyan group-hover:to-zan-neon transition-all duration-500">
+                                            <div className="w-full h-full rounded-full bg-black/40 border-4 border-black flex items-center justify-center overflow-hidden">
+                                                {member.image ? (
+                                                    <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-transform duration-500" />
+                                                ) : (
+                                                    <User className="w-10 h-10 text-gray-500" />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-1 font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors">{member.name}</h3>
+                                    <p className="text-zan-neon font-mono text-xs uppercase tracking-widest">{member.role}</p>
                                 </div>
                             </div>
                         ))}
