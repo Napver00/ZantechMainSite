@@ -21,7 +21,7 @@ const TeamPage = () => {
                 "Former Senior Software Engineer at Jayga",
                 "3 years as Software Instructor at Instructory",
                 "Research Associate at Independent University Bangladesh (IUB)",
-                "Authored 4 peer-reviewed research publications",
+                "Authored 5 research publications and journals (Q1 indexed)",
                 "Expert in software architecture and product strategy"
             ],
             socials: {
