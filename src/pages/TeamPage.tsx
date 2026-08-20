@@ -207,7 +207,7 @@ const TeamPage = () => {
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
                             <a href="/career" className="bg-zan-red text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Join the Team</a>
-                            <a href="/contact" className="border border-white/20 text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition-all">Get in Touch</a>
+                            {/* <a href="/contact" className="border border-white/20 text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition-all">Get in Touch</a> */}
                         </div>
                     </div>
                 </div>
