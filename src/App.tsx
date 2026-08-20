@@ -35,6 +35,7 @@ const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
+const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 
 // Scroll to top when changing routes
 const ScrollToTop = () => {
@@ -86,6 +87,7 @@ function App() {
           <Route path="/custom-robot" element={<CustomRobotPage />} />
           <Route path="/connect" element={<ConnectPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/achievements" element={<AchievementsPage />} />
         </Routes>
       </Suspense>
       {!isStandalonePortfolio && <Footer />}

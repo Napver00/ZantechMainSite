@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowRight, Calendar, Code, Trophy, Mail, Phone, MapPin } from 'lucide-react';
+import { Home, ArrowRight, Calendar, Code, Mail, Phone, MapPin } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { API_BASE_URL } from '../config';
 import CoursesSection from '../components/CoursesSection';
 import WorkshopsSection from '../components/WorkshopsSection';
 import Partners from '../components/Partners';
+import AchievementCard from '../components/AchievementCard';
+import { achievements } from '../data/achievements';
 
 const sliderBreakpoints = {
     640: { slidesPerView: 1, spaceBetween: 20 },
@@ -97,19 +99,6 @@ const PortfolioPage = () => {
             title: 'What We Do',
             body: 'We foster tech education through free robotics, programming, and AI/ML workshops nationwide; empower women with accessible robotics and electronics tools; and accelerate innovation through custom R&D — designing, prototyping, and building real products.',
             link: { to: '/#services', label: 'See Our Services' },
-        },
-    ];
-
-    const achievements = [
-        {
-            image: '/wro-Quantum-Physics.jpg',
-            team: 'Team Quantum Physics',
-            description: 'Won Gold Medal in the Future Innovators category (Elementary Section) at the World Robot Olympiad (WRO) Bangladesh 2026 National Round.',
-        },
-        {
-            image: '/wro-Cybernetic-Apex.jpg',
-            team: 'Team Cybernetic Apex',
-            description: 'Won Gold Medal in the Future Innovators category (Junior Section) at the World Robot Olympiad (WRO) Bangladesh 2026 National Round.',
         },
     ];
 
@@ -204,30 +193,37 @@ const PortfolioPage = () => {
                     <h2 className="text-2xl md:text-3xl font-bold mb-8 font-heading uppercase tracking-wide text-white text-center">
                         Achievements
                     </h2>
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {achievements.map((item) => (
-                            <div
-                                key={item.team}
-                                className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 overflow-hidden hover:border-zan-cyan/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300"
-                            >
-                                <img src={item.image} alt={item.team} className="w-full h-56 object-cover object-top" loading="lazy" />
-                                <div className="p-6">
-                                    <div className="inline-flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-widest text-zan-cyan bg-zan-cyan/10 border border-zan-cyan/30 px-3 py-1 rounded-sm">
-                                        <Trophy className="w-4 h-4" />
-                                        Gold Medal
-                                    </div>
-                                    <h3 className="text-xl font-bold text-white mb-2 font-heading uppercase tracking-wide">{item.team}</h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed font-light">{item.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    {achievements.length > 3 ? (
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={30}
+                            loop={true}
+                            pagination={{ clickable: true, dynamicBullets: true }}
+                            navigation={true}
+                            autoplay={{ delay: 4200, disableOnInteraction: false }}
+                            modules={[Pagination, Navigation, Autoplay]}
+                            breakpoints={sliderBreakpoints}
+                            className="!pb-16"
+                        >
+                            {achievements.map((item) => (
+                                <SwiperSlide key={item.team} className="h-auto">
+                                    <AchievementCard item={item} />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {achievements.map((item) => (
+                                <AchievementCard key={item.team} item={item} />
+                            ))}
+                        </div>
+                    )}
                     <div className="mt-10 flex justify-center">
                         <Link
-                            to="/impact"
+                            to="/achievements"
                             className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-zan-cyan hover:text-white transition-colors group"
                         >
-                            See Our Impact
+                            See More Achievements
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
