@@ -66,4 +66,10 @@ export const achievements: Achievement[] = [
         badge: '11th Globally',
         description: 'Team IUB FabSat scored 92.49% in the Preliminary Design Review and ranked 11th globally at the AAS Student CanSat Competition in Virginia, USA, supported by IUB\'s CSE Department and FabLab IUB. Members of this team are now part of ZAN Tech.',
     },
+    {
+        image: 'https://raw.githubusercontent.com/ZAN-Tech-bd/workshop-Image/refs/heads/main/Achievements/TECHNOXIAN%20WORLD%20CUP%202024.jpg',
+        team: 'Team FABBERS Spark',
+        badge: 'Top 6',
+        description: 'Jotirmoy Mollick, a member of ZAN Tech, and his team IUB FABBERS SPARK reached the top 6 and qualified for the final round of "Robo Hockey" at TECHNOXIAN WORLD CUP 2024 in New Delhi, India.',
+    },
 ];
