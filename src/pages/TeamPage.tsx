@@ -54,9 +54,9 @@ const TeamPage = () => {
 
     // Placeholder entries — swap in real names, roles, and images once provided.
     const executiveMembers = [
-        { name: "[Executive Name]", role: "[Role Title]", image: "" },
-        { name: "[Executive Name]", role: "[Role Title]", image: "" },
-        { name: "[Executive Name]", role: "[Role Title]", image: "" },
+        { name: "Tahfizul Hasan Zihan", role: "Head of Robotics & Innovation", image: "/assets/team/zihan.jpeg" },
+        { name: "Mukut Protim Memo", role: "R&D Prototyping Engineer", image: "/assets/team/mukut_protim_memo.jpg" },
+        { name: "Sakibul Hasan Dipto", role: "Drone Technology & R&D Engineer", image: "/assets/team/sakibul_hasan_dipto.png" },
     ];
 
     return (
@@ -148,21 +148,35 @@ const TeamPage = () => {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {executiveMembers.map((member, idx) => (
-                            <div key={idx} className="group">
-                                <div className="bg-surface-dark backdrop-blur-md rounded-sm p-8 border border-white/5 hover:shadow-[0_0_20px_rgba(0,240,255,0.1)] hover:border-zan-cyan/30 transition-all duration-500 transform hover:-translate-y-2 text-center">
-                                    <div className="relative mb-6 inline-block mx-auto">
-                                        <div className="w-28 h-28 rounded-full p-1 bg-gradient-to-br from-zan-cyan/50 to-zan-neon/50 group-hover:from-zan-cyan group-hover:to-zan-neon transition-all duration-500">
-                                            <div className="w-full h-full rounded-full bg-black/40 border-4 border-black flex items-center justify-center overflow-hidden">
-                                                {member.image ? (
-                                                    <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-transform duration-500" />
-                                                ) : (
-                                                    <User className="w-10 h-10 text-gray-500" />
-                                                )}
-                                            </div>
+                            <div key={idx} className="group relative rounded-sm overflow-hidden border border-white/10 hover:border-zan-cyan/40 shadow-xl hover:shadow-[0_20px_50px_-15px_rgba(0,240,255,0.25)] transition-all duration-500">
+                                {/* Photo */}
+                                <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-dark">
+                                    {member.image ? (
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <User className="w-16 h-16 text-gray-600" />
                                         </div>
+                                    )}
+                                    {/* Bottom gradient for text legibility */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+
+                                    {/* Top accent line */}
+                                    <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-zan-cyan to-zan-red scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+
+                                    {/* Name & role, sitting on the photo */}
+                                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                                        <h3 className="text-xl font-bold text-white font-heading uppercase tracking-wide leading-tight group-hover:text-zan-cyan transition-colors duration-300">
+                                            {member.name}
+                                        </h3>
+                                        <p className="text-zan-cyan/90 font-mono text-xs uppercase tracking-widest mt-2 leading-relaxed">
+                                            {member.role}
+                                        </p>
                                     </div>
-                                    <h3 className="text-lg font-bold text-white mb-1 font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors">{member.name}</h3>
-                                    <p className="text-zan-neon font-mono text-xs uppercase tracking-widest">{member.role}</p>
                                 </div>
                             </div>
                         ))}
