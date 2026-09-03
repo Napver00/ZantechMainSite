@@ -57,6 +57,8 @@ const TeamPage = () => {
         { name: "Tahfizul Hasan Zihan", role: "Head of Robotics & Innovation", image: "/assets/team/zihan.jpeg" },
         { name: "Mukut Protim Memo", role: "R&D Prototyping Engineer", image: "/assets/team/mukut_protim_memo.jpg" },
         { name: "Sakibul Hasan Dipto", role: "Drone Technology & R&D Engineer", image: "/assets/team/sakibul_hasan_dipto.png" },
+        { name: "Mahfuj Rohoman", role: "CAD & Digital Fabrication Engineer", image: "/assets/team/mahfuj_rohoman.jpg" },
+        { name: "Jotirmoy Mollick", role: "Robotics Systems & R&D Engineer", image: "/assets/team/jotirmoy_mollick.jpg" },
     ];
 
     return (
