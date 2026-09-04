@@ -59,6 +59,7 @@ const TeamPage = () => {
         { name: "Sakibul Hasan Dipto", role: "Drone Technology & R&D Engineer", image: "/assets/team/sakibul_hasan_dipto.png" },
         { name: "Mahfuj Rohoman", role: "CAD & Digital Fabrication Engineer", image: "/assets/team/mahfuj_rohoman.jpg" },
         { name: "Jotirmoy Mollick", role: "Robotics Systems & R&D Engineer", image: "/assets/team/jotirmoy_mollick.jpg" },
+        { name: "Mahmudul Hasan", role: "Software & Embedded Systems Engineer", image: "/assets/team/mahmudul_hasan.jpg" },
     ];
 
     return (
