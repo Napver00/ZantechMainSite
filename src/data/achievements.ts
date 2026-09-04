@@ -72,4 +72,10 @@ export const achievements: Achievement[] = [
         badge: 'Top 6',
         description: 'Jotirmoy Mollick, a member of ZAN Tech, and his team IUB FABBERS SPARK reached the top 6 and qualified for the final round of "Robo Hockey" at TECHNOXIAN WORLD CUP 2024 in New Delhi, India.',
     },
+    {
+        image: 'https://raw.githubusercontent.com/ZAN-Tech-bd/workshop-Image/refs/heads/main/Fibonacci%20Robotics%20Olympiad/mlRFo.jpg',
+        team: 'Md. Khalif & Md. Khafid Hossain Talukder',
+        badge: 'Silver Medal',
+        description: 'Md. Khalif Hossain Talukder and Md. Khafid Hossain Talukder won the Silver Medal at the Fibonacci Robotics Olympiad.',
+    },
 ];
