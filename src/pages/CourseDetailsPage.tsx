@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
 import {
     ArrowLeft, ArrowRight, ChevronDown,
     Calendar, Award, Tag,
@@ -23,6 +24,7 @@ interface CourseDetail {
     payment_type: 'one_time' | 'monthly';
     admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
     reg_link: string; serial_number: number; status: string; is_active: boolean;
+    isPost?: boolean; // loaded from the old posts API (free tutorial) — keeps its external reg_link
     meta_title: string; meta_description: string;
     age_group?: string | null; level?: string | null; session_duration?: string | null;
     total_activities?: string | null; total_quizzes?: number | null;
@@ -49,6 +51,15 @@ const processHtml = (html: string): string => {
         )
         .replace(/<\/iframe>/gi, '</iframe></div>');
 };
+
+/* ─── Enroll button target ───────────────────────────────── */
+// Courses register on our own form; old tutorial posts keep their external link.
+const EnrollLink = ({ course, className, children }: { course: CourseDetail; className: string; children: ReactNode }) =>
+    course.isPost ? (
+        <a href={course.reg_link} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>
+    ) : (
+        <Link to={`/course/${course.slug}/register`} className={className}>{children}</Link>
+    );
 
 /* ─── Component ──────────────────────────────────────────── */
 const CourseDetailsPage = () => {
@@ -93,7 +104,7 @@ const CourseDetailsPage = () => {
                         status: p.status || 'published', is_active: true,
                         meta_title: p.meta_title || '', meta_description: p.meta_description || '',
                         created_at: p.created_at, updated_at: p.updated_at,
-                        curriculums: [], schedules: [],
+                        curriculums: [], schedules: [], isPost: true,
                         mentors: (p.teachers || []).map((t: any) => ({
                             id: t.id, name: t.ambassador?.name || '',
                             image: t.ambassador?.image || '',
@@ -134,6 +145,7 @@ const CourseDetailsPage = () => {
 
     const isMonthly    = course.payment_type === 'monthly';
     const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
+    const canEnroll    = course.isPost ? !!course.reg_link : course.status === 'published' && course.is_active;
     const hasDiscount  = !isMonthly && course.discount_price != null && course.price != null && course.discount_price < course.price;
 
     /* "7 Modules · 44 Lessons · 100+ Activities · 44 Quizzes" */
@@ -254,11 +266,11 @@ const CourseDetailsPage = () => {
                                         <span className="text-2xl font-bold text-zan-cyan font-heading">Free</span>
                                     </div>
                                 )}
-                                {course.reg_link ? (
-                                    <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
+                                {canEnroll ? (
+                                    <EnrollLink course={course}
                                         className="px-7 sm:px-10 py-3 sm:py-4 bg-zan-red hover:bg-red-600 text-white font-bold rounded-sm transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider flex items-center gap-2 sm:gap-3 text-sm">
                                         Enroll Now <ArrowRight className="w-4 h-4" />
-                                    </a>
+                                    </EnrollLink>
                                 ) : (
                                     <button disabled className="px-7 sm:px-10 py-3 sm:py-4 bg-gray-700 text-gray-400 font-bold rounded-sm cursor-not-allowed font-heading uppercase tracking-wider text-sm">
                                         Registration Closed
@@ -460,11 +472,11 @@ const CourseDetailsPage = () => {
                                 ) : (
                                     <div className="mb-4 text-2xl font-bold text-zan-cyan font-heading">Free</div>
                                 )}
-                                {course.reg_link ? (
-                                    <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
+                                {canEnroll ? (
+                                    <EnrollLink course={course}
                                         className="w-full px-6 py-3 bg-zan-red hover:bg-red-600 text-white font-bold rounded-sm transition-all font-heading uppercase tracking-wider flex items-center justify-center gap-2 text-sm">
                                         Enroll Now <ArrowRight className="w-4 h-4" />
-                                    </a>
+                                    </EnrollLink>
                                 ) : (
                                     <button disabled className="w-full px-6 py-3 bg-gray-700 text-gray-400 font-bold rounded-sm cursor-not-allowed font-heading uppercase tracking-wider text-sm">
                                         Registration Closed
@@ -802,11 +814,11 @@ const CourseDetailsPage = () => {
                             {course.short_description || 'Limited seats available. Secure your spot now.'}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center relative z-10">
-                            {course.reg_link && (
-                                <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
+                            {canEnroll && (
+                                <EnrollLink course={course}
                                     className="px-8 sm:px-12 py-4 sm:py-5 bg-white text-zan-dark font-bold rounded-sm hover:bg-zan-cyan transition-colors shadow-xl font-heading uppercase tracking-wider text-sm sm:text-base">
                                     {displayPrice != null ? `Enroll · ৳${displayPrice}${isMonthly ? '/mo' : ''}` : 'Enroll Now'}
-                                </a>
+                                </EnrollLink>
                             )}
                             <button onClick={() => navigate('/courses')}
                                 className="px-8 sm:px-12 py-4 sm:py-5 border-2 border-white/20 hover:border-white/50 text-white font-bold rounded-sm transition-all font-heading uppercase tracking-wider text-sm sm:text-base">
@@ -820,16 +832,16 @@ const CourseDetailsPage = () => {
             {/* ════════════════════════════════════════════
                 MOBILE STICKY BAR
             ════════════════════════════════════════════ */}
-            {course.reg_link && (
+            {canEnroll && (
                 <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)]">
                     <div className="min-w-0">
                         <p className="text-white font-bold text-sm font-heading tracking-wide uppercase truncate">Ready to start?</p>
                         {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{displayPrice}{isMonthly && '/mo'}</p>}
                     </div>
-                    <a href={course.reg_link} target="_blank" rel="noopener noreferrer"
+                    <EnrollLink course={course}
                         className="shrink-0 bg-zan-red hover:bg-red-600 text-white px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">
                         Enroll Now
-                    </a>
+                    </EnrollLink>
                 </div>
             )}
 

@@ -30,6 +30,7 @@ const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage
 const CustomRobotPage = lazy(() => import('./pages/CustomRobotPage'));
 const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
+const CourseRegistrationPage = lazy(() => import('./pages/CourseRegistrationPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
@@ -79,6 +80,7 @@ function App() {
           <Route path="/workshop/:slug" element={<WorkshopDetailsPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/course/:slug" element={<CourseDetailsPage />} />
+          <Route path="/course/:slug/register" element={<CourseRegistrationPage />} />
           <Route path="/tutorials" element={<TutorialsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
