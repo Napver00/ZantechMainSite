@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Briefcase, Users, Banknote, CalendarClock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { API_BASE_URL } from '../config';

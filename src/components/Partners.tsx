@@ -1,4 +1,3 @@
-import React from 'react';
 
 // NOTE: Replace these with your actual partner logos and alt text
 const partners = [

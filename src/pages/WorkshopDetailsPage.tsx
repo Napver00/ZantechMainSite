@@ -57,6 +57,9 @@ const WorkshopDetailsPage = () => {
     const titleFirst = titleWords.slice(0, splitAt).join(' ');
     const titleSecond = titleWords.slice(splitAt).join(' ');
 
+    // Plain-text fallback for the hero description
+    const plainText = cleanContent.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
     /* Loading */
     if (loading) {
         return (
@@ -122,9 +125,9 @@ const WorkshopDetailsPage = () => {
                         </h1>
 
                         {/* Description */}
-                        {(workshop.meta_description || contentBlocks[0]?.text) && (
+                        {(workshop.meta_description || plainText) && (
                             <p className="text-gray-400 text-lg leading-relaxed max-w-xl border-l-2 border-zan-red pl-4">
-                                {workshop.meta_description || contentBlocks[0]?.text?.slice(0, 220)}
+                                {workshop.meta_description || plainText.slice(0, 220)}
                             </p>
                         )}
 

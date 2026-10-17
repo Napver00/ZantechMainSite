@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import mascotImg from '../assets/mascot.png';
-import { X, MessageCircle } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const Mascot = () => {
     const [isVisible, setIsVisible] = useState(false);
