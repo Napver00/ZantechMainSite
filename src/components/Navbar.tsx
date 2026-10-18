@@ -92,7 +92,7 @@ const Navbar = () => {
         { href: '/courses', text: 'Courses' },
         { href: '#showcase', text: 'Showcase' },
         { href: '/portfolio', text: 'Portfolio' },
-        { href: '/custom-robot', text: 'Custom Robot' },
+        { href: '/bootcamps', text: 'Bootcamps' },
         { href: '#contact', text: 'Contact' },
     ];
 
@@ -291,7 +291,7 @@ const Navbar = () => {
 
                         <Link to="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Portfolio</Link>
 
-                        <Link to="/custom-robot" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Custom Robot</Link>
+                        <Link to="/bootcamps" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Bootcamps</Link>
 
                         <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Contact</a>
                     </div>

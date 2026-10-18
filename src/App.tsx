@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
@@ -27,7 +27,8 @@ const WorkshopPage = lazy(() => import('./pages/WorkshopPage'));
 const WorkshopDetailsPage = lazy(() => import('./pages/WorkshopDetailsPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage'));
-const CustomRobotPage = lazy(() => import('./pages/CustomRobotPage'));
+const BootcampsPage = lazy(() => import('./pages/BootcampsPage'));
+const BootcampDetailsPage = lazy(() => import('./pages/BootcampDetailsPage'));
 const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const CourseRegistrationPage = lazy(() => import('./pages/CourseRegistrationPage'));
@@ -84,7 +85,10 @@ function App() {
           <Route path="/tutorials" element={<TutorialsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-          <Route path="/custom-robot" element={<CustomRobotPage />} />
+          <Route path="/bootcamps" element={<BootcampsPage />} />
+          <Route path="/bootcamp/:slug" element={<BootcampDetailsPage />} />
+          <Route path="/bootcamp/:slug/register" element={<CourseRegistrationPage />} />
+          <Route path="/custom-robot" element={<Navigate to="/bootcamps" replace />} />
           <Route path="/connect" element={<ConnectPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/achievements" element={<AchievementsPage />} />

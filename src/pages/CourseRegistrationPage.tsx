@@ -5,6 +5,7 @@ import {
     CalendarClock, Wallet, Landmark, Smartphone, AlertCircle, Loader2,
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import { bootcampStatus, fmtRange, seatsLeft } from '../utils/bootcamp';
 
 /* ─── Interfaces ─────────────────────────────────────────── */
 interface Course {
@@ -15,6 +16,8 @@ interface Course {
     admission_fee_label?: string | null;
     age_group?: string | null; session_duration?: string | null;
     class_slots?: string[]; status: string; is_active: boolean;
+    kind?: 'course' | 'bootcamp'; start_date?: string | null; end_date?: string | null;
+    registration_deadline?: string | null; venue?: string | null; seats?: number | null; seats_taken?: number;
 }
 interface PaymentMethod {
     id: number; type: 'bkash' | 'nagad' | 'rocket' | 'bank' | 'other'; title: string;
@@ -247,7 +250,15 @@ const CourseRegistrationPage = () => {
         </div>
     );
 
-    const closed = course.status !== 'published' || !course.is_active;
+    const isBootcamp = course.kind === 'bootcamp';
+    const backTo = isBootcamp ? `/bootcamp/${course.slug}` : `/course/${course.slug}`;
+    const timing = bootcampStatus({ start_date: course.start_date ?? null, end_date: course.end_date ?? null,
+        registration_deadline: course.registration_deadline ?? null, seats: course.seats ?? null, seats_taken: course.seats_taken ?? 0 });
+    const closed = course.status !== 'published' || !course.is_active || ['ended', 'closed', 'soldout'].includes(timing);
+    const closedMessage = timing === 'soldout' ? 'Sorry — all seats are booked.'
+        : timing === 'ended' ? `This ${isBootcamp ? 'bootcamp' : 'course'} has already finished.`
+        : `Registration for this ${isBootcamp ? 'bootcamp' : 'course'} is currently closed.`;
+    const left = seatsLeft({ seats: course.seats ?? null, seats_taken: course.seats_taken ?? 0 });
 
     if (success) return (
         <div className="min-h-screen bg-zan-dark pt-28 pb-16 px-4">
@@ -263,8 +274,8 @@ const CourseRegistrationPage = () => {
                     <p className="text-2xl font-bold text-zan-cyan font-mono tracking-wider">{success.reference}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Link to={`/course/${course.slug}`} className="px-6 py-3 border border-white/20 hover:border-white/50 text-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
-                        Back to Course
+                    <Link to={backTo} className="px-6 py-3 border border-white/20 hover:border-white/50 text-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
+                        Back to {isBootcamp ? 'Bootcamp' : 'Course'}
                     </Link>
                     <Link to="/courses" className="px-6 py-3 bg-zan-cyan text-black hover:bg-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
                         Browse Courses
@@ -278,9 +289,9 @@ const CourseRegistrationPage = () => {
         <div className="min-h-screen bg-zan-dark font-sans pt-24 sm:pt-28 pb-16">
             <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <Link to={`/course/${course.slug}`}
+                <Link to={backTo}
                     className="inline-flex items-center mb-6 text-zan-cyan bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-sm border border-white/10 font-mono text-xs uppercase tracking-widest">
-                    <ArrowLeft className="w-3 h-3 mr-2" /> Back to Course
+                    <ArrowLeft className="w-3 h-3 mr-2" /> Back to {isBootcamp ? 'Bootcamp' : 'Course'}
                 </Link>
 
                 <div className="mb-8 sm:mb-10">
@@ -295,7 +306,7 @@ const CourseRegistrationPage = () => {
 
                 {closed ? (
                     <div className="bg-surface-dark border border-white/10 rounded-xl p-8 text-center text-gray-300">
-                        Registration for this course is currently closed.
+                        {closedMessage}
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
@@ -436,12 +447,15 @@ const CourseRegistrationPage = () => {
                                         </>
                                     ) : (
                                         realPrice != null && (
-                                            <div className="flex justify-between gap-3"><dt className="text-gray-400">Course fee</dt><dd className="text-white font-semibold">৳{fmt(realPrice)}</dd></div>
+                                            <div className="flex justify-between gap-3"><dt className="text-gray-400">{isBootcamp ? 'Bootcamp fee' : 'Course fee'}</dt><dd className="text-white font-semibold">৳{fmt(realPrice)}</dd></div>
                                         )
                                     )}
                                     {kitFee > 0 && <div className="flex justify-between gap-3"><dt className="text-gray-400">{kitLabel} <span className="text-gray-600">(one-time)</span></dt><dd className="text-white font-semibold">৳{fmt(kitFee)}</dd></div>}
                                     {course.age_group && <div className="flex justify-between gap-3"><dt className="text-gray-400">Age group</dt><dd className="text-white">{course.age_group}</dd></div>}
                                     {course.session_duration && <div className="flex justify-between gap-3"><dt className="text-gray-400">Class</dt><dd className="text-white text-right">{course.session_duration}</dd></div>}
+                                    {isBootcamp && course.start_date && <div className="flex justify-between gap-3"><dt className="text-gray-400">Dates</dt><dd className="text-white text-right">{fmtRange(course.start_date, course.end_date ?? null)}</dd></div>}
+                                    {isBootcamp && course.venue && <div className="flex justify-between gap-3"><dt className="text-gray-400">Venue</dt><dd className="text-white text-right">{course.venue}</dd></div>}
+                                    {left !== null && <div className="flex justify-between gap-3"><dt className="text-gray-400">Seats left</dt><dd className={left <= 5 ? 'text-orange-400 font-semibold' : 'text-white'}>{left}</dd></div>}
                                 </dl>
                                 {payNow != null && (
                                     <div className="mt-5 pt-4 border-t border-white/5 flex items-baseline justify-between gap-3">
@@ -451,7 +465,7 @@ const CourseRegistrationPage = () => {
                                 )}
                                 {payNow != null && (isMonthly || kitFee > 0) && (
                                     <p className="text-xs text-gray-500 mt-1">
-                                        {isMonthly ? 'First month' : 'Course fee'}{kitFee > 0 ? ` + ${kitLabel.toLowerCase()}` : ''}.
+                                        {isMonthly ? 'First month' : isBootcamp ? 'Bootcamp fee' : 'Course fee'}{kitFee > 0 ? ` + ${kitLabel.toLowerCase()}` : ''}.
                                         {isMonthly ? ' Later months are paid at the start of each month.' : ''}
                                     </p>
                                 )}

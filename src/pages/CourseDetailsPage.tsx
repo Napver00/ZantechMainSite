@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, Navigate } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import {
     ArrowLeft, ArrowRight, ChevronDown,
@@ -25,6 +25,7 @@ interface CourseDetail {
     admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
     admission_fee_label?: string | null;
     reg_link: string; serial_number: number; status: string; is_active: boolean;
+    kind?: 'course' | 'bootcamp';
     isPost?: boolean; // loaded from the old posts API (free tutorial) — keeps its external reg_link
     meta_title: string; meta_description: string;
     age_group?: string | null; level?: string | null; session_duration?: string | null;
@@ -133,6 +134,8 @@ const CourseDetailsPage = () => {
             <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-zan-cyan"></div>
         </div>
     );
+    if (course?.kind === 'bootcamp') return <Navigate to={`/bootcamp/${course.slug}`} replace />;
+
     if (error || !course) return (
         <div className="min-h-screen bg-zan-dark flex flex-col items-center justify-center p-6 text-center">
             <div className="text-zan-red text-5xl mb-4 animate-pulse">!</div>
@@ -647,8 +650,8 @@ const CourseDetailsPage = () => {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                             {course.projects!.map((project, i) => (
-                                <div key={i} className="p-5 sm:p-6 bg-zan-dark border border-white/5 rounded-sm hover:border-workshop-orange/40 transition-colors">
-                                    <div className="text-workshop-orange mb-3 sm:mb-4"><Rocket className="w-6 h-6 sm:w-7 sm:h-7" /></div>
+                                <div key={i} className="p-5 sm:p-6 bg-zan-dark border border-white/5 rounded-sm hover:border-orange-400/40 transition-colors">
+                                    <div className="text-orange-400 mb-3 sm:mb-4"><Rocket className="w-6 h-6 sm:w-7 sm:h-7" /></div>
                                     <h3 className="text-white font-bold font-heading uppercase tracking-wide text-sm sm:text-base mb-2">{project.title}</h3>
                                     {project.description && (
                                         <p className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed">{project.description}</p>
@@ -680,7 +683,7 @@ const CourseDetailsPage = () => {
                                 if (type.includes('online') || type.includes('live')) {
                                     icon = <Monitor className="w-6 h-6 sm:w-7 sm:h-7" />; label = 'Online Live Class'; desc = 'Real-time interactive sessions with industry experts.';
                                 } else if (type.includes('record')) {
-                                    icon = <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7" />; label = 'Recorded Class'; desc = 'Learn at your own pace with pre-recorded sessions.'; color = 'text-workshop-orange';
+                                    icon = <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7" />; label = 'Recorded Class'; desc = 'Learn at your own pace with pre-recorded sessions.'; color = 'text-orange-400';
                                 } else if (type.includes('offline') || type.includes('in-person')) {
                                     icon = <MapPin className="w-6 h-6 sm:w-7 sm:h-7" />; label = 'Offline / In-Person'; desc = 'Hands-on learning at our physical lab facility.';
                                 } else if (type.includes('hybrid')) {
@@ -707,7 +710,7 @@ const CourseDetailsPage = () => {
 
                         {/* Card 2 — Hands-on Projects */}
                         <div className="p-4 sm:p-6 bg-zan-dark border border-white/5 rounded-sm hover:bg-white/3 transition-all">
-                            <div className="text-workshop-orange mb-3 sm:mb-4"><BookOpen className="w-6 h-6 sm:w-7 sm:h-7" /></div>
+                            <div className="text-orange-400 mb-3 sm:mb-4"><BookOpen className="w-6 h-6 sm:w-7 sm:h-7" /></div>
                             <h4 className="text-white font-bold font-heading uppercase tracking-wide text-xs sm:text-sm mb-1.5 sm:mb-2">Hands-on Projects</h4>
                             <p className="text-gray-500 text-xs font-light leading-relaxed hidden sm:block">Hardware kits and simulation software.</p>
                         </div>
@@ -721,7 +724,7 @@ const CourseDetailsPage = () => {
 
                         {/* Card 4 — 1:1 Mentorship */}
                         <div className="p-4 sm:p-6 bg-zan-dark border border-white/5 rounded-sm hover:bg-white/3 transition-all">
-                            <div className="text-workshop-orange mb-3 sm:mb-4"><Users className="w-6 h-6 sm:w-7 sm:h-7" /></div>
+                            <div className="text-orange-400 mb-3 sm:mb-4"><Users className="w-6 h-6 sm:w-7 sm:h-7" /></div>
                             <h4 className="text-white font-bold font-heading uppercase tracking-wide text-xs sm:text-sm mb-1.5 sm:mb-2">1:1 Mentorship</h4>
                             <p className="text-gray-500 text-xs font-light leading-relaxed hidden sm:block">Direct mentor access for code review.</p>
                         </div>
