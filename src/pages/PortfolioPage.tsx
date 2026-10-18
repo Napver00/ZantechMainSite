@@ -98,7 +98,7 @@ const PortfolioPage = () => {
             id: 'services',
             title: 'What We Do',
             body: 'We foster tech education through free robotics, programming, and AI/ML workshops nationwide; empower women with accessible robotics and electronics tools; and accelerate innovation through custom R&D — designing, prototyping, and building real products.',
-            link: { to: '/#services', label: 'See Our Services' },
+            link: { to: '/#courses', label: 'Explore Our Courses' },
         },
     ];
 

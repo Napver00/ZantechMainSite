@@ -2,13 +2,14 @@ import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
-import Services from './components/Services';
 import About from './components/About';
 import Contact from './components/Contact';
 import Testimonials from './components/Testimonials';
 import Partners from './components/Partners';
 import WorkshopsSection from './components/WorkshopsSection';
 import CoursesSection from './components/CoursesSection';
+import BootcampsSection from './components/BootcampsSection';
+import AchievementsSection from './components/AchievementsSection';
 import { Suspense, lazy, useEffect } from 'react';
 
 // Lazy load page components
@@ -104,8 +105,9 @@ const HomePage = () => (
   <>
     <Hero />
     <About />
-    <Services />
     <CoursesSection />
+    <BootcampsSection />
+    <AchievementsSection />
     <WorkshopsSection />
     <Testimonials />
     <Partners />
