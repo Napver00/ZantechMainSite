@@ -23,6 +23,7 @@ interface CourseDetail {
     description: string; price: number | null; discount_price: number | null;
     payment_type: 'one_time' | 'monthly';
     admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
+    admission_fee_label?: string | null;
     reg_link: string; serial_number: number; status: string; is_active: boolean;
     isPost?: boolean; // loaded from the old posts API (free tutorial) — keeps its external reg_link
     meta_title: string; meta_description: string;
@@ -144,9 +145,16 @@ const CourseDetailsPage = () => {
     );
 
     const isMonthly    = course.payment_type === 'monthly';
-    const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
+    // Price = crossed-out display price; Discount Price = what students really pay.
+    // Monthly fee = discount price ÷ months. Admission/kit fee is a separate one-time extra.
+    const realPrice    = course.discount_price ?? course.price;
+    const displayPrice = isMonthly ? course.monthly_fee : realPrice;
+    const fmt          = (n: number | string | null | undefined) => Number(n ?? 0).toLocaleString('en-BD', { maximumFractionDigits: 2 });
+    const hasKitFee    = Number(course.admission_fee) > 0;
+    const kitLabel     = course.admission_fee_label || 'Admission fee';
     const canEnroll    = course.isPost ? !!course.reg_link : course.status === 'published' && course.is_active;
-    const hasDiscount  = !isMonthly && course.discount_price != null && course.price != null && course.discount_price < course.price;
+    const hasDiscount  = course.discount_price != null && course.price != null && Number(course.discount_price) < Number(course.price);
+    const savePercent  = hasDiscount ? Math.round((1 - Number(course.discount_price) / Number(course.price)) * 100) : 0;
 
     /* "7 Modules · 44 Lessons · 100+ Activities · 44 Quizzes" */
     const moduleCount = course.curriculums?.length ?? 0;
@@ -243,21 +251,25 @@ const CourseDetailsPage = () => {
                             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
                                 {displayPrice != null ? (
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-1">
+                                        <span className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-1 flex items-center gap-2">
                                             {isMonthly ? 'Monthly Fee' : 'Course Price'}
+                                            {savePercent > 0 && <span className="px-1.5 py-0.5 rounded-sm bg-zan-red text-white text-[10px] tracking-wider">Save {savePercent}%</span>}
                                         </span>
                                         <div className="flex items-baseline gap-2 sm:gap-3">
                                             <span className="text-2xl sm:text-3xl font-bold text-white font-heading">
-                                                ৳{displayPrice}{isMonthly && <span className="text-sm sm:text-base text-gray-400">/mo</span>}
+                                                ৳{fmt(displayPrice)}{isMonthly && <span className="text-sm sm:text-base text-gray-400">/mo</span>}
                                             </span>
-                                            {hasDiscount && <span className="text-base text-gray-500 line-through">৳{course.price}</span>}
+                                            {!isMonthly && hasDiscount && <span className="text-base text-gray-500 line-through">৳{fmt(course.price)}</span>}
                                         </div>
-                                        {isMonthly && (course.admission_fee != null || course.duration_months != null) && (
-                                            <span className="text-xs text-gray-500 font-light mt-1">
-                                                {course.admission_fee != null && `৳${course.admission_fee} admission fee`}
-                                                {course.admission_fee != null && course.duration_months != null && ' · '}
-                                                {course.duration_months != null && `${course.duration_months} month${course.duration_months !== 1 ? 's' : ''} duration`}
+                                        {isMonthly && realPrice != null && (
+                                            <span className="text-xs text-gray-400 font-light mt-1">
+                                                {course.duration_months != null && `${course.duration_months} month${course.duration_months !== 1 ? 's' : ''} · `}
+                                                Total ৳{fmt(realPrice)}
+                                                {hasDiscount && <span className="line-through text-gray-500 ml-1.5">৳{fmt(course.price)}</span>}
                                             </span>
+                                        )}
+                                        {hasKitFee && (
+                                            <span className="text-xs text-gray-400 font-light mt-1">+ ৳{fmt(course.admission_fee)} {kitLabel} (one-time)</span>
                                         )}
                                     </div>
                                 ) : (
@@ -306,7 +318,7 @@ const CourseDetailsPage = () => {
                                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x500?text=Course'; }} />
                             {displayPrice != null && (
                                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-zan-red text-white font-bold font-heading px-3 sm:px-4 py-1.5 sm:py-2 rounded-sm text-xs sm:text-sm uppercase tracking-wider shadow-lg">
-                                    ৳{displayPrice}{isMonthly && '/mo'}
+                                    ৳{fmt(displayPrice)}{isMonthly && '/mo'}
                                 </div>
                             )}
                         </div>
@@ -460,13 +472,20 @@ const CourseDetailsPage = () => {
                                     <div className="mb-4">
                                         <span className="font-mono text-xs uppercase tracking-widest text-gray-500 block mb-1">
                                             {isMonthly ? 'Monthly Fee' : 'Price'}
+                                            {savePercent > 0 && <span className="ml-2 px-1.5 py-0.5 rounded-sm bg-zan-red text-white text-[10px] tracking-wider">Save {savePercent}%</span>}
                                         </span>
                                         <span className="text-2xl font-bold text-white font-heading">
-                                            ৳{displayPrice}{isMonthly && <span className="text-sm text-gray-400">/mo</span>}
+                                            ৳{fmt(displayPrice)}{isMonthly && <span className="text-sm text-gray-400">/mo</span>}
                                         </span>
-                                        {hasDiscount && <span className="text-sm text-gray-500 line-through ml-2">৳{course.price}</span>}
-                                        {isMonthly && course.admission_fee != null && (
-                                            <div className="text-xs text-gray-500 font-light mt-1">৳{course.admission_fee} admission fee</div>
+                                        {!isMonthly && hasDiscount && <span className="text-sm text-gray-500 line-through ml-2">৳{fmt(course.price)}</span>}
+                                        {isMonthly && realPrice != null && (
+                                            <div className="text-xs text-gray-400 font-light mt-1">
+                                                {course.duration_months != null && `${course.duration_months} months · `}Total ৳{fmt(realPrice)}
+                                                {hasDiscount && <span className="line-through text-gray-500 ml-1.5">৳{fmt(course.price)}</span>}
+                                            </div>
+                                        )}
+                                        {hasKitFee && (
+                                            <div className="text-xs text-gray-400 font-light mt-1">+ ৳{fmt(course.admission_fee)} {kitLabel} (one-time)</div>
                                         )}
                                     </div>
                                 ) : (
@@ -817,7 +836,7 @@ const CourseDetailsPage = () => {
                             {canEnroll && (
                                 <EnrollLink course={course}
                                     className="px-8 sm:px-12 py-4 sm:py-5 bg-white text-zan-dark font-bold rounded-sm hover:bg-zan-cyan transition-colors shadow-xl font-heading uppercase tracking-wider text-sm sm:text-base">
-                                    {displayPrice != null ? `Enroll · ৳${displayPrice}${isMonthly ? '/mo' : ''}` : 'Enroll Now'}
+                                    {displayPrice != null ? `Enroll · ৳${fmt(displayPrice)}${isMonthly ? '/mo' : ''}` : 'Enroll Now'}
                                 </EnrollLink>
                             )}
                             <button onClick={() => navigate('/courses')}
@@ -836,7 +855,7 @@ const CourseDetailsPage = () => {
                 <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)]">
                     <div className="min-w-0">
                         <p className="text-white font-bold text-sm font-heading tracking-wide uppercase truncate">Ready to start?</p>
-                        {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{displayPrice}{isMonthly && '/mo'}</p>}
+                        {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{fmt(displayPrice)}{isMonthly && '/mo'}</p>}
                     </div>
                     <EnrollLink course={course}
                         className="shrink-0 bg-zan-red hover:bg-red-600 text-white px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">

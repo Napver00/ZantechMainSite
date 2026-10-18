@@ -12,6 +12,7 @@ interface Course {
     price: number | null; discount_price: number | null;
     payment_type: 'one_time' | 'monthly';
     admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
+    admission_fee_label?: string | null;
     age_group?: string | null; session_duration?: string | null;
     class_slots?: string[]; status: string; is_active: boolean;
 }
@@ -146,13 +147,14 @@ const CourseRegistrationPage = () => {
         if (errors[name]) setErrors((e) => { const n = { ...e }; delete n[name]; return n; });
     };
 
-    /* What to pay now: admission + first month for monthly courses, else the course price */
+    /* What to pay now: first month (or the full real price) + the optional one-time kit/admission fee.
+       Discount price is the real price; "price" is only the crossed-out display price. */
     const isMonthly = course?.payment_type === 'monthly';
-    const payNow = course
-        ? isMonthly
-            ? Number(course.admission_fee ?? 0) + Number(course.monthly_fee ?? 0) || null
-            : (course.discount_price ?? course.price) || null
-        : null;
+    const realPrice = course ? (course.discount_price ?? course.price) : null;
+    const kitFee = Number(course?.admission_fee ?? 0) > 0 ? Number(course?.admission_fee) : 0;
+    const kitLabel = course?.admission_fee_label || 'Admission fee';
+    const coursePart = course ? (isMonthly ? Number(course.monthly_fee ?? 0) : Number(realPrice ?? 0)) : 0;
+    const payNow = course ? (coursePart + kitFee) || null : null;
 
     useEffect(() => {
         if (payNow && !form.amount) setForm((f) => ({ ...f, amount: String(payNow) }));
@@ -429,14 +431,15 @@ const CourseRegistrationPage = () => {
                                     {isMonthly ? (
                                         <>
                                             {course.monthly_fee != null && <div className="flex justify-between gap-3"><dt className="text-gray-400">Monthly fee</dt><dd className="text-white font-semibold">৳{fmt(course.monthly_fee)}</dd></div>}
-                                            {course.admission_fee != null && <div className="flex justify-between gap-3"><dt className="text-gray-400">Admission fee</dt><dd className="text-white font-semibold">৳{fmt(course.admission_fee)}</dd></div>}
                                             {course.duration_months != null && <div className="flex justify-between gap-3"><dt className="text-gray-400">Duration</dt><dd className="text-white">{course.duration_months} months</dd></div>}
+                                            {realPrice != null && <div className="flex justify-between gap-3"><dt className="text-gray-400">Total course fee</dt><dd className="text-white">৳{fmt(realPrice)}</dd></div>}
                                         </>
                                     ) : (
-                                        (course.discount_price ?? course.price) != null && (
-                                            <div className="flex justify-between gap-3"><dt className="text-gray-400">Course fee</dt><dd className="text-white font-semibold">৳{fmt(course.discount_price ?? course.price)}</dd></div>
+                                        realPrice != null && (
+                                            <div className="flex justify-between gap-3"><dt className="text-gray-400">Course fee</dt><dd className="text-white font-semibold">৳{fmt(realPrice)}</dd></div>
                                         )
                                     )}
+                                    {kitFee > 0 && <div className="flex justify-between gap-3"><dt className="text-gray-400">{kitLabel} <span className="text-gray-600">(one-time)</span></dt><dd className="text-white font-semibold">৳{fmt(kitFee)}</dd></div>}
                                     {course.age_group && <div className="flex justify-between gap-3"><dt className="text-gray-400">Age group</dt><dd className="text-white">{course.age_group}</dd></div>}
                                     {course.session_duration && <div className="flex justify-between gap-3"><dt className="text-gray-400">Class</dt><dd className="text-white text-right">{course.session_duration}</dd></div>}
                                 </dl>
@@ -446,8 +449,11 @@ const CourseRegistrationPage = () => {
                                         <span className="text-2xl font-bold text-zan-cyan font-heading">৳{fmt(payNow)}</span>
                                     </div>
                                 )}
-                                {isMonthly && payNow != null && (
-                                    <p className="text-xs text-gray-500 mt-1">Admission fee + first month. Later months are paid at the start of each month.</p>
+                                {payNow != null && (isMonthly || kitFee > 0) && (
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        {isMonthly ? 'First month' : 'Course fee'}{kitFee > 0 ? ` + ${kitLabel.toLowerCase()}` : ''}.
+                                        {isMonthly ? ' Later months are paid at the start of each month.' : ''}
+                                    </p>
                                 )}
                             </div>
                         </aside>

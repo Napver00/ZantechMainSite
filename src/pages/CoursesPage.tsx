@@ -38,7 +38,12 @@ interface Tutorial {
 const CourseCard = ({ course }: { course: Course }) => {
     const isMonthly = course.payment_type === 'monthly';
     const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
-    const hasDiscount = !isMonthly && course.discount_price != null && course.price != null && course.discount_price < course.price;
+    // "price" is the crossed-out display price; for monthly courses show it per month too
+    const strikePrice = course.price == null || course.discount_price == null || Number(course.discount_price) >= Number(course.price)
+        ? null
+        : isMonthly
+            ? (course.duration_months ? Math.round(Number(course.price) / course.duration_months) : null)
+            : Number(course.price);
 
     return (
         <div className="group h-full flex flex-col">
@@ -62,8 +67,8 @@ const CourseCard = ({ course }: { course: Course }) => {
                         </div>
                         {displayPrice != null ? (
                             <div className="bg-zan-red/90 backdrop-blur-sm text-white px-3 py-1 rounded-sm text-xs font-mono font-bold">
-                                ৳{displayPrice}{isMonthly && <span className="opacity-80">/mo</span>}
-                                {hasDiscount && <span className="line-through ml-1 opacity-60">৳{course.price}</span>}
+                                ৳{Number(displayPrice).toLocaleString('en-BD', { maximumFractionDigits: 2 })}{isMonthly && <span className="opacity-80">/mo</span>}
+                                {strikePrice != null && <span className="line-through ml-1 opacity-60">৳{strikePrice.toLocaleString('en-BD')}</span>}
                             </div>
                         ) : (
                             <div className="bg-zan-cyan/90 backdrop-blur-sm text-black px-3 py-1 rounded-sm text-xs font-mono font-bold">

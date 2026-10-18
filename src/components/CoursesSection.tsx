@@ -18,12 +18,19 @@ interface Course {
     price: number | null;
     discount_price: number | null;
     payment_type: 'one_time' | 'monthly';
+    duration_months?: number | null;
     monthly_fee: number | null;
 }
 
 const CourseCard = ({ course }: { course: Course }) => {
     const isMonthly = course.payment_type === 'monthly';
     const displayPrice = isMonthly ? course.monthly_fee : (course.discount_price ?? course.price);
+    // "price" is the crossed-out display price; for monthly courses show it per month too
+    const strikePrice = course.price == null || course.discount_price == null || Number(course.discount_price) >= Number(course.price)
+        ? null
+        : isMonthly
+            ? (course.duration_months ? Math.round(Number(course.price) / course.duration_months) : null)
+            : Number(course.price);
 
     return (
         <div className="group h-full flex flex-col">
@@ -46,7 +53,8 @@ const CourseCard = ({ course }: { course: Course }) => {
                         </div>
                         {displayPrice != null && (
                             <div className="bg-zan-red/90 text-white px-3 py-1.5 rounded-sm text-xs font-bold font-mono">
-                                ৳{displayPrice}{isMonthly && <span className="opacity-80">/mo</span>}
+                                ৳{Number(displayPrice).toLocaleString('en-BD', { maximumFractionDigits: 2 })}{isMonthly && <span className="opacity-80">/mo</span>}
+                                {strikePrice != null && <span className="line-through ml-1 opacity-60">৳{strikePrice.toLocaleString('en-BD')}</span>}
                             </div>
                         )}
                     </div>
