@@ -33,7 +33,7 @@ const PrivacyPolicyPage = () => {
 
                             <h2>1. Introduction</h2>
                             <p>
-                                Welcome to Zantech. We are dedicated to building Bangladesh's next generation of innovators. This Privacy Policy explains how Zantech ("we," "us," or "our") collects, uses, shares, and protects information about you when you use our website, purchase our products, participate in our workshops, or use any of our other services (collectively, the "Services").
+                                Welcome to ZAN Tech. We are dedicated to building Bangladesh's next generation of innovators. This Privacy Policy explains how ZAN Tech ("we," "us," or "our") collects, uses, shares, and protects information about you when you use our website, purchase our products, participate in our workshops, or use any of our other services (collectively, the "Services").
                             </p>
                             <p>
                                 We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. By using our Services, you agree to the collection and use of information in accordance with this policy.
@@ -50,7 +50,7 @@ const PrivacyPolicyPage = () => {
                             </ul>
                             <h3>Information from Workshops and Events:</h3>
                             <ul>
-                                <li><strong>Photography and Videography:</strong> We frequently take photographs and record videos during our workshops and events to showcase our impact, use in promotional materials, and share with our community. Your participation in these events implies consent to be included in such media. If you do not wish to be photographed or recorded, please inform a Zantech representative at the event.</li>
+                                <li><strong>Photography and Videography:</strong> We frequently take photographs and record videos during our workshops and events to showcase our impact, use in promotional materials, and share with our community. Your participation in these events implies consent to be included in such media. If you do not wish to be photographed or recorded, please inform a ZAN Tech representative at the event.</li>
                             </ul>
                             <h3>Information We Collect Automatically:</h3>
                             <ul>

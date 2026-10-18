@@ -102,7 +102,7 @@ const CareerDetailsPage = () => {
                             </h1>
                             <div className="flex items-center text-gray-500 dark:text-gray-400 mt-3 text-sm">
                                 <MapPin className="w-4 h-4 mr-2" />
-                                <span>Zantech HQ (Dhaka)</span>
+                                <span>ZAN Tech HQ (Dhaka)</span>
                             </div>
                         </div>
 

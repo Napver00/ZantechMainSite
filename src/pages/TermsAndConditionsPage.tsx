@@ -32,7 +32,7 @@ const TermsAndConditionsPage = () => {
                             prose-strong:text-gray-200">
 
                             <p>
-                                Welcome to Zantech. These Terms and Conditions ("Terms") govern your use of the Zantech website, purchase of products, and participation in our services, workshops, and programs ("Services"). Please read these Terms carefully. By accessing or using our Services, you agree to be bound by these Terms.
+                                Welcome to ZAN Tech. These Terms and Conditions ("Terms") govern your use of the ZAN Tech website, purchase of products, and participation in our services, workshops, and programs ("Services"). Please read these Terms carefully. By accessing or using our Services, you agree to be bound by these Terms.
                             </p>
 
                             <h2>1. General Use</h2>
@@ -53,23 +53,23 @@ const TermsAndConditionsPage = () => {
                             <h2>4. Workshops and Educational Services</h2>
                             <ul>
                                 <li><strong>Registration:</strong> Our workshops are offered free of charge to students and educators as part of our mission. Registration is required and is subject to availability.</li>
-                                <li><strong>Code of Conduct:</strong> All participants are expected to behave respectfully and collaboratively. We reserve the right to remove any participant who is disruptive or fails to comply with the instructions of Zantech staff.</li>
-                                <li><strong>Photography and Videography Consent:</strong> By participating in our workshops or events, you grant Zantech the perpetual, worldwide right to use your likeness, image, and voice in photographs, videos, and other media for promotional, educational, and archival purposes without compensation. If you do not wish to be photographed or recorded, you must inform a Zantech representative at the start of the event.</li>
-                                <li><strong>Materials:</strong> All hardware, tools, and instructional materials provided during workshops remain the property of Zantech unless otherwise specified.</li>
+                                <li><strong>Code of Conduct:</strong> All participants are expected to behave respectfully and collaboratively. We reserve the right to remove any participant who is disruptive or fails to comply with the instructions of ZAN Tech staff.</li>
+                                <li><strong>Photography and Videography Consent:</strong> By participating in our workshops or events, you grant ZAN Tech the perpetual, worldwide right to use your likeness, image, and voice in photographs, videos, and other media for promotional, educational, and archival purposes without compensation. If you do not wish to be photographed or recorded, you must inform a ZAN Tech representative at the start of the event.</li>
+                                <li><strong>Materials:</strong> All hardware, tools, and instructional materials provided during workshops remain the property of ZAN Tech unless otherwise specified.</li>
                             </ul>
 
                             <h2>5. Research & Development (R&D) Services</h2>
                             <p>Our custom R&D services for businesses are governed by separate, individual contracts. The terms outlined in those contracts will supersede these general Terms and Conditions for the scope of that specific project.</p>
 
                             <h2>6. Intellectual Property</h2>
-                            <p>All content included on our website, such as text, graphics, logos, images, as well as the compilation thereof, and any software used on the site, is the property of Zantech or its suppliers and is protected by copyright and other laws.</p>
+                            <p>All content included on our website, such as text, graphics, logos, images, as well as the compilation thereof, and any software used on the site, is the property of ZAN Tech or its suppliers and is protected by copyright and other laws.</p>
                             <p>You retain ownership of the intellectual property rights in the projects you create using our components or during our workshops. However, by sharing your project with us or our community, you grant us a non-exclusive, royalty-free license to feature, share, and display your project (with attribution to you) for promotional and educational purposes.</p>
 
                             <h2>7. Limitation of Liability</h2>
-                            <p>To the fullest extent permitted by law, Zantech shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from: (a) your use of our Services or products; (b) any unauthorized access to or use of our servers and/or any personal information stored therein. (c) any defects or malfunctioning of components sold. Our liability is strictly limited to the replacement or refund of the purchased product.</p>
+                            <p>To the fullest extent permitted by law, ZAN Tech shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from: (a) your use of our Services or products; (b) any unauthorized access to or use of our servers and/or any personal information stored therein. (c) any defects or malfunctioning of components sold. Our liability is strictly limited to the replacement or refund of the purchased product.</p>
 
                             <h2>8. Indemnification</h2>
-                            <p>You agree to indemnify and hold harmless Zantech and its employees from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, reasonable legal and accounting fees, a-rising out of or in any way connected with your access to or use of the Services or your violation of these Terms.</p>
+                            <p>You agree to indemnify and hold harmless ZAN Tech and its employees from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, reasonable legal and accounting fees, a-rising out of or in any way connected with your access to or use of the Services or your violation of these Terms.</p>
 
                             <h2>9. Governing Law</h2>
                             <p>These Terms shall be governed and construed in accordance with the laws of the People's Republic of Bangladesh, without regard to its conflict of law provisions. Any disputes will be resolved in the competent courts of Dhaka, Bangladesh.</p>

@@ -125,7 +125,7 @@ const Contact = () => {
 
                         <div className="bg-surface-dark border border-zan-cyan/20 rounded-sm p-6 md:p-8 text-white relative overflow-hidden">
                             <div className="absolute inset-0 bg-zan-cyan/5"></div>
-                            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 relative z-10 font-heading text-zan-cyan">Why Choose Zantech?</h3>
+                            <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 relative z-10 font-heading text-zan-cyan">Why Choose ZAN Tech?</h3>
                             <div className="space-y-4 relative z-10">
                                 {[
                                     "Expert team with technical depth",

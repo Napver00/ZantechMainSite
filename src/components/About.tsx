@@ -43,7 +43,7 @@ const About = () => {
         },
         {
             title: 'Business & Industry Partners',
-            description: 'We leverage our technical expertise to drive corporate innovation. Zantech offers specialized Research and Development (R&D) services, collaborating with other companies to design, build, and prototype cutting-edge solutions.',
+            description: 'We leverage our technical expertise to drive corporate innovation. ZAN Tech offers specialized Research and Development (R&D) services, collaborating with other companies to design, build, and prototype cutting-edge solutions.',
             icon: <Briefcase className="w-6 h-6 text-zan-cyan" />
         }
     ];

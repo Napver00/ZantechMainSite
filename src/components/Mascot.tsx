@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 const Mascot = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [showBubble, setShowBubble] = useState(false);
-    const [message, setMessage] = useState("Hi! I'm Mascode. Welcome to Zantech!");
+    const [message, setMessage] = useState("Hi! I'm Mascode. Welcome to ZAN Tech!");
     const [isHovered, setIsHovered] = useState(false);
 
     // Show mascot after a delay

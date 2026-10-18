@@ -28,35 +28,35 @@ const testimonials = [
         id: 1,
         name: 'Afif Rahman',
         course: 'University Robotics Workshop',
-        quote: 'একজন ইঞ্জিনিয়ারিং ছাত্র হিসেবে, আমার জ্ঞান বেশিরভাগই তাত্ত্বিক ছিল। zantech হাতে-কলমে কর্মশালা সেই ব্যবধান পুরোপুরি পূরণ করেছিল। একদিনে একটি আসল রোবট তৈরি এবং প্রোগ্রামিং করা ছিল একটি অবিশ্বাস্য অভিজ্ঞতা যা আমাকে ব্যবহারিক চ্যালেঞ্জের জন্য প্রস্তুত করেছিল।',
+        quote: 'একজন ইঞ্জিনিয়ারিং ছাত্র হিসেবে, আমার জ্ঞান বেশিরভাগই তাত্ত্বিক ছিল। ZAN Tech হাতে-কলমে কর্মশালা সেই ব্যবধান পুরোপুরি পূরণ করেছিল। একদিনে একটি আসল রোবট তৈরি এবং প্রোগ্রামিং করা ছিল একটি অবিশ্বাস্য অভিজ্ঞতা যা আমাকে ব্যবহারিক চ্যালেঞ্জের জন্য প্রস্তুত করেছিল।',
         rating: 5
     },
     {
         id: 2,
         name: 'Nadia Islam',
         course: 'IoT & Automation Projects',
-        quote: 'Finding reliable Arduino and ESP modules used to be difficult. Zantech is my go-to supplier now. Their components are high-quality, and their free guidance helped me troubleshoot my smart home project successfully.',
+        quote: 'Finding reliable Arduino and ESP modules used to be difficult. ZAN Tech is my go-to supplier now. Their components are high-quality, and their free guidance helped me troubleshoot my smart home project successfully.',
         rating: 5
     },
     {
         id: 3,
         name: 'Mr. Karim Chowdhury',
         course: 'Educator Partnership',
-        quote: 'zantech আমাদের কলেজে এক উত্তেজনার ঢেউ এনেছে। তারা একটি বিনামূল্যের workshop জন্য সমস্ত হার্ডওয়্যার এবং বিশেষজ্ঞ প্রশিক্ষক সরবরাহ করেছে, যার ফলে রোবোটিক্স এমন শিক্ষার্থীদের কাছে সহজলভ্য হয়ে উঠেছে যারা আগে কখনও এই সুযোগ পাননি। তাদের লক্ষ্য সত্যিকার অর্থে ক্ষমতায়ন করা।',
+        quote: 'ZAN Tech আমাদের কলেজে এক উত্তেজনার ঢেউ এনেছে। তারা একটি বিনামূল্যের workshop জন্য সমস্ত হার্ডওয়্যার এবং বিশেষজ্ঞ প্রশিক্ষক সরবরাহ করেছে, যার ফলে রোবোটিক্স এমন শিক্ষার্থীদের কাছে সহজলভ্য হয়ে উঠেছে যারা আগে কখনও এই সুযোগ পাননি। তাদের লক্ষ্য সত্যিকার অর্থে ক্ষমতায়ন করা।',
         rating: 5
     },
     {
         id: 4,
         name: 'Samin Yasar',
         course: 'Intro to Programming',
-        quote: 'I thought coding was going to be boring and hard, but the Zantech team made it fun and exciting! They helped me build my first game. Now I want to become a programmer and create things myself.',
+        quote: 'I thought coding was going to be boring and hard, but the ZAN Tech team made it fun and exciting! They helped me build my first game. Now I want to become a programmer and create things myself.',
         rating: 5
     },
     {
         id: 5,
         name: 'Farhana Akhter',
         course: 'Custom R&D Services',
-        quote: 'Zantech\'s R&D team was instrumental in developing a prototype for our automated irrigation system. Their technical expertise and innovative approach saved us significant time and resources, giving us a competitive edge.',
+        quote: 'ZAN Tech\'s R&D team was instrumental in developing a prototype for our automated irrigation system. Their technical expertise and innovative approach saved us significant time and resources, giving us a competitive edge.',
         rating: 5
     },
     {
@@ -70,7 +70,7 @@ const testimonials = [
         id: 7,
         name: 'Ayesha Siddika',
         course: 'AI/ML for Beginners',
-        quote: 'AI felt like a very advanced topic, but Zantech\'s workshop broke it down into simple, understandable concepts. It ignited my passion for data science and showed me a clear path to start my learning journey.',
+        quote: 'AI felt like a very advanced topic, but ZAN Tech\'s workshop broke it down into simple, understandable concepts. It ignited my passion for data science and showed me a clear path to start my learning journey.',
         rating: 5
     },
     {
