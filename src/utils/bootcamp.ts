@@ -10,6 +10,7 @@ export interface BootcampSummary {
     age_group?: string | null; level?: string | null;
     start_date: string | null; end_date: string | null; registration_deadline: string | null;
     venue: string | null; seats: number | null; seats_taken: number;
+    recap_link?: string | null; // workshop post with photos/highlights after the bootcamp
 }
 
 export type BootcampStatus = 'open' | 'closing' | 'soldout' | 'closed' | 'ended';
@@ -65,6 +66,15 @@ export const STATUS_LABEL: Record<BootcampStatus, string> = {
     soldout: 'Sold out',
     closed: 'Registration closed',
     ended: 'Completed',
+};
+
+/** Our own site's links open in-app; anything else opens in a new tab */
+export const recapTarget = (link: string | null | undefined): { internal: boolean; to: string } | null => {
+    const raw = (link || '').trim();
+    if (!raw) return null;
+    const path = raw.replace(/^https?:\/\/(www\.)?zantechbd\.com/i, '');
+    if (path.startsWith('/')) return { internal: true, to: path };
+    return { internal: false, to: /^https?:\/\//i.test(raw) ? raw : `https://${raw}` };
 };
 
 export const realPrice = (b: Pick<BootcampSummary, 'discount_price' | 'price'>) => b.discount_price ?? b.price;

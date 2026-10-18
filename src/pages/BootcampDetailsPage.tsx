@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
     ArrowLeft, ArrowRight, CalendarDays, MapPin, Users, Clock, Timer, CheckCircle2,
-    Rocket, ChevronDown, HelpCircle, Sparkles, Flame, Download,
+    Rocket, ChevronDown, HelpCircle, Sparkles, Flame, Download, Images,
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 import {
     type BootcampSummary, bootcampStatus, STATUS_LABEL, fmtRange, fmtDay, dayCount, seatsLeft,
-    realPrice, hasDiscount, fmtTk, daysUntil,
+    realPrice, hasDiscount, fmtTk, daysUntil, recapTarget,
 } from '../utils/bootcamp';
 
 interface Lesson { id: number; title: string; description: string | null; }
@@ -75,7 +75,18 @@ const BootcampDetailsPage = () => {
     const agenda = [...(b.curriculums || [])].sort((x, y) => x.module_no - y.module_no);
 
     const ctaLabel = canRegister ? 'Register Now' : STATUS_LABEL[status];
-    const RegisterButton = ({ className }: { className: string }) => canRegister ? (
+    // After the bootcamp: link to its highlights post in Workshops
+    const recap = status === 'ended' ? recapTarget(b.recap_link) : null;
+    const HighlightsButton = ({ className }: { className: string }) => !recap ? null : recap.internal ? (
+        <Link to={recap.to} className={`bg-zan-cyan text-black hover:bg-white ${className}`}>
+            <Images className="w-4 h-4" /> See Bootcamp Highlights
+        </Link>
+    ) : (
+        <a href={recap.to} target="_blank" rel="noopener noreferrer" className={`bg-zan-cyan text-black hover:bg-white ${className}`}>
+            <Images className="w-4 h-4" /> See Bootcamp Highlights
+        </a>
+    );
+    const RegisterButton = ({ className }: { className: string }) => recap ? <HighlightsButton className={className} /> : canRegister ? (
         <Link to={`/bootcamp/${b.slug}/register`} className={`bg-zan-red hover:bg-red-600 text-white ${className}`}>
             {ctaLabel} <ArrowRight className="w-4 h-4" />
         </Link>
@@ -345,10 +356,17 @@ const BootcampDetailsPage = () => {
                         {status === 'ended' ? 'This bootcamp has finished' : 'Save your seat'}
                     </h2>
                     <p className="text-gray-400 font-light mb-7">
-                        {status === 'ended' ? 'See what’s coming next.' : `${fmtRange(b.start_date, b.end_date)}${b.venue ? ` · ${b.venue}` : ''}`}
+                        {status === 'ended'
+                            ? (recap ? 'See the photos and projects from this bootcamp, or join the next one.' : 'See what’s coming next.')
+                            : `${fmtRange(b.start_date, b.end_date)}${b.venue ? ` · ${b.venue}` : ''}`}
                     </p>
                     {status === 'ended' ? (
-                        <Link to="/bootcamps" className={`${btn} bg-zan-cyan text-black hover:bg-white`}>Upcoming Bootcamps <ArrowRight className="w-4 h-4" /></Link>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <HighlightsButton className={btn} />
+                            <Link to="/bootcamps" className={`${btn} ${recap ? 'border-2 border-white/20 hover:border-white/50 text-white' : 'bg-zan-cyan text-black hover:bg-white'}`}>
+                                Upcoming Bootcamps <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
                     ) : <RegisterButton className={btn} />}
                 </div>
             </section>

@@ -90,9 +90,9 @@ const Navbar = () => {
         { href: '#home', text: 'Home' },
         { href: '#about', text: 'About Us' },
         { href: '/courses', text: 'Courses' },
+        { href: '/bootcamps', text: 'Bootcamps' },
         { href: '#showcase', text: 'Showcase' },
         { href: '/portfolio', text: 'Portfolio' },
-        { href: '/bootcamps', text: 'Bootcamps' },
         { href: '#contact', text: 'Contact' },
     ];
 
@@ -274,6 +274,8 @@ const Navbar = () => {
 
                         <Link to="/courses" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Courses</Link>
 
+                        <Link to="/bootcamps" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Bootcamps</Link>
+
                         {/* Mobile Showcase Dropdown */}
                         <div>
                             <button onClick={() => setShowcaseDropdownOpen(p => !p)} className="w-full flex justify-between items-center text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">
@@ -290,8 +292,6 @@ const Navbar = () => {
                         </div>
 
                         <Link to="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Portfolio</Link>
-
-                        <Link to="/bootcamps" onClick={() => setMobileMenuOpen(false)} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Bootcamps</Link>
 
                         <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')} className="block text-lg text-gray-300 hover:text-zan-cyan px-4 py-4 border-l-2 border-transparent hover:border-zan-cyan bg-white/5 hover:bg-white/10 transition-all font-medium rounded-r-sm">Contact</a>
                     </div>

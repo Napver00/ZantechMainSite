@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, MapPin, Users, ArrowRight, Flame, Rocket } from 'lucide-react';
+import { CalendarDays, MapPin, Users, ArrowRight, Flame, Rocket, Images } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 import {
     type BootcampSummary, bootcampStatus, STATUS_LABEL, fmtRange, dayCount, seatsLeft,
@@ -41,6 +41,11 @@ const BootcampCard = ({ b, past = false }: { b: BootcampSummary; past?: boolean 
                     {status === 'closing' && <Flame className="w-3 h-3 inline -mt-0.5 mr-1" />}
                     {STATUS_LABEL[status]}
                 </span>
+                {past && b.recap_link && (
+                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-zan-cyan text-black text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded-sm">
+                        <Images className="w-3.5 h-3.5" /> Highlights
+                    </span>
+                )}
                 {!past && startsIn !== null && startsIn > 0 && startsIn <= 30 && (
                     <span className="absolute bottom-3 left-3 text-xs font-mono text-white/90">Starts in {startsIn} day{startsIn !== 1 ? 's' : ''}</span>
                 )}
