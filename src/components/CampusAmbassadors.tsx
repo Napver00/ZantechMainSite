@@ -22,7 +22,7 @@ const AmbassadorCard = ({ ambassador }: { ambassador: any }) => (
                     <img
                         src={ambassador.image_url}
                         alt={ambassador.name}
-                        className="w-full h-full rounded-full object-cover border-4 border-black group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0"
+                        className="w-full h-full rounded-full object-cover border-4 border-zan-dark group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0"
                     />
                 </div>
                 <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
@@ -107,19 +107,19 @@ const AmbassadorApplicationPopup = ({ onClose }: { onClose: () => void }) => {
                     <div className="grid grid-cols-1 gap-5">
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">Full Name</label>
-                            <input name="name" type="text" placeholder="Your Name" className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
+                            <input name="name" type="text" placeholder="Your Name" className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
                         </div>
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">Email Address</label>
-                            <input name="email" type="email" placeholder="your.email@university.com" className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
+                            <input name="email" type="email" placeholder="your.email@university.com" className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
                         </div>
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">University/Campus</label>
-                            <input name="campus" type="text" placeholder="Your University" className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
+                            <input name="campus" type="text" placeholder="Your University" className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
                         </div>
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">Phone Number</label>
-                            <input name="phone" type="tel" placeholder="Your Phone Number" className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
+                            <input name="phone" type="tel" placeholder="Your Phone Number" className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm" required />
                         </div>
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">Your Photo</label>
@@ -144,14 +144,14 @@ const AmbassadorApplicationPopup = ({ onClose }: { onClose: () => void }) => {
                         </div>
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-zan-cyan uppercase tracking-widest">Why do you want to join?</label>
-                            <textarea name="message" placeholder="Tell us about your passion for tech..." rows={4} className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm resize-none"></textarea>
+                            <textarea name="message" placeholder="Tell us about your passion for tech..." rows={4} className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm resize-none"></textarea>
                         </div>
                     </div>
 
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-zan-cyan text-black py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300 transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
+                        className="w-full bg-zan-cyan text-zan-dark py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300 transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                     >
                         {isSubmitting ? (
                             <>
@@ -270,7 +270,7 @@ const CampusAmbassadors = () => {
                     <div className="mt-16 text-center">
                         <button
                             onClick={() => setPopupOpen(true)}
-                            className="inline-flex items-center space-x-2 bg-zan-cyan text-black px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+                            className="inline-flex items-center space-x-2 bg-zan-cyan text-zan-dark px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]"
                         >
                             <Star className="w-5 h-5" />
                             <span>Become an Ambassador</span>

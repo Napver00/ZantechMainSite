@@ -42,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#0f1115] border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-dark border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
             >
                 <ChevronLeft className="w-5 h-5" />
             </button>
@@ -58,8 +58,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
                             key={page}
                             onClick={() => onPageChange(page as number)}
                             className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 flex items-center justify-center ${currentPage === page
-                                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)] border border-blue-500/50'
-                                : 'bg-[#0f1115] border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10'
+                                ? 'bg-blue-600 text-[#fff] shadow-[0_0_20px_rgba(37,99,235,0.5)] border border-blue-500/50'
+                                : 'bg-surface-dark border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10'
                                 }`}
                         >
                             {page}
@@ -71,7 +71,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#0f1115] border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-dark border border-white/5 text-gray-400 hover:text-white hover:bg-white/5 hover:border-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
             >
                 <ChevronRight className="w-5 h-5" />
             </button>

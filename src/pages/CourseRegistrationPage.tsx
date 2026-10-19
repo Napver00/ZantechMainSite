@@ -277,7 +277,7 @@ const CourseRegistrationPage = () => {
                     <Link to={backTo} className="px-6 py-3 border border-white/20 hover:border-white/50 text-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
                         Back to {isBootcamp ? 'Bootcamp' : 'Course'}
                     </Link>
-                    <Link to="/courses" className="px-6 py-3 bg-zan-cyan text-black hover:bg-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
+                    <Link to="/courses" className="px-6 py-3 bg-zan-cyan text-zan-dark hover:bg-white font-bold rounded-sm font-heading uppercase tracking-wider text-sm">
                         Browse Courses
                     </Link>
                 </div>
@@ -425,7 +425,7 @@ const CourseRegistrationPage = () => {
                             )}
 
                             <button type="submit" disabled={submitting || methods.length === 0}
-                                className="w-full sm:w-auto px-10 py-4 bg-zan-red hover:bg-red-600 disabled:bg-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-bold rounded-sm transition-all font-heading uppercase tracking-wider text-sm inline-flex items-center justify-center gap-2">
+                                className="w-full sm:w-auto px-10 py-4 bg-zan-red hover:bg-red-600 disabled:bg-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed text-[#fff] font-bold rounded-sm transition-all font-heading uppercase tracking-wider text-sm inline-flex items-center justify-center gap-2">
                                 {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</> : <>Submit Registration <ArrowRight className="w-4 h-4" /></>}
                             </button>
                         </div>

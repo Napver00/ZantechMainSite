@@ -104,9 +104,9 @@ const TeamPage = () => {
                                         <div className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60`}></div>
                                         <div className="absolute bottom-6 left-6 right-6">
                                             <div className="flex gap-4">
-                                                <a href={founder.socials.linkedin} className="text-white hover:text-zan-cyan transition-colors"><Linkedin size={20} /></a>
-                                                <a href={`mailto:${founder.socials.email}`} className="text-white hover:text-zan-cyan transition-colors"><Mail size={20} /></a>
-                                                <a href={founder.socials.website} className="text-white hover:text-zan-cyan transition-colors"><Globe size={20} /></a>
+                                                <a href={founder.socials.linkedin} className="text-[#fff] hover:text-zan-cyan transition-colors"><Linkedin size={20} /></a>
+                                                <a href={`mailto:${founder.socials.email}`} className="text-[#fff] hover:text-zan-cyan transition-colors"><Mail size={20} /></a>
+                                                <a href={founder.socials.website} className="text-[#fff] hover:text-zan-cyan transition-colors"><Globe size={20} /></a>
                                             </div>
                                         </div>
                                     </div>
@@ -173,7 +173,7 @@ const TeamPage = () => {
 
                                     {/* Name & role, sitting on the photo */}
                                     <div className="absolute bottom-0 left-0 right-0 p-6">
-                                        <h3 className="text-xl font-bold text-white font-heading uppercase tracking-wide leading-tight group-hover:text-zan-cyan transition-colors duration-300">
+                                        <h3 className="text-xl font-bold text-[#fff] font-heading uppercase tracking-wide leading-tight group-hover:text-zan-cyan transition-colors duration-300">
                                             {member.name}
                                         </h3>
                                         <p className="text-zan-cyan/90 font-mono text-xs uppercase tracking-widest mt-2 leading-relaxed">
@@ -188,7 +188,7 @@ const TeamPage = () => {
             </section>
 
             {/* --- Philosophy Section --- */}
-            <section className="relative z-10 py-24 bg-black/30">
+            <section className="relative z-10 py-24 bg-surface-dark/50">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <div className="w-16 h-16 bg-zan-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-zan-cyan/20">
                         <Rocket className="w-8 h-8 text-zan-cyan" />
@@ -223,7 +223,7 @@ const TeamPage = () => {
                             ZAN Tech is constantly looking for brilliant minds to join our mission. If you're passionate about robotics, AI, or tech education, we'd love to hear from you.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="/career" className="bg-zan-red text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Join the Team</a>
+                            <a href="/career" className="bg-zan-red text-[#fff] px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-zan-dark transition-all">Join the Team</a>
                             {/* <a href="/contact" className="border border-white/20 text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white/10 transition-all">Get in Touch</a> */}
                         </div>
                     </div>

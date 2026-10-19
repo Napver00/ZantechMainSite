@@ -83,7 +83,7 @@ const AchievementsPage = () => {
                             key={filter}
                             onClick={() => setActiveFilter(filter)}
                             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${activeFilter === filter
-                                    ? 'bg-zan-cyan text-black border-zan-cyan shadow-[0_0_15px_rgba(0,240,255,0.4)]'
+                                    ? 'bg-zan-cyan text-zan-dark border-zan-cyan shadow-[0_0_15px_rgba(0,240,255,0.4)]'
                                     : 'bg-surface-dark text-gray-300 border-white/10 hover:border-zan-cyan/50 hover:text-zan-cyan'
                                 }`}
                         >
@@ -123,7 +123,7 @@ const AchievementsPage = () => {
                     >
                         <button
                             onClick={() => setSelected(null)}
-                            className="absolute top-4 right-4 z-10 p-2 bg-black/60 hover:bg-zan-cyan hover:text-black text-white rounded-full transition-colors"
+                            className="absolute top-4 right-4 z-10 p-2 bg-black/60 hover:bg-zan-cyan hover:text-zan-dark text-white rounded-full transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>

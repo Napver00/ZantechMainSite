@@ -52,7 +52,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                             {course.category || 'Course'}
                         </div>
                         {displayPrice != null && (
-                            <div className="bg-zan-red/90 text-white px-3 py-1.5 rounded-sm text-xs font-bold font-mono">
+                            <div className="bg-zan-red/90 text-[#fff] px-3 py-1.5 rounded-sm text-xs font-bold font-mono">
                                 ৳{Number(displayPrice).toLocaleString('en-BD', { maximumFractionDigits: 2 })}{isMonthly && <span className="opacity-80">/mo</span>}
                                 {strikePrice != null && <span className="line-through ml-1 opacity-60">৳{strikePrice.toLocaleString('en-BD')}</span>}
                             </div>
@@ -69,7 +69,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                     </p>
                     <Link
                         to={`/course/${course.slug}`}
-                        className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
+                        className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
                     >
                         <span>Learn More</span>
                         <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
@@ -160,7 +160,7 @@ const CoursesSection = () => {
                 <div className="mt-16 flex justify-center">
                     <Link
                         to="/courses"
-                        className="inline-flex items-center space-x-2 bg-zan-cyan text-black px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
+                        className="inline-flex items-center space-x-2 bg-zan-cyan text-zan-dark px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white hover:text-zan-dark transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                     >
                         <span>View All Courses</span>
                         <ArrowRight className="w-5 h-5" />

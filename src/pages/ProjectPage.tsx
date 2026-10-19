@@ -98,7 +98,7 @@ const ProjectPage = () => {
                                             </div>
 
                                             <div className="flex items-center gap-3 mt-auto">
-                                                <span className="flex-1 flex items-center justify-center gap-2 py-2 bg-zan-cyan/10 border border-zan-cyan/30 rounded-sm text-sm text-zan-cyan group-hover:bg-zan-cyan group-hover:text-black transition-all font-mono uppercase tracking-wider">
+                                                <span className="flex-1 flex items-center justify-center gap-2 py-2 bg-zan-cyan/10 border border-zan-cyan/30 rounded-sm text-sm text-zan-cyan group-hover:bg-zan-cyan group-hover:text-zan-dark transition-all font-mono uppercase tracking-wider">
                                                     View Details
                                                 </span>
                                             </div>

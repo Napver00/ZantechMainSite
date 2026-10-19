@@ -1,3 +1,40 @@
+import defaultColors from 'tailwindcss/colors';
+import plugin from 'tailwindcss/plugin';
+
+/*
+ * Dark is the default theme. Light mode (html.light) is done by routing the
+ * palette through CSS variables: brand surfaces swap, and white + the gray /
+ * hue scales mirror around 500, so dark-first classes (text-white,
+ * bg-white/5, text-gray-300…) invert cleanly. Use text-[#fff] / bg-[#fff]
+ * where something must stay white in both themes.
+ */
+const NEUTRALS = ['slate', 'gray', 'zinc', 'neutral', 'stone'];
+const HUES = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
+const STEPS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
+
+const toRgb = (hex) => {
+  let h = hex.replace('#', '');
+  if (h.length === 3) h = [...h].map((x) => x + x).join('');
+  return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)).join(' ');
+};
+const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
+const palette = {};
+const darkVars = { '--tw-white': '255 255 255' };
+const lightVars = { '--tw-white': '15 23 42' };
+for (const name of [...NEUTRALS, ...HUES]) {
+  palette[name] = {};
+  // Neutrals mirror fully; hues keep 500/600 so solid buttons stay saturated.
+  const mirror = NEUTRALS.includes(name)
+    ? { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50 }
+    : { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 700: 300, 800: 200, 900: 100, 950: 50 };
+  for (const step of STEPS) {
+    palette[name][step] = v(`tw-${name}-${step}`);
+    darkVars[`--tw-${name}-${step}`] = toRgb(defaultColors[name][step]);
+    if (mirror[step]) lightVars[`--tw-${name}-${step}`] = toRgb(defaultColors[name][mirror[step]]);
+  }
+}
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -5,14 +42,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        ...palette,
+        white: v('tw-white'),
         'zan-red': '#ed2626',
-        'zan-blue': '#262b72',
-        'zan-cyan': '#00f0ff', // Cyberpunk cyan
-        'zan-neon': '#39ff14', // Neon green accent
-        'zan-dark': '#0B0F19', // Deep space dark
-        'zan-light': '#f8fafc',
-        'zan-gray': '#334155',
-        'surface-dark': '#151b2b', // Slightly lighter than background
+        'zan-blue': v('zan-blue'),
+        'zan-cyan': v('zan-cyan'), // Cyberpunk cyan
+        'zan-neon': v('zan-neon'), // Neon green accent
+        'zan-dark': v('zan-dark'), // Deep space dark
+        'zan-light': v('zan-light'),
+        'zan-gray': v('zan-gray'),
+        'surface-dark': v('surface-dark'), // Slightly lighter than background
       },
       fontFamily: {
         sans: ['Kodchasan', 'system-ui', 'sans-serif'],
@@ -20,8 +59,8 @@ export default {
         mono: ['JetBrains Mono', 'monospace'], // Tech/code font
       },
       boxShadow: {
-        'neon-blue': '0 0 5px theme("colors.zan-cyan"), 0 0 20px theme("colors.zan-cyan")',
-        'neon-red': '0 0 5px theme("colors.zan-red"), 0 0 20px theme("colors.zan-red")',
+        'neon-blue': '0 0 5px rgb(var(--zan-cyan)), 0 0 20px rgb(var(--zan-cyan))',
+        'neon-red': '0 0 5px #ed2626, 0 0 20px #ed2626',
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       },
       animation: {
@@ -74,5 +113,33 @@ export default {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    plugin(({ addBase }) => {
+      addBase({
+        ':root': {
+          ...darkVars,
+          '--zan-dark': '11 15 25',
+          '--surface-dark': '21 27 43',
+          '--zan-cyan': '0 240 255',
+          '--zan-neon': '57 255 20',
+          '--zan-blue': '38 43 114',
+          '--zan-light': '248 250 252',
+          '--zan-gray': '51 65 85',
+          '--grid-line': 'rgba(255, 255, 255, 0.05)',
+          colorScheme: 'dark',
+        },
+        'html.light': {
+          ...lightVars,
+          '--zan-dark': '245 247 251',
+          '--surface-dark': '255 255 255',
+          '--zan-cyan': '8 145 178',
+          '--zan-neon': '22 163 74',
+          '--zan-blue': '38 43 114',
+          '--zan-light': '15 23 42',
+          '--zan-gray': '203 213 225',
+          '--grid-line': 'rgba(15, 23, 42, 0.06)',
+          colorScheme: 'light',
+        },
+      });
+    }),
   ],
 };

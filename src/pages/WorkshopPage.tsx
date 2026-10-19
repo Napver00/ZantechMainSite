@@ -36,7 +36,7 @@ const WorkshopCard = ({ workshop }: { workshop: any }) => (
 
                 <Link
                     to={`/workshop/${workshop.slug}`}
-                    className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
+                    className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
                 >
                     <span>View Details</span>
                     <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />

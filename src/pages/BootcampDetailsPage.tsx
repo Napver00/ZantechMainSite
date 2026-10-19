@@ -78,16 +78,16 @@ const BootcampDetailsPage = () => {
     // After the bootcamp: link to its highlights post in Workshops
     const recap = status === 'ended' ? recapTarget(b.recap_link) : null;
     const HighlightsButton = ({ className }: { className: string }) => !recap ? null : recap.internal ? (
-        <Link to={recap.to} className={`bg-zan-cyan text-black hover:bg-white ${className}`}>
+        <Link to={recap.to} className={`bg-zan-cyan text-zan-dark hover:bg-white ${className}`}>
             <Images className="w-4 h-4" /> See Bootcamp Highlights
         </Link>
     ) : (
-        <a href={recap.to} target="_blank" rel="noopener noreferrer" className={`bg-zan-cyan text-black hover:bg-white ${className}`}>
+        <a href={recap.to} target="_blank" rel="noopener noreferrer" className={`bg-zan-cyan text-zan-dark hover:bg-white ${className}`}>
             <Images className="w-4 h-4" /> See Bootcamp Highlights
         </a>
     );
     const RegisterButton = ({ className }: { className: string }) => recap ? <HighlightsButton className={className} /> : canRegister ? (
-        <Link to={`/bootcamp/${b.slug}/register`} className={`bg-zan-red hover:bg-red-600 text-white ${className}`}>
+        <Link to={`/bootcamp/${b.slug}/register`} className={`bg-zan-red hover:bg-red-600 text-[#fff] ${className}`}>
             {ctaLabel} <ArrowRight className="w-4 h-4" />
         </Link>
     ) : (
@@ -115,8 +115,8 @@ const BootcampDetailsPage = () => {
                                     Bootcamp{b.category ? ` · ${b.category}` : ''}
                                 </span>
                                 <span className={`px-2.5 py-1 rounded-sm text-[11px] font-mono font-bold uppercase tracking-wider ${
-                                    status === 'open' ? 'bg-zan-neon/90 text-black' : status === 'closing' ? 'bg-orange-500 text-black'
-                                    : status === 'soldout' ? 'bg-zan-red text-white' : 'bg-gray-700 text-gray-200'}`}>
+                                    status === 'open' ? 'bg-zan-neon/90 text-zan-dark' : status === 'closing' ? 'bg-orange-500 text-zan-dark'
+                                    : status === 'soldout' ? 'bg-zan-red text-[#fff]' : 'bg-gray-700 text-gray-200'}`}>
                                     {status === 'closing' && <Flame className="w-3 h-3 inline -mt-0.5 mr-1" />}{STATUS_LABEL[status]}
                                 </span>
                             </div>
@@ -157,7 +157,7 @@ const BootcampDetailsPage = () => {
                             <div className="p-5 sm:p-6">
                                 <p className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-1 flex items-center gap-2">
                                     Bootcamp fee
-                                    {save > 0 && <span className="px-1.5 py-0.5 rounded-sm bg-zan-red text-white text-[10px] tracking-wider">Save {save}%</span>}
+                                    {save > 0 && <span className="px-1.5 py-0.5 rounded-sm bg-zan-red text-[#fff] text-[10px] tracking-wider">Save {save}%</span>}
                                 </p>
                                 {price != null && Number(price) > 0 ? (
                                     <div className="flex items-baseline gap-2 mb-1">
@@ -187,7 +187,7 @@ const BootcampDetailsPage = () => {
                                 <RegisterButton className={`${btn} w-full mt-5`} />
                                 {b.curriculum_link && (
                                     <a href={b.curriculum_link} target="_blank" rel="noopener noreferrer"
-                                        className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-zan-cyan/40 text-zan-cyan hover:bg-zan-cyan hover:text-black rounded-sm text-xs font-bold font-heading uppercase tracking-wider transition-colors">
+                                        className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-zan-cyan/40 text-zan-cyan hover:bg-zan-cyan hover:text-zan-dark rounded-sm text-xs font-bold font-heading uppercase tracking-wider transition-colors">
                                         <Download className="w-4 h-4" /> Bootcamp Plan (PDF)
                                     </a>
                                 )}
@@ -363,7 +363,7 @@ const BootcampDetailsPage = () => {
                     {status === 'ended' ? (
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                             <HighlightsButton className={btn} />
-                            <Link to="/bootcamps" className={`${btn} ${recap ? 'border-2 border-white/20 hover:border-white/50 text-white' : 'bg-zan-cyan text-black hover:bg-white'}`}>
+                            <Link to="/bootcamps" className={`${btn} ${recap ? 'border-2 border-white/20 hover:border-white/50 text-white' : 'bg-zan-cyan text-zan-dark hover:bg-white'}`}>
                                 Upcoming Bootcamps <ArrowRight className="w-4 h-4" />
                             </Link>
                         </div>
@@ -378,7 +378,7 @@ const BootcampDetailsPage = () => {
                         <p className="text-white font-bold text-sm font-heading uppercase truncate">{fmtRange(b.start_date, b.end_date)}</p>
                         <p className="text-zan-cyan text-xs font-mono">{price ? `৳${fmtTk(price)}` : 'Free'}{left !== null ? ` · ${left} seats left` : ''}</p>
                     </div>
-                    <Link to={`/bootcamp/${b.slug}/register`} className="shrink-0 bg-zan-red hover:bg-red-600 text-white px-5 py-2.5 rounded-sm font-bold text-xs font-heading uppercase tracking-wider">
+                    <Link to={`/bootcamp/${b.slug}/register`} className="shrink-0 bg-zan-red hover:bg-red-600 text-[#fff] px-5 py-2.5 rounded-sm font-bold text-xs font-heading uppercase tracking-wider">
                         Register
                     </Link>
                 </div>

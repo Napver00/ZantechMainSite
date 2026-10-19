@@ -145,7 +145,7 @@ const Hero = () => {
 
                     {/* CTA Button */}
                     <div className="pt-6 md:pt-8 pb-4">
-                        <a href="#showcase" className="relative px-6 md:px-8 py-3 bg-transparent border border-zan-cyan text-zan-cyan font-bold uppercase tracking-widest hover:bg-zan-cyan hover:text-black transition-all duration-300 group overflow-hidden text-sm md:text-base inline-block">
+                        <a href="#showcase" className="relative px-6 md:px-8 py-3 bg-transparent border border-zan-cyan text-zan-cyan font-bold uppercase tracking-widest hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 group overflow-hidden text-sm md:text-base inline-block">
                             <span className="relative z-10">Explore Innovations</span>
                             <div className="absolute inset-0 bg-zan-cyan/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 -z-0"></div>
                         </a>

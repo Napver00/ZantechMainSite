@@ -2,7 +2,7 @@ import CampusAmbassadors from '../components/CampusAmbassadors';
 
 const AmbassadorsPage = () => {
     return (
-        <div className="bg-zan-light dark:bg-zan-dark min-h-screen">
+        <div className="bg-zan-dark min-h-screen">
             {/* Wrapper to ensure full screen background and correct spacing if needed */}
             <div className="pt-20">
                 <CampusAmbassadors />

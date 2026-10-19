@@ -232,7 +232,7 @@ const ConnectPage = () => {
                             {!gameStarted ? (
                                 <button
                                     onClick={() => setGameStarted(true)}
-                                    className="px-10 py-4 bg-zan-cyan text-black font-black uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(0,240,255,0.3)] flex items-center space-x-3"
+                                    className="px-10 py-4 bg-zan-cyan text-zan-dark font-black uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(0,240,255,0.3)] flex items-center space-x-3"
                                 >
                                     <Play className="w-5 h-5 fill-current" />
                                     <span>Start System</span>
@@ -241,7 +241,7 @@ const ConnectPage = () => {
                                 <div className="flex flex-col items-center space-y-6 animate-fade-in w-full">
                                     <button
                                         onClick={() => setShowContent(true)}
-                                        className="w-full py-4 bg-gradient-to-r from-zan-cyan to-zan-blue text-white font-black uppercase tracking-[0.3em] rounded-sm border border-zan-cyan/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all transform hover:scale-[1.02]"
+                                        className="w-full py-4 bg-gradient-to-r from-zan-cyan to-zan-blue text-[#fff] font-black uppercase tracking-[0.3em] rounded-sm border border-zan-cyan/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all transform hover:scale-[1.02]"
                                     >
                                         Proceed to Hub
                                     </button>

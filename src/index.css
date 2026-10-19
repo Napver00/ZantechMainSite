@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-zan-light text-gray-900 dark:bg-zan-dark dark:text-gray-100 antialiased;
+    @apply bg-zan-dark text-gray-100 antialiased;
   }
 }
 
@@ -43,8 +43,8 @@
 
   .bg-grid-pattern {
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 }
@@ -55,16 +55,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0F19; 
+  background: rgb(var(--zan-dark));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155; 
+  background: rgb(var(--zan-gray));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f0ff; 
+  background: rgb(var(--zan-cyan));
 }
 
 /* Custom styles for Swiper navigation buttons */
@@ -77,4 +77,11 @@
 .swiper-pagination-bullet-active {
   background: #ed2626 !important;
   /* zan-red */
+}
+/* Smooth colour change while switching theme only (see useTheme) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease !important;
 }

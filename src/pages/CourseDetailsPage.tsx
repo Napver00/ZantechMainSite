@@ -141,7 +141,7 @@ const CourseDetailsPage = () => {
             <div className="text-zan-red text-5xl mb-4 animate-pulse">!</div>
             <h2 className="text-xl font-bold text-white mb-2 font-heading uppercase tracking-wide">{error || 'Course Not Found'}</h2>
             <button onClick={() => navigate('/courses')}
-                className="mt-6 bg-white/5 text-zan-cyan border border-zan-cyan/30 px-5 py-2.5 rounded-sm font-bold uppercase tracking-widest text-xs hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center gap-2 mx-auto">
+                className="mt-6 bg-white/5 text-zan-cyan border border-zan-cyan/30 px-5 py-2.5 rounded-sm font-bold uppercase tracking-widest text-xs hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center gap-2 mx-auto">
                 <ArrowLeft className="w-4 h-4" /> Back to Courses
             </button>
         </div>
@@ -256,7 +256,7 @@ const CourseDetailsPage = () => {
                                     <div className="flex flex-col">
                                         <span className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-1 flex items-center gap-2">
                                             {isMonthly ? 'Monthly Fee' : 'Course Price'}
-                                            {savePercent > 0 && <span className="px-1.5 py-0.5 rounded-sm bg-zan-red text-white text-[10px] tracking-wider">Save {savePercent}%</span>}
+                                            {savePercent > 0 && <span className="px-1.5 py-0.5 rounded-sm bg-zan-red text-[#fff] text-[10px] tracking-wider">Save {savePercent}%</span>}
                                         </span>
                                         <div className="flex items-baseline gap-2 sm:gap-3">
                                             <span className="text-2xl sm:text-3xl font-bold text-white font-heading">
@@ -283,7 +283,7 @@ const CourseDetailsPage = () => {
                                 )}
                                 {canEnroll ? (
                                     <EnrollLink course={course}
-                                        className="px-7 sm:px-10 py-3 sm:py-4 bg-zan-red hover:bg-red-600 text-white font-bold rounded-sm transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider flex items-center gap-2 sm:gap-3 text-sm">
+                                        className="px-7 sm:px-10 py-3 sm:py-4 bg-zan-red hover:bg-red-600 text-[#fff] font-bold rounded-sm transition-all shadow-lg hover:shadow-zan-red/40 font-heading uppercase tracking-wider flex items-center gap-2 sm:gap-3 text-sm">
                                         Enroll Now <ArrowRight className="w-4 h-4" />
                                     </EnrollLink>
                                 ) : (
@@ -293,7 +293,7 @@ const CourseDetailsPage = () => {
                                 )}
                                 {course.curriculum_link && (
                                     <a href={course.curriculum_link} target="_blank" rel="noopener noreferrer"
-                                        className="px-5 sm:px-7 py-3 sm:py-4 border border-zan-cyan/40 text-zan-cyan hover:bg-zan-cyan hover:text-black font-bold rounded-sm transition-all font-heading uppercase tracking-wider flex items-center gap-2 text-sm">
+                                        className="px-5 sm:px-7 py-3 sm:py-4 border border-zan-cyan/40 text-zan-cyan hover:bg-zan-cyan hover:text-zan-dark font-bold rounded-sm transition-all font-heading uppercase tracking-wider flex items-center gap-2 text-sm">
                                         <Download className="w-4 h-4" /> Download Curriculum
                                     </a>
                                 )}
@@ -320,7 +320,7 @@ const CourseDetailsPage = () => {
                                 className="relative rounded-xl shadow-2xl border border-white/10 w-full h-48 sm:h-64 md:h-80 lg:h-[380px] object-cover"
                                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x500?text=Course'; }} />
                             {displayPrice != null && (
-                                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-zan-red text-white font-bold font-heading px-3 sm:px-4 py-1.5 sm:py-2 rounded-sm text-xs sm:text-sm uppercase tracking-wider shadow-lg">
+                                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-zan-red text-[#fff] font-bold font-heading px-3 sm:px-4 py-1.5 sm:py-2 rounded-sm text-xs sm:text-sm uppercase tracking-wider shadow-lg">
                                     ৳{fmt(displayPrice)}{isMonthly && '/mo'}
                                 </div>
                             )}
@@ -443,17 +443,17 @@ const CourseDetailsPage = () => {
                                 <a href={course.curriculum_link} target="_blank" rel="noopener noreferrer"
                                     className="group/cur relative flex items-center gap-3 mb-6 p-3.5 rounded-lg border border-zan-cyan/50 bg-zan-cyan/10 hover:bg-zan-cyan hover:border-zan-cyan transition-all shadow-[0_0_20px_rgba(0,240,255,0.12)] hover:shadow-[0_0_25px_rgba(0,240,255,0.35)]">
                                     <span className="flex items-center justify-center w-10 h-10 rounded-md bg-zan-cyan/15 group-hover/cur:bg-black/15 shrink-0">
-                                        <FileText className="w-5 h-5 text-zan-cyan group-hover/cur:text-black" />
+                                        <FileText className="w-5 h-5 text-zan-cyan group-hover/cur:text-zan-dark" />
                                     </span>
                                     <span className="min-w-0 flex-1">
-                                        <span className="block text-sm font-bold text-white group-hover/cur:text-black font-heading uppercase tracking-wide">
+                                        <span className="block text-sm font-bold text-white group-hover/cur:text-zan-dark font-heading uppercase tracking-wide">
                                             View Full Curriculum
                                         </span>
-                                        <span className="block text-xs text-gray-400 group-hover/cur:text-black/70 font-light">
+                                        <span className="block text-xs text-gray-400 group-hover/cur:text-zan-dark/70 font-light">
                                             Every module & lesson · PDF
                                         </span>
                                     </span>
-                                    <Download className="w-4 h-4 text-zan-cyan group-hover/cur:text-black shrink-0" />
+                                    <Download className="w-4 h-4 text-zan-cyan group-hover/cur:text-zan-dark shrink-0" />
                                 </a>
                             )}
 
@@ -475,7 +475,7 @@ const CourseDetailsPage = () => {
                                     <div className="mb-4">
                                         <span className="font-mono text-xs uppercase tracking-widest text-gray-500 block mb-1">
                                             {isMonthly ? 'Monthly Fee' : 'Price'}
-                                            {savePercent > 0 && <span className="ml-2 px-1.5 py-0.5 rounded-sm bg-zan-red text-white text-[10px] tracking-wider">Save {savePercent}%</span>}
+                                            {savePercent > 0 && <span className="ml-2 px-1.5 py-0.5 rounded-sm bg-zan-red text-[#fff] text-[10px] tracking-wider">Save {savePercent}%</span>}
                                         </span>
                                         <span className="text-2xl font-bold text-white font-heading">
                                             ৳{fmt(displayPrice)}{isMonthly && <span className="text-sm text-gray-400">/mo</span>}
@@ -496,7 +496,7 @@ const CourseDetailsPage = () => {
                                 )}
                                 {canEnroll ? (
                                     <EnrollLink course={course}
-                                        className="w-full px-6 py-3 bg-zan-red hover:bg-red-600 text-white font-bold rounded-sm transition-all font-heading uppercase tracking-wider flex items-center justify-center gap-2 text-sm">
+                                        className="w-full px-6 py-3 bg-zan-red hover:bg-red-600 text-[#fff] font-bold rounded-sm transition-all font-heading uppercase tracking-wider flex items-center justify-center gap-2 text-sm">
                                         Enroll Now <ArrowRight className="w-4 h-4" />
                                     </EnrollLink>
                                 ) : (
@@ -861,7 +861,7 @@ const CourseDetailsPage = () => {
                         {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{fmt(displayPrice)}{isMonthly && '/mo'}</p>}
                     </div>
                     <EnrollLink course={course}
-                        className="shrink-0 bg-zan-red hover:bg-red-600 text-white px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">
+                        className="shrink-0 bg-zan-red hover:bg-red-600 text-[#fff] px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">
                         Enroll Now
                     </EnrollLink>
                 </div>

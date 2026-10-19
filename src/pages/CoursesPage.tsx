@@ -66,12 +66,12 @@ const CourseCard = ({ course }: { course: Course }) => {
                             {course.category}
                         </div>
                         {displayPrice != null ? (
-                            <div className="bg-zan-red/90 backdrop-blur-sm text-white px-3 py-1 rounded-sm text-xs font-mono font-bold">
+                            <div className="bg-zan-red/90 backdrop-blur-sm text-[#fff] px-3 py-1 rounded-sm text-xs font-mono font-bold">
                                 ৳{Number(displayPrice).toLocaleString('en-BD', { maximumFractionDigits: 2 })}{isMonthly && <span className="opacity-80">/mo</span>}
                                 {strikePrice != null && <span className="line-through ml-1 opacity-60">৳{strikePrice.toLocaleString('en-BD')}</span>}
                             </div>
                         ) : (
-                            <div className="bg-zan-cyan/90 backdrop-blur-sm text-black px-3 py-1 rounded-sm text-xs font-mono font-bold">
+                            <div className="bg-zan-cyan/90 backdrop-blur-sm text-zan-dark px-3 py-1 rounded-sm text-xs font-mono font-bold">
                                 Free
                             </div>
                         )}
@@ -96,7 +96,7 @@ const CourseCard = ({ course }: { course: Course }) => {
                     </p>
                     <Link
                         to={`/course/${course.slug}`}
-                        className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
+                        className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
                     >
                         <span>View Details</span>
                         <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
@@ -244,7 +244,7 @@ const CoursesPage = () => {
         return (
             <div className="min-h-screen bg-zan-dark flex flex-col items-center justify-center text-white">
                 <p className="text-red-500 mb-4">{error}</p>
-                <button onClick={() => window.location.reload()} className="px-4 py-2 bg-zan-cyan text-black rounded hover:bg-zan-cyan/80 transition">Retry</button>
+                <button onClick={() => window.location.reload()} className="px-4 py-2 bg-zan-cyan text-zan-dark rounded hover:bg-zan-cyan/80 transition">Retry</button>
             </div>
         );
     }
@@ -273,13 +273,13 @@ const CoursesPage = () => {
                     <div className="bg-surface-dark border border-white/10 p-1 rounded-sm inline-flex">
                         <button
                             onClick={() => handleTabChange('courses')}
-                            className={`px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'courses' ? 'bg-zan-cyan text-black shadow-[0_0_15px_rgba(0,240,255,0.3)]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                            className={`px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'courses' ? 'bg-zan-cyan text-zan-dark shadow-[0_0_15px_rgba(0,240,255,0.3)]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
                         >
                             Active Courses
                         </button>
                         <button
                             onClick={() => handleTabChange('free')}
-                            className={`px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'free' ? 'bg-zan-red text-white shadow-[0_0_15px_rgba(255,50,50,0.3)]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                            className={`px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded-sm transition-all duration-300 ${activeTab === 'free' ? 'bg-zan-red text-[#fff] shadow-[0_0_15px_rgba(255,50,50,0.3)]' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
                         >
                             Free Tutorials
                         </button>

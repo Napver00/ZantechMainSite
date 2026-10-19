@@ -37,7 +37,7 @@ const FaqPage = () => {
     };
 
     return (
-        <div className="bg-[#0b0c10] min-h-screen relative overflow-hidden">
+        <div className="bg-zan-dark min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[10%] left-[-10%] w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px]"></div>
@@ -47,7 +47,7 @@ const FaqPage = () => {
             <section className="pt-32 pb-24 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-[#0f1115] rounded-3xl mb-8 border border-white/5 shadow-2xl shadow-blue-500/10 animate-pulse">
+                        <div className="inline-flex items-center justify-center w-20 h-20 bg-surface-dark rounded-3xl mb-8 border border-white/5 shadow-2xl shadow-blue-500/10 animate-pulse">
                             <HelpCircle className="w-10 h-10 text-blue-500" />
                         </div>
                         <h1 className="text-4xl md:text-6xl font-bold font-heading mb-6 tracking-tight text-white">
@@ -77,7 +77,7 @@ const FaqPage = () => {
                             return (
                                 <div
                                     key={faq.id}
-                                    className={`bg-[#0f1115]/80 backdrop-blur-xl rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen
+                                    className={`bg-surface-dark/80 backdrop-blur-xl rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen
                                         ? 'border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.15)]'
                                         : 'border-white/5 hover:border-white/10'
                                         }`}
@@ -87,7 +87,7 @@ const FaqPage = () => {
                                         className="w-full flex justify-between items-center p-6 text-left group"
                                     >
                                         <div className="flex items-start gap-4">
-                                            <div className={`mt-1 flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'bg-white/5 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
+                                            <div className={`mt-1 flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-blue-500 text-[#fff] shadow-lg shadow-blue-500/30' : 'bg-white/5 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
                                                 }`}>
                                                 <MessageCircle className="w-4 h-4" />
                                             </div>

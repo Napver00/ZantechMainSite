@@ -98,7 +98,7 @@ const CareerPage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <button className="bg-transparent border border-white/20 text-white px-6 py-3 rounded-sm font-bold uppercase tracking-widest text-xs hover:bg-zan-cyan hover:text-black hover:border-zan-cyan transition-all duration-300 flex items-center gap-2 group-hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                                        <button className="bg-transparent border border-white/20 text-white px-6 py-3 rounded-sm font-bold uppercase tracking-widest text-xs hover:bg-zan-cyan hover:text-zan-dark hover:border-zan-cyan transition-all duration-300 flex items-center gap-2 group-hover:shadow-[0_0_15px_rgba(0,240,255,0.2)]">
                                             <span>Apply Now</span>
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                         </button>
@@ -121,7 +121,7 @@ const CareerPage = () => {
             {/* --- Internship CTA --- */}
             <section className="py-20 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-r from-zan-dark to-black border border-zan-cyan/20 rounded-sm p-10 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="bg-gradient-to-r from-surface-dark to-zan-dark border border-zan-cyan/20 rounded-sm p-10 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
                         {/* Decor */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-zan-cyan/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
 
@@ -134,7 +134,7 @@ const CareerPage = () => {
                                 Jumpstart your career with hands-on experience in robotics and software development. We offer competitive internships for students.
                             </p>
                         </div>
-                        <button className="relative z-10 bg-white/5 text-zan-cyan border border-zan-cyan/30 px-8 py-4 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.1)] whitespace-nowrap">
+                        <button className="relative z-10 bg-white/5 text-zan-cyan border border-zan-cyan/30 px-8 py-4 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.1)] whitespace-nowrap">
                             Apply for Internship
                         </button>
                     </div>

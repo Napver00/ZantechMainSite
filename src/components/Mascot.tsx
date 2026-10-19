@@ -47,7 +47,7 @@ const Mascot = () => {
             >
                 <button
                     onClick={() => setShowBubble(false)}
-                    className="absolute -top-2 -right-2 bg-zan-red text-white rounded-full p-0.5 hover:bg-red-600 transition-colors"
+                    className="absolute -top-2 -right-2 bg-zan-red text-[#fff] rounded-full p-0.5 hover:bg-red-600 transition-colors"
                 >
                     <X size={14} />
                 </button>

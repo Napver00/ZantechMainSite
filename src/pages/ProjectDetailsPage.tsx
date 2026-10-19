@@ -46,7 +46,7 @@ const ProjectDetailsPage = () => {
                 <p className="text-lg mb-8 text-center max-w-md text-gray-400 font-light">The data you retrieved seems to be corrupted or missing.</p>
                 <button
                     onClick={() => navigate(-1)}
-                    className="bg-white/5 text-zan-cyan border border-zan-cyan/30 px-6 py-3 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-black transition-all duration-300 flex items-center gap-2"
+                    className="bg-white/5 text-zan-cyan border border-zan-cyan/30 px-6 py-3 rounded-sm font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center gap-2"
                 >
                     <ArrowLeft className="w-4 h-4" />
                     Return to Base
@@ -171,13 +171,13 @@ const ProjectDetailsPage = () => {
                         )}
 
                         {/* Footer / Share Section */}
-                        <div className="bg-black/40 p-8 border-t border-white/5">
+                        <div className="bg-surface-dark/60 p-8 border-t border-white/5">
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                                 <p className="text-gray-500 font-mono text-sm uppercase tracking-widest">
                                     Share this innovation
                                 </p>
                                 <div className="flex gap-3">
-                                    <button className="p-3 rounded-sm bg-white/5 text-gray-400 hover:text-white hover:bg-zan-cyan hover:text-black transition-all border border-white/10 shadow-lg">
+                                    <button className="p-3 rounded-sm bg-white/5 text-gray-400 hover:text-white hover:bg-zan-cyan hover:text-zan-dark transition-all border border-white/10 shadow-lg">
                                         <Share2 className="w-4 h-4" />
                                     </button>
                                 </div>

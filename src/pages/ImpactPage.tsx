@@ -81,7 +81,7 @@ const ImpactPage = () => {
             </section>
 
             {/* --- Project Uddipon Impact --- */}
-            <section className="py-24 bg-black/30 relative z-10">
+            <section className="py-24 bg-surface-dark/50 relative z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid md:grid-cols-2 gap-16 items-center">
                         <div className="relative">
@@ -128,7 +128,7 @@ const ImpactPage = () => {
 
                     <div className="grid md:grid-cols-2 gap-12">
                         {/* Girls in Tech */}
-                        <div className="bg-gradient-to-br from-surface-dark to-black p-12 border border-purple-500/20 rounded-sm relative group overflow-hidden">
+                        <div className="bg-gradient-to-br from-surface-dark to-zan-dark p-12 border border-purple-500/20 rounded-sm relative group overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                             <Heart className="w-12 h-12 text-zan-red mb-8 group-hover:scale-110 transition-transform" />
                             <h3 className="text-2xl font-bold text-white mb-6">Girls in Technology</h3>
@@ -141,7 +141,7 @@ const ImpactPage = () => {
                         </div>
 
                         {/* National Self-Reliance */}
-                        <div className="bg-gradient-to-br from-surface-dark to-black p-12 border border-zan-cyan/20 rounded-sm relative group overflow-hidden">
+                        <div className="bg-gradient-to-br from-surface-dark to-zan-dark p-12 border border-zan-cyan/20 rounded-sm relative group overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-zan-cyan/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                             <ShieldCheck className="w-12 h-12 text-zan-cyan mb-8 group-hover:scale-110 transition-transform" />
                             <h3 className="text-2xl font-bold text-white mb-6">National Self-Reliance</h3>
@@ -157,7 +157,7 @@ const ImpactPage = () => {
             </section>
 
             {/* --- Catalyst Vision Section --- */}
-            <section className="py-24 bg-black/30 relative z-10">
+            <section className="py-24 bg-surface-dark/50 relative z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="w-20 h-20 bg-zan-cyan/10 rounded-full flex items-center justify-center mx-auto mb-10 border border-zan-cyan/20 animate-pulse">
                         <Lightbulb className="w-10 h-10 text-zan-cyan" />
@@ -186,7 +186,7 @@ const ImpactPage = () => {
             {/* --- Final CTA --- */}
             <section className="py-20 relative z-10 text-center">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-r from-surface-dark to-black border border-white/10 p-12 md:p-20 relative overflow-hidden group">
+                    <div className="bg-gradient-to-r from-surface-dark to-zan-dark border border-white/10 p-12 md:p-20 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
                         <div className="absolute top-0 right-0 w-64 h-64 bg-zan-red/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
 
@@ -196,7 +196,7 @@ const ImpactPage = () => {
                             Whether as a partner, student, or innovator, your journey starts here.
                         </p>
                         <Link to="/career">
-                            <button className="bg-zan-red text-white px-12 py-5 rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_30px_rgba(255,0,0,0.1)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] transform hover:-translate-y-1">
+                            <button className="bg-zan-red text-[#fff] px-12 py-5 rounded-none font-bold uppercase tracking-widest hover:bg-white hover:text-zan-dark transition-all shadow-[0_0_30px_rgba(255,0,0,0.1)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] transform hover:-translate-y-1">
                                 Join Our Team
                             </button>
                         </Link>

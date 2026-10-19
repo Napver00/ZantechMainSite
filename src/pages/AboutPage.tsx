@@ -155,7 +155,7 @@ const AboutPage = () => {
             </section>
 
             {/* --- What We Teach --- */}
-            <section className="py-20 bg-black/30 relative z-10">
+            <section className="py-20 bg-surface-dark/50 relative z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold text-white font-heading uppercase tracking-widest">What We Teach</h2>
@@ -176,7 +176,7 @@ const AboutPage = () => {
             {/* --- Project Uddipon --- */}
             <section className="py-24 relative z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-br from-surface-dark to-black p-8 md:p-16 border border-zan-cyan/20 rounded-sm relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-surface-dark to-zan-dark p-8 md:p-16 border border-zan-cyan/20 rounded-sm relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-zan-cyan/5 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
 
                         <div className="relative z-10">
@@ -210,7 +210,7 @@ const AboutPage = () => {
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="bg-black/50 p-8 border border-white/5 rounded-sm">
+                                <div className="bg-surface-dark/60 p-8 border border-white/5 rounded-sm">
                                     <h3 className="text-xl font-bold text-white mb-6">Reach So Far</h3>
                                     <div className="space-y-2 text-gray-400 italic font-light overflow-y-auto max-h-48 scrollbar-thin scrollbar-thumb-zan-cyan">
                                         {institutions.join(', ')} and many more.
@@ -228,7 +228,7 @@ const AboutPage = () => {
             </section>
 
             {/* --- R&D Section --- */}
-            <section className="py-20 bg-black/30 relative z-10">
+            <section className="py-20 bg-surface-dark/50 relative z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid md:grid-cols-2 gap-16 items-center">
                         <div>
@@ -297,14 +297,14 @@ const AboutPage = () => {
             {/* --- Final CTA --- */}
             <section className="py-20 relative z-10 text-center">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-gradient-to-r from-zan-dark to-black border border-white/10 p-12 md:p-20 relative overflow-hidden">
+                    <div className="bg-gradient-to-r from-surface-dark to-zan-dark border border-white/10 p-12 md:p-20 relative overflow-hidden">
                         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 font-heading uppercase tracking-wide">Ready to shape the future?</h2>
                         <p className="text-lg text-gray-400 mb-12 font-light">
                             Whether you are a student, hobbyist, or business, ZAN Tech is here to nurture your talent into innovation.
                         </p>
                         <Link to="/contact">
-                            <button className="bg-zan-cyan text-black px-12 py-5 rounded-none font-bold uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(0,240,255,0.2)] hover:shadow-[0_0_50px_rgba(0,240,255,0.4)] transform hover:-translate-y-1">
+                            <button className="bg-zan-cyan text-zan-dark px-12 py-5 rounded-none font-bold uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(0,240,255,0.2)] hover:shadow-[0_0_50px_rgba(0,240,255,0.4)] transform hover:-translate-y-1">
                                 Let's Build Together
                             </button>
                         </Link>

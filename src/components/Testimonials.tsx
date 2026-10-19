@@ -101,7 +101,7 @@ const Testimonials = () => {
                 </p>
             </div>
             <div className="mt-auto pt-6 border-t border-white/5 flex items-center">
-                <div className="w-10 h-10 rounded-sm bg-gradient-to-br from-zan-dark to-black border border-white/10 flex items-center justify-center text-zan-cyan font-bold text-sm mr-3 font-mono">
+                <div className="w-10 h-10 rounded-sm bg-gradient-to-br from-surface-dark to-zan-dark border border-white/10 flex items-center justify-center text-zan-cyan font-bold text-sm mr-3 font-mono">
                     {testimonial.name.charAt(0)}
                 </div>
                 <div>

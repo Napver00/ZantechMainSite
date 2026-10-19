@@ -2,7 +2,7 @@
 
 const PrivacyPolicyPage = () => {
     return (
-        <div className="bg-[#0b0c10] min-h-screen relative overflow-hidden">
+        <div className="bg-zan-dark min-h-screen relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[10%] left-[-10%] w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px]"></div>
@@ -18,13 +18,13 @@ const PrivacyPolicyPage = () => {
                                 Policy
                             </span>
                         </h1>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0f1115] border border-white/5 text-gray-400 text-sm font-medium">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-dark border border-white/5 text-gray-400 text-sm font-medium">
                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                             Last Updated: September 15, 2025
                         </div>
                     </div>
 
-                    <div className="bg-[#0f1115]/80 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl shadow-black/50">
+                    <div className="bg-surface-dark/80 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl shadow-black/50">
                         <div className="prose prose-lg prose-invert max-w-none 
                             prose-headings:font-heading prose-headings:font-bold prose-headings:text-white
                             prose-p:text-gray-400 prose-p:leading-relaxed

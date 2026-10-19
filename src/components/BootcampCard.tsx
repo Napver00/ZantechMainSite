@@ -33,15 +33,15 @@ const BootcampCard = ({ b, past = false }: { b: BootcampSummary; past?: boolean 
                     </div>
                 )}
                 <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-sm text-[11px] font-mono font-bold uppercase tracking-wider ${
-                    status === 'open' ? 'bg-zan-neon/90 text-black'
-                    : status === 'closing' ? 'bg-orange-500 text-black'
-                    : status === 'soldout' ? 'bg-zan-red text-white'
+                    status === 'open' ? 'bg-zan-neon/90 text-zan-dark'
+                    : status === 'closing' ? 'bg-orange-500 text-zan-dark'
+                    : status === 'soldout' ? 'bg-zan-red text-[#fff]'
                     : 'bg-gray-700 text-gray-200'}`}>
                     {status === 'closing' && <Flame className="w-3 h-3 inline -mt-0.5 mr-1" />}
                     {STATUS_LABEL[status]}
                 </span>
                 {past && b.recap_link && (
-                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-zan-cyan text-black text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded-sm">
+                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-zan-cyan text-zan-dark text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-1 rounded-sm">
                         <Images className="w-3.5 h-3.5" /> Highlights
                     </span>
                 )}

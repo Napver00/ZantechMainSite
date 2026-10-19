@@ -77,7 +77,7 @@ const AchievementsSection = () => {
                 <div className="mt-6 flex justify-center">
                     <Link
                         to="/achievements"
-                        className="inline-flex items-center space-x-2 bg-zan-cyan text-black px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
+                        className="inline-flex items-center space-x-2 bg-zan-cyan text-zan-dark px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                     >
                         <span>View All Achievements</span>
                         <ArrowRight className="w-5 h-5" />

@@ -69,7 +69,7 @@ const BlogPage = () => {
                                             loading="lazy"
                                         />
                                         <div className="absolute top-4 left-4 z-20">
-                                            <span className="bg-zan-cyan/90 backdrop-blur-sm text-black text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider shadow-lg">
+                                            <span className="bg-zan-cyan/90 backdrop-blur-sm text-zan-dark text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider shadow-lg">
                                                 {post.category || "General"}
                                             </span>
                                         </div>

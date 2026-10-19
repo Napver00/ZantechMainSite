@@ -106,7 +106,7 @@ const Contact = () => {
                             ].map((contact, index) => (
                                 <div key={index} className="group flex items-center p-5 md:p-6 bg-surface-dark backdrop-blur-sm rounded-sm border border-white/5 hover:border-zan-cyan/50 transition-all duration-300 relative overflow-hidden">
                                     <div className="absolute left-0 top-0 h-full w-[2px] bg-zan-cyan/20 group-hover:bg-zan-cyan transition-colors"></div>
-                                    <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-sm bg-zan-cyan/5 text-zan-cyan border border-zan-cyan/20 group-hover:bg-zan-cyan group-hover:text-black transition-all duration-300">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-sm bg-zan-cyan/5 text-zan-cyan border border-zan-cyan/20 group-hover:bg-zan-cyan group-hover:text-zan-dark transition-all duration-300">
                                         {contact.icon}
                                     </div>
                                     <div className="ml-4 md:ml-6">
@@ -159,7 +159,7 @@ const Contact = () => {
                                         name="firstName"
                                         value={formData.firstName}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
+                                        className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
                                         placeholder="John"
                                         required
                                     />
@@ -171,7 +171,7 @@ const Contact = () => {
                                         name="lastName"
                                         value={formData.lastName}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
+                                        className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
                                         placeholder="Doe"
                                         required
                                     />
@@ -185,7 +185,7 @@ const Contact = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
+                                    className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
                                     placeholder="john@example.com"
                                     required
                                 />
@@ -198,7 +198,7 @@ const Contact = () => {
                                     name="subject"
                                     value={formData.subject}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
+                                    className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm"
                                     placeholder="Project Inquiry"
                                     required
                                 />
@@ -211,7 +211,7 @@ const Contact = () => {
                                     rows={4}
                                     value={formData.message}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm resize-none"
+                                    className="w-full px-4 py-3 bg-zan-dark/60 border border-white/10 rounded-sm focus:border-zan-cyan focus:ring-1 focus:ring-zan-cyan outline-none transition-all text-white placeholder-gray-600 font-mono text-sm resize-none"
                                     placeholder="Tell us about your project..."
                                     required
                                 ></textarea>
@@ -220,7 +220,7 @@ const Contact = () => {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-zan-cyan text-black py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed group"
+                                className="w-full bg-zan-cyan text-zan-dark py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed group"
                             >
                                 {isSubmitting ? (
                                     <>

@@ -79,7 +79,7 @@ const WorkshopDetailsPage = () => {
                 <div className="text-zan-red text-6xl mb-4 animate-pulse">!</div>
                 <h2 className="text-2xl font-bold text-white mb-2 font-heading uppercase tracking-wide">Workshop Not Found</h2>
                 <p className="text-lg mb-8 text-center max-w-md text-gray-400 font-light">The workshop data seems to be missing from the mainframe.</p>
-                <button onClick={() => navigate(-1)} className="bg-white/5 text-zan-cyan border border-zan-cyan/30 px-6 py-3 font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-black transition-all flex items-center gap-2">
+                <button onClick={() => navigate(-1)} className="bg-white/5 text-zan-cyan border border-zan-cyan/30 px-6 py-3 font-bold uppercase tracking-widest text-sm hover:bg-zan-cyan hover:text-zan-dark transition-all flex items-center gap-2">
                     <ArrowLeft className="w-4 h-4" /> Return to Workshops
                 </button>
             </div>
@@ -135,7 +135,7 @@ const WorkshopDetailsPage = () => {
                         <div className="flex flex-col sm:flex-row gap-4 pt-2">
                             <a
                                 href="#gallery"
-                                className="bg-zan-cyan text-black px-8 py-4 font-bold uppercase tracking-widest text-sm text-center hover:bg-white transition-colors shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
+                                className="bg-zan-cyan text-zan-dark px-8 py-4 font-bold uppercase tracking-widest text-sm text-center hover:bg-white transition-colors shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                             >
                                 View Gallery
                             </a>
@@ -289,7 +289,7 @@ const WorkshopDetailsPage = () => {
             <div className="relative bg-surface-dark border-t border-white/5 py-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-gray-500 font-mono text-sm uppercase tracking-widest">Share this workshop</p>
-                    <button className="p-3 bg-white/5 text-gray-400 hover:bg-zan-cyan hover:text-black transition-all border border-white/10 hover:border-zan-cyan hover:shadow-[0_0_10px_rgba(0,240,255,0.5)]">
+                    <button className="p-3 bg-white/5 text-gray-400 hover:bg-zan-cyan hover:text-zan-dark transition-all border border-white/10 hover:border-zan-cyan hover:shadow-[0_0_10px_rgba(0,240,255,0.5)]">
                         <Share2 className="w-4 h-4" />
                     </button>
                 </div>

@@ -57,7 +57,7 @@ const BootcampsPage = () => {
                                 <Rocket className="w-12 h-12 text-zan-cyan mx-auto mb-4" />
                                 <h2 className="text-xl font-bold text-white font-heading uppercase tracking-wide mb-2">New bootcamps coming soon</h2>
                                 <p className="text-gray-400 font-light mb-6">Follow us or explore our courses while we plan the next camp.</p>
-                                <Link to="/courses" className="inline-flex items-center gap-2 px-6 py-3 bg-zan-cyan text-black font-bold rounded-sm font-heading uppercase tracking-wider text-sm hover:bg-white">
+                                <Link to="/courses" className="inline-flex items-center gap-2 px-6 py-3 bg-zan-cyan text-zan-dark font-bold rounded-sm font-heading uppercase tracking-wider text-sm hover:bg-white">
                                     Browse Courses <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>

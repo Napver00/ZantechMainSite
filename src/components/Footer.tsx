@@ -194,7 +194,7 @@ const Footer = () => {
                                     href={social.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 flex items-center justify-center rounded-sm bg-surface-dark hover:bg-zan-cyan hover:text-black text-gray-400 transition-all duration-300 border border-white/10 hover:border-zan-cyan hover:shadow-[0_0_10px_rgba(0,240,255,0.5)]"
+                                    className="w-10 h-10 flex items-center justify-center rounded-sm bg-surface-dark hover:bg-zan-cyan hover:text-zan-dark text-gray-400 transition-all duration-300 border border-white/10 hover:border-zan-cyan hover:shadow-[0_0_10px_rgba(0,240,255,0.5)]"
                                 >
                                     <SocialIcon platform={social.platform} />
                                 </a>

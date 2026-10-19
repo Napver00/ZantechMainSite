@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, Moon, Sun, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTheme } from '../hooks/useTheme';
 
 const Navbar = () => {
-    const [isDark, setIsDark] = useState(true); // Default to dark for robotic theme
+    const { theme, toggleTheme } = useTheme();
+    const themeLabel = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
     const [isScrolled, setIsScrolled] = useState(false);
     const [isAboutDropdownOpen, setAboutDropdownOpen] = useState(false);
     const [isShowcaseDropdownOpen, setShowcaseDropdownOpen] = useState(false);
@@ -13,33 +15,6 @@ const Navbar = () => {
 
     const aboutDropdownRef = useRef<HTMLDivElement>(null);
     const showcaseDropdownRef = useRef<HTMLDivElement>(null);
-
-    // Initial Theme Setup
-    useEffect(() => {
-        // Enforce dark mode initially for the robotic feel
-        if (!localStorage.getItem('theme')) {
-            document.documentElement.classList.add('dark');
-            setIsDark(true);
-        } else {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-                setIsDark(true);
-            } else {
-                document.documentElement.classList.remove('dark');
-                setIsDark(false);
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        }
-    }, [isDark]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -131,7 +106,7 @@ const Navbar = () => {
                         </Link>
 
                         {/* --- Desktop Menu --- */}
-                        <div className="hidden lg:flex items-center space-x-8 bg-surface-dark/50 px-8 py-2 rounded-full border border-white/5 backdrop-blur-sm">
+                        <div className="hidden lg:flex items-center space-x-5 xl:space-x-8 bg-surface-dark/50 px-5 xl:px-8 py-2 rounded-full border border-white/5 backdrop-blur-sm">
                             {navLinks.map(link => {
                                 if (link.text === 'About Us') {
                                     return (
@@ -221,7 +196,11 @@ const Navbar = () => {
 
                         {/* --- Right side buttons & Mobile Toggle --- */}
                         <div className="flex items-center space-x-4">
-                            <div className="hidden md:flex items-center space-x-4">
+                            <button onClick={toggleTheme} aria-label={themeLabel} title={themeLabel}
+                                className="p-2 text-gray-300 border border-white/10 rounded-full hover:text-zan-cyan hover:border-zan-cyan/50 transition-colors">
+                                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            </button>
+                            <div className="hidden md:flex lg:hidden xl:flex items-center space-x-4">
 
                                 <a href="https://store.zantechbd.com">
                                     <button className="relative overflow-hidden group bg-transparent border border-zan-red text-white px-6 py-2 font-medium transition-all hover:shadow-[0_0_15px_rgba(237,38,38,0.5)] skew-x-[-10deg]">
@@ -299,7 +278,7 @@ const Navbar = () => {
                     <div className="pt-6 mt-4 border-t border-white/10 space-y-4">
 
                         <a href="https://store.zantechbd.com" className="block">
-                            <button className="w-full py-4 bg-zan-red text-white font-bold uppercase tracking-widest skew-x-[-10deg] hover:bg-red-600 transition-colors shadow-[0_0_15px_rgba(237,38,38,0.3)]">
+                            <button className="w-full py-4 bg-zan-red text-[#fff] font-bold uppercase tracking-widest skew-x-[-10deg] hover:bg-red-600 transition-colors shadow-[0_0_15px_rgba(237,38,38,0.3)]">
                                 <span className="block skew-x-[10deg]">Store</span>
                             </button>
                         </a>
