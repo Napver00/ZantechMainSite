@@ -753,7 +753,7 @@ const CourseDetailsPage = () => {
                                         <img
                                             src={mentor.image?.startsWith('http') ? mentor.image : `${API_BASE_URL}/${mentor.image}`}
                                             alt={mentor.name}
-                                            className="relative z-10 w-full rounded-xl shadow-xl grayscale hover:grayscale-0 transition-all duration-500 object-cover aspect-square"
+                                            className="relative z-10 w-full rounded-xl shadow-xl grayscale light:grayscale-0 hover:grayscale-0 transition-all duration-500 object-cover aspect-square"
                                             onError={(e) => {
                                                 (e.target as HTMLImageElement).src =
                                                     'https://ui-avatars.com/api/?name=' + encodeURIComponent(mentor.name) + '&background=006970&color=fff&size=400';

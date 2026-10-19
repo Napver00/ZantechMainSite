@@ -22,7 +22,7 @@ const AmbassadorCard = ({ ambassador }: { ambassador: any }) => (
                     <img
                         src={ambassador.image_url}
                         alt={ambassador.name}
-                        className="w-full h-full rounded-full object-cover border-4 border-zan-dark group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0"
+                        className="w-full h-full rounded-full object-cover border-4 border-zan-dark group-hover:scale-105 transition-transform duration-500 grayscale light:grayscale-0 group-hover:grayscale-0"
                     />
                 </div>
                 <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">

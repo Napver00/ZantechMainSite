@@ -99,7 +99,7 @@ const TeamPage = () => {
                                         <img
                                             src={founder.image}
                                             alt={founder.name}
-                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                                            className="w-full h-full object-cover grayscale light:grayscale-0 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                                         />
                                         <div className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60`}></div>
                                         <div className="absolute bottom-6 left-6 right-6">
@@ -158,7 +158,7 @@ const TeamPage = () => {
                                         <img
                                             src={member.image}
                                             alt={member.name}
-                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                                            className="w-full h-full object-cover grayscale light:grayscale-0 group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-700 ease-out"
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center">

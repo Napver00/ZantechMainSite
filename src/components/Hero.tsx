@@ -110,7 +110,7 @@ const Hero = () => {
         <section id="home" className="min-h-screen flex flex-col justify-center items-center relative text-white text-center p-4 overflow-hidden bg-zan-dark">
             {/* Background Image & Overlay */}
             <div
-                className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 opacity-40 mix-blend-luminosity"
+                className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 opacity-40 mix-blend-luminosity light:opacity-[0.08] light:mix-blend-multiply"
                 style={{ backgroundImage: `url('/hero_section_image.jpg')` }}
             ></div>
 
@@ -118,7 +118,8 @@ const Hero = () => {
             <div className="absolute inset-0 bg-grid-pattern opacity-20 z-0"></div>
 
             {/* Gradient Overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-zan-dark/90 via-zan-dark/50 to-zan-dark z-0"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-zan-dark/90 via-zan-dark/50 light:via-zan-dark/75 to-zan-dark z-0"></div>
+            <div className="absolute inset-0 z-0 hidden light:block bg-[radial-gradient(ellipse_at_top,rgba(14,116,144,0.14),transparent_60%),radial-gradient(ellipse_at_bottom_right,rgba(237,38,38,0.08),transparent_55%)]"></div>
 
             {/* Decorative Tech Rings */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] lg:w-[800px] h-[300px] md:h-[600px] lg:h-[800px] border border-zan-cyan/10 rounded-full animate-spin-slow z-0 pointer-events-none"></div>

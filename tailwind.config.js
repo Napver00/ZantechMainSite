@@ -26,7 +26,7 @@ for (const name of [...NEUTRALS, ...HUES]) {
   palette[name] = {};
   // Neutrals mirror fully; hues keep 500/600 so solid buttons stay saturated.
   const mirror = NEUTRALS.includes(name)
-    ? { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50 }
+    ? { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 500: 600, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50 }
     : { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 700: 300, 800: 200, 900: 100, 950: 50 };
   for (const step of STEPS) {
     palette[name][step] = v(`tw-${name}-${step}`);
@@ -113,7 +113,9 @@ export default {
   },
   plugins: [
     require('@tailwindcss/typography'),
-    plugin(({ addBase }) => {
+    plugin(({ addBase, addVariant }) => {
+      // light:… utilities apply only in light mode (photos, overlays, depth).
+      addVariant('light', 'html.light &');
       addBase({
         ':root': {
           ...darkVars,
@@ -129,9 +131,9 @@ export default {
         },
         'html.light': {
           ...lightVars,
-          '--zan-dark': '245 247 251',
+          '--zan-dark': '241 244 249',
           '--surface-dark': '255 255 255',
-          '--zan-cyan': '8 145 178',
+          '--zan-cyan': '14 116 144',
           '--zan-neon': '22 163 74',
           '--zan-blue': '38 43 114',
           '--zan-light': '15 23 42',

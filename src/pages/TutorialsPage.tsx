@@ -49,13 +49,13 @@ const TutorialCard = ({ tutorial }: { tutorial: any }) => {
                     <img
                         src={tutorial.thumbnail}
                         alt={tutorial.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale light:grayscale-0 group-hover:grayscale-0"
                         loading="lazy"
                         onError={(e) => {
                             (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x600?text=No+Image';
                         }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent light:from-zan-dark/30 opacity-100"></div>
                     <div className="absolute top-4 right-4">
                         <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-red px-4 py-1.5 rounded-sm text-xs font-bold uppercase tracking-wider border border-zan-red/20 flex items-center gap-2">
                             <PlayCircle className="w-3 h-3" />

@@ -41,7 +41,7 @@ const Partners = () => {
                             {/* Original List */}
                             {partners.map((partner, index) => (
                                 <li key={index} className="flex-shrink-0 group">
-                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
+                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale light:grayscale-0 group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
                                         <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <img
                                             src={partner.src}
@@ -54,7 +54,7 @@ const Partners = () => {
                             {/* Clone List for Loop */}
                             {partners.map((partner, index) => (
                                 <li key={`clone-${index}`} className="flex-shrink-0 group" aria-hidden="true">
-                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
+                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale light:grayscale-0 group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
                                         <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <img
                                             src={partner.src}

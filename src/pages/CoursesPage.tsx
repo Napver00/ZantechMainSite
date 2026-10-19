@@ -56,11 +56,11 @@ const CourseCard = ({ course }: { course: Course }) => {
                     <img
                         src={course.thumbnail}
                         alt={course.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale light:grayscale-0 group-hover:grayscale-0"
                         loading="lazy"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x600?text=No+Image'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent light:from-zan-dark/30"></div>
                     <div className="absolute top-3 right-3 flex gap-2 flex-wrap justify-end">
                         <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-cyan px-3 py-1 rounded-sm text-xs font-mono uppercase tracking-wider border border-zan-cyan/20">
                             {course.category}
@@ -130,11 +130,11 @@ const TutorialCard = ({ tutorial }: { tutorial: Tutorial }) => {
                     <img
                         src={tutorial.thumbnail}
                         alt={tutorial.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale light:grayscale-0 group-hover:grayscale-0"
                         loading="lazy"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x600?text=No+Image'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent light:from-zan-dark/30"></div>
                     <div className="absolute top-3 right-3 flex gap-2">
                         <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-red px-3 py-1 rounded-sm text-xs font-mono uppercase tracking-wider border border-zan-red/20">
                             Free

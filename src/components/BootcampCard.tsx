@@ -20,10 +20,10 @@ const BootcampCard = ({ b, past = false }: { b: BootcampSummary; past?: boolean 
             <div className="relative h-48 overflow-hidden bg-gradient-to-br from-zan-cyan/20 via-surface-dark to-zan-red/20">
                 {b.thumbnail && (
                     <img src={b.thumbnail} alt={b.title} loading="lazy"
-                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${past ? 'grayscale' : ''}`}
+                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${past ? 'grayscale light:grayscale-0' : ''}`}
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent light:from-zan-dark/30"></div>
                 {start && (
                     <div className="absolute top-3 left-3 bg-zan-dark/90 border border-zan-cyan/30 rounded-sm text-center px-3 py-1.5 leading-none">
                         <div className="text-2xl font-bold text-white font-heading">{start.getDate()}</div>

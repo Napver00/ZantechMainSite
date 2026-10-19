@@ -16,10 +16,10 @@ const WorkshopCard = ({ workshop }: { workshop: any }) => (
                 <img
                     src={workshop.thumbnail}
                     alt={workshop.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale light:grayscale-0 group-hover:grayscale-0"
                     loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent opacity-100"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-zan-dark/90 to-transparent light:from-zan-dark/30 opacity-100"></div>
                 <div className="absolute top-4 right-4">
                     <div className="bg-zan-dark/80 backdrop-blur-sm text-zan-cyan px-4 py-1.5 rounded-sm text-xs font-bold uppercase tracking-wider border border-zan-cyan/20">
                         Workshop
