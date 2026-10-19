@@ -15,8 +15,8 @@ export default {
         'surface-dark': '#151b2b', // Slightly lighter than background
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Kodchasan', 'system-ui', 'sans-serif'],
+        heading: ['Kodchasan', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'], // Tech/code font
       },
       boxShadow: {
