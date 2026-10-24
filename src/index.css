@@ -184,6 +184,9 @@ html.light ::selection { background: rgb(14 116 144 / 0.2); }
   border-radius: 14px;
   border: 1px solid rgb(var(--tw-white) / 0.1);
 }
+/* Project write-ups: photos open in the viewer */
+.article-body img.zoomable { cursor: zoom-in; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.article-body img.zoomable:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -12px rgb(0 0 0 / 0.45); }
 .article-body :where(:not(pre) > code) {
   padding: 0.15em 0.4em;
   border-radius: 6px;

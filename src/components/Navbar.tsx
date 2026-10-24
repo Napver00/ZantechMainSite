@@ -148,9 +148,9 @@ const Navbar = () => {
 
                                                     <Link to="/achievements" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Achievements</Link>
                                                     <Link to="/workshops" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Workshops</Link>
+                                                    <Link to="/projects" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
                                                     <Link to="/tutorials" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Tutorials</Link>
                                                     <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Project Uddipon</a>
-                                                    <Link to="/projects" className={dropdownItemClasses} onClick={() => setShowcaseDropdownOpen(false)}>Projects</Link>
 
                                                 </div>
                                             )}
@@ -263,9 +263,9 @@ const Navbar = () => {
                             {isShowcaseDropdownOpen && <div className="ml-4 pl-4 border-l border-white/10 space-y-1 my-2">
                                 <Link to="/achievements" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Achievements</Link>
                                 <Link to="/workshops" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Workshops</Link>
+                                <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Projects</Link>
                                 <Link to="/tutorials" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Tutorials</Link>
                                 <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Project Uddipon</a>
-                                <Link to="/projects" onClick={() => setMobileMenuOpen(false)} className="block text-gray-400 hover:text-white py-3 text-base">Projects</Link>
 
                             </div>}
                         </div>
