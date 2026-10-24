@@ -82,7 +82,7 @@ const TutorialCard = ({ tutorial }: { tutorial: any }) => {
                     </p>
 
                     <Link
-                        to={`/course/${tutorial.slug}`}
+                        to={`/tutorial/${tutorial.slug}`}
                         className="w-full mt-auto bg-transparent text-zan-red py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-red/30 hover:bg-zan-red hover:text-white transition-all duration-300 flex items-center justify-center space-x-2 group/btn"
                     >
                         <span>Start Learning</span>

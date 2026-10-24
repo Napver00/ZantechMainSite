@@ -35,6 +35,7 @@ const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const CourseRegistrationPage = lazy(() => import('./pages/CourseRegistrationPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
+const TutorialDetailsPage = lazy(() => import('./pages/TutorialDetailsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="/course/:slug" element={<CourseDetailsPage />} />
           <Route path="/course/:slug/register" element={<CourseRegistrationPage />} />
           <Route path="/tutorials" element={<TutorialsPage />} />
+          <Route path="/tutorial/:slug" element={<TutorialDetailsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
           <Route path="/bootcamps" element={<BootcampsPage />} />

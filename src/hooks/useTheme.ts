@@ -5,7 +5,7 @@ export type Theme = 'dark' | 'light';
 const KEY = 'theme';
 const listeners = new Set<() => void>();
 
-const read = (): Theme => (document.documentElement.classList.contains('light') ? 'light' : 'dark');
+const read = (): Theme => (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
 export const setTheme = (theme: Theme) => {
   const root = document.documentElement;
@@ -32,6 +32,6 @@ const subscribe = (l: () => void) => {
 
 // Current theme and a toggle, shared by every component.
 export const useTheme = () => {
-  const theme = useSyncExternalStore(subscribe, read, (): Theme => 'dark');
+  const theme = useSyncExternalStore(subscribe, read, (): Theme => 'light');
   return { theme, toggleTheme: () => setTheme(theme === 'dark' ? 'light' : 'dark') };
 };

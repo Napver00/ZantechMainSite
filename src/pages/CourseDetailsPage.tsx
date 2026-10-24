@@ -93,6 +93,11 @@ const CourseDetailsPage = () => {
                 const fbRes    = await fetch(`${API_BASE_URL}/api/posts/${slug}`);
                 if (!fbRes.ok) throw new Error('Not found');
                 const fbResult = await fbRes.json();
+                // Free tutorials have their own reading page now — keep old /course/<slug> links working
+                if (fbResult.success && (fbResult.data?.category || '').toLowerCase() === 'tutorial') {
+                    navigate(`/tutorial/${slug}`, { replace: true });
+                    return;
+                }
                 if (fbResult.success) {
                     const p = fbResult.data;
                     setCourse({
@@ -120,7 +125,7 @@ const CourseDetailsPage = () => {
             finally  { setLoading(false); }
         };
         fetchCourse();
-    }, [slug]);
+    }, [slug, navigate]);
 
     const toggleModule = (id: number) =>
         setOpenModules(prev => { const s = new Set(prev); if (s.has(id)) s.delete(id); else s.add(id); return s; });
