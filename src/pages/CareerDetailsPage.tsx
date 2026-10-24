@@ -138,7 +138,7 @@ const CareerDetailsPage = () => {
                     <div>
                         <h2 className="text-xl font-bold text-white mb-6 font-heading">Job Responsibilities</h2>
                         <div
-                            className="prose prose-sm md:prose-lg  prose-invert max-w-none 
+                            className="prose prose-sm md:prose-lg  dark:prose-invert max-w-none 
                             prose-headings:font-heading prose-headings:font-bold prose-headings:text-white
                             prose-p:text-gray-300 prose-p:leading-relaxed
                             prose-li:text-gray-300 prose-li:marker:text-zan-blue"

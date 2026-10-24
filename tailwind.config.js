@@ -26,7 +26,7 @@ for (const name of [...NEUTRALS, ...HUES]) {
   palette[name] = {};
   // Neutrals mirror fully; hues keep 500/600 so solid buttons stay saturated.
   const mirror = NEUTRALS.includes(name)
-    ? { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 500: 600, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50 }
+    ? { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 500: 600, 600: 500, 700: 300, 800: 200, 900: 100, 950: 50 }
     : { 50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 700: 300, 800: 200, 900: 100, 950: 50 };
   for (const step of STEPS) {
     palette[name][step] = v(`tw-${name}-${step}`);

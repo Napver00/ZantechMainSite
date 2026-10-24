@@ -135,7 +135,7 @@ const ProjectDetailsPage = () => {
                         {/* Article Content */}
                         <div className="p-6 md:p-12">
                             <article
-                                className="prose prose-lg prose-invert max-w-none
+                                className="prose prose-lg dark:prose-invert max-w-none
                                 prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white
                                 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h3:text-zan-cyan
                                 prose-p:text-gray-400 prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light

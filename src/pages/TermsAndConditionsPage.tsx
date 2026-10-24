@@ -25,7 +25,7 @@ const TermsAndConditionsPage = () => {
                     </div>
 
                     <div className="bg-surface-dark/80 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl shadow-black/50">
-                        <div className="prose prose-lg prose-invert max-w-none 
+                        <div className="prose prose-lg dark:prose-invert max-w-none 
                             prose-headings:font-heading prose-headings:font-bold prose-headings:text-white
                             prose-p:text-gray-400 prose-p:leading-relaxed
                             prose-li:text-gray-400 prose-li:marker:text-blue-500

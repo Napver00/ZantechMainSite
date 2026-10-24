@@ -199,7 +199,7 @@ const WorkshopDetailsPage = () => {
                 </div>
 
                 {/* Scroll indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600 font-mono text-xs animate-bounce">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 font-mono text-xs animate-bounce">
                     <span className="uppercase tracking-widest">Scroll</span>
                     <div className="w-px h-8 bg-gradient-to-b from-zan-cyan/50 to-transparent" />
                 </div>
@@ -272,7 +272,7 @@ const WorkshopDetailsPage = () => {
                         Workshop Highlights
                     </h2>
                     <article
-                        className="prose prose-lg prose-invert max-w-none
+                        className="prose prose-lg dark:prose-invert max-w-none
                         prose-headings:font-heading prose-headings:uppercase prose-headings:tracking-wide prose-headings:text-white
                         prose-h2:text-2xl prose-h3:text-xl prose-h3:text-zan-cyan
                         prose-p:text-gray-400 prose-p:leading-relaxed prose-p:mb-6 prose-p:font-light

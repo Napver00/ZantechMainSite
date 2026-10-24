@@ -106,7 +106,7 @@ const FaqPage = () => {
                                             }`}
                                     >
                                         <div className="px-6 pb-8 pl-[4.5rem]">
-                                            <div className="prose prose-lg prose-invert max-w-none text-gray-400 leading-relaxed">
+                                            <div className="prose prose-lg dark:prose-invert max-w-none text-gray-400 leading-relaxed">
                                                 <p>{faq.answer}</p>
                                             </div>
                                         </div>
