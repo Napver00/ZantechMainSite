@@ -104,11 +104,11 @@ const TicTacToe = () => {
 };
 
 /** "Link in bio" hub: everything about ZAN Tech one tap away. */
-const ConnectPage = () => {
+const ContactPage = () => {
     const company = useCompany();
     const [copied, setCopied] = useState('');
 
-    useEffect(() => { document.title = 'Connect with ZAN Tech'; }, []);
+    useEffect(() => { document.title = 'Contact ZAN Tech'; }, []);
 
     const phoneDigits = company.phone.replace(/[^\d+]/g, '');
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi ZAN Tech, I found you through your links page.')}`;
@@ -292,4 +292,4 @@ const ConnectPage = () => {
     );
 };
 
-export default ConnectPage;
+export default ContactPage;

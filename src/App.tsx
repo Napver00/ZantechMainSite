@@ -33,13 +33,13 @@ const BootcampDetailsPage = lazy(() => import('./pages/BootcampDetailsPage'));
 const CoursesPage = lazy(() => import('./pages/CoursesPage'));
 const CourseDetailsPage = lazy(() => import('./pages/CourseDetailsPage'));
 const CourseRegistrationPage = lazy(() => import('./pages/CourseRegistrationPage'));
-const ConnectPage = lazy(() => import('./pages/ConnectPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
 const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 const TutorialDetailsPage = lazy(() => import('./pages/TutorialDetailsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 
-// Addresses are typed and shared in all sorts of casing (/Connect, /PORTFOLIO);
+// Addresses are typed and shared in all sorts of casing (/Contact, /PORTFOLIO);
 // send them to the canonical lowercase path so links always look the same.
 const LowercasePaths = () => {
   const { pathname, search, hash } = useLocation();
@@ -103,7 +103,9 @@ function App() {
           <Route path="/bootcamp/:slug" element={<BootcampDetailsPage />} />
           <Route path="/bootcamp/:slug/register" element={<CourseRegistrationPage />} />
           <Route path="/custom-robot" element={<Navigate to="/bootcamps" replace />} />
-          <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          {/* Old address, kept so shared links still work */}
+          <Route path="/connect" element={<Navigate to="/contact" replace />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/achievements" element={<AchievementsPage />} />
         </Routes>

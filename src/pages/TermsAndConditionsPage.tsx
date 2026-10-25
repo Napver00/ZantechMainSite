@@ -69,7 +69,7 @@ const TermsAndConditionsPage = () => {
                             <p>To the fullest extent permitted by law, ZAN Tech shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from: (a) your use of our Services or products; (b) any unauthorized access to or use of our servers and/or any personal information stored therein. (c) any defects or malfunctioning of components sold. Our liability is strictly limited to the replacement or refund of the purchased product.</p>
 
                             <h2>8. Indemnification</h2>
-                            <p>You agree to indemnify and hold harmless ZAN Tech and its employees from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, reasonable legal and accounting fees, a-rising out of or in any way connected with your access to or use of the Services or your violation of these Terms.</p>
+                            <p>You agree to indemnify and hold harmless ZAN Tech and its employees from and against any claims, liabilities, damages, losses, and expenses, including, without limitation, reasonable legal and accounting fees, arising out of or in any way connected with your access to or use of the Services or your violation of these Terms.</p>
 
                             <h2>9. Governing Law</h2>
                             <p>These Terms shall be governed and construed in accordance with the laws of the People's Republic of Bangladesh, without regard to its conflict of law provisions. Any disputes will be resolved in the competent courts of Dhaka, Bangladesh.</p>

@@ -459,7 +459,7 @@ const PortfolioPage = () => {
                                     <a href={waUrl} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center gap-2 rounded-lg bg-zan-cyan px-6 font-bold text-zan-dark transition-colors hover:bg-white">
                                         <FaWhatsapp className="h-5 w-5" /> WhatsApp us
                                     </a>
-                                    <Link to="/connect" className="inline-flex h-12 items-center gap-2 rounded-lg border border-white/15 px-6 font-bold text-white hover:border-zan-cyan/50 hover:text-zan-cyan">
+                                    <Link to="/contact" className="inline-flex h-12 items-center gap-2 rounded-lg border border-white/15 px-6 font-bold text-white hover:border-zan-cyan/50 hover:text-zan-cyan">
                                         All our links <Rocket className="h-4 w-4" />
                                     </Link>
                                 </div>
