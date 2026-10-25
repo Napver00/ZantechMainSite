@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { brandText } from '../utils/brand';
 import { API_BASE_URL } from '../config';
 
 const Hero = () => {
@@ -14,7 +15,7 @@ const Hero = () => {
             .then(data => {
                 if (data.success && data.data.hero_title) {
                     setHeroData({
-                        hero_title: data.data.hero_title,
+                        hero_title: brandText(data.data.hero_title),
                     });
                 }
             })

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { brandText } from '../utils/brand';
 import { API_BASE_URL } from '../config';
 
 export interface SocialLink { platform: string; url: string }
@@ -39,6 +40,9 @@ export const useCompany = () => {
                     ...prev,
                     ...res.data,
                     name: 'ZAN Tech',
+                    hero_description: brandText(res.data.hero_description),
+                    about_description1: brandText(res.data.about_description1),
+                    about_description2: brandText(res.data.about_description2),
                     social_links: (res.data.social_links || []).filter((s: SocialLink) => s?.url),
                 }));
             })

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { brandText } from '../utils/brand';
 import { API_BASE_URL } from '../config';
 import { GraduationCap, Cpu, Rocket, Briefcase, ChevronRight } from 'lucide-react';
 
@@ -15,9 +16,9 @@ const About = () => {
             .then(data => {
                 if (data.success) {
                     setAboutData({
-                        about_title: data.data.about_title,
-                        about_description1: data.data.about_description1,
-                        about_description2: data.data.about_description2
+                        about_title: brandText(data.data.about_title),
+                        about_description1: brandText(data.data.about_description1),
+                        about_description2: brandText(data.data.about_description2)
                     });
                 }
             })
