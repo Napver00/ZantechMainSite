@@ -35,14 +35,16 @@ const TutorialsPage = lazy(() => import('./pages/TutorialsPage'));
 const TutorialDetailsPage = lazy(() => import('./pages/TutorialDetailsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
+const CertificatePage = lazy(() => import('./pages/CertificatePage'));
 
 // Addresses are typed and shared in all sorts of casing (/Contact, /PORTFOLIO);
 // send them to the canonical lowercase path so links always look the same.
 const LowercasePaths = () => {
   const { pathname, search, hash } = useLocation();
   const lower = pathname.toLowerCase();
-  // Slugs are lowercase too, so the whole path can be normalised.
-  if (pathname !== lower) return <Navigate to={`${lower}${search}${hash}`} replace />;
+  // Slugs are lowercase too, so the whole path can be normalised. Certificate
+  // IDs (ZT-7KQ4-M9PX) are the exception: keep them as printed.
+  if (pathname !== lower && !lower.startsWith('/certificate/')) return <Navigate to={`${lower}${search}${hash}`} replace />;
   return null;
 };
 
@@ -104,6 +106,10 @@ function App() {
           <Route path="/connect" element={<Navigate to="/contact" replace />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/achievements" element={<AchievementsPage />} />
+          {/* Certificate QR codes open /certificate/<code>; /certificate lets people type one */}
+          <Route path="/certificate" element={<CertificatePage />} />
+          <Route path="/certificate/:code" element={<CertificatePage />} />
+          <Route path="/verify" element={<Navigate to="/certificate" replace />} />
         </Routes>
       </Suspense>
       {!isStandalonePortfolio && <Footer />}
