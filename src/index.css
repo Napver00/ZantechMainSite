@@ -274,3 +274,7 @@ html.light ::selection { background: rgb(14 116 144 / 0.2); }
   .article-body :where(h1, h2) { font-size: 1.3rem; }
   .article-body :where(h3) { font-size: 1.12rem; }
 }
+
+/* Horizontal scrollers (e.g. the portfolio jump bar) without a visible scrollbar */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

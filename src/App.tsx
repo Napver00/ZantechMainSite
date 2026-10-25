@@ -39,6 +39,16 @@ const TutorialDetailsPage = lazy(() => import('./pages/TutorialDetailsPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 
+// Addresses are typed and shared in all sorts of casing (/Connect, /PORTFOLIO);
+// send them to the canonical lowercase path so links always look the same.
+const LowercasePaths = () => {
+  const { pathname, search, hash } = useLocation();
+  const lower = pathname.toLowerCase();
+  // Slugs are lowercase too, so the whole path can be normalised.
+  if (pathname !== lower) return <Navigate to={`${lower}${search}${hash}`} replace />;
+  return null;
+};
+
 // Scroll to top when changing routes
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -59,6 +69,7 @@ function App() {
 
   return (
     <div className="min-h-screen transition-colors duration-300">
+      <LowercasePaths />
       <ScrollToTop />
       {!isStandalonePortfolio && <Navbar />}
       <Suspense fallback={

@@ -1,406 +1,293 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Mail, Phone, MapPin, Globe, BookOpen, Facebook, Instagram, Linkedin, Youtube, RotateCcw, Play } from 'lucide-react';
-import { FaTiktok, FaWhatsapp } from 'react-icons/fa6';
-import { API_BASE_URL } from '../config';
+import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+    ArrowUpRight, BookOpen, Check, ChevronDown, Clock, Copy, Cpu, Gamepad2, Globe, Mail,
+    MapPin, Phone, RotateCcw, Rocket, ShoppingBag, Sparkles, UserPlus,
+} from 'lucide-react';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaWhatsapp, FaYoutube, FaXTwitter } from 'react-icons/fa6';
+import { useCompany, WHATSAPP_NUMBER } from '../hooks/useCompany';
 import mascot from '../assets/mascot.png';
 
-interface SocialLink {
-    platform: string;
-    url: string;
-}
+const SOCIAL_STYLE: Record<string, { icon: JSX.Element; color: string; label: string }> = {
+    facebook: { icon: <FaFacebook />, color: '#1877F2', label: 'Facebook' },
+    instagram: { icon: <FaInstagram />, color: '#E4405F', label: 'Instagram' },
+    linkedin: { icon: <FaLinkedin />, color: '#0A66C2', label: 'LinkedIn' },
+    youtube: { icon: <FaYoutube />, color: '#FF0000', label: 'YouTube' },
+    tiktok: { icon: <FaTiktok />, color: 'currentColor', label: 'TikTok' },
+    twitter: { icon: <FaXTwitter />, color: 'currentColor', label: 'X' },
+    x: { icon: <FaXTwitter />, color: 'currentColor', label: 'X' },
+};
 
-interface CompanyData {
-    email: string;
-    phone: string;
-    location: string;
-    social_links: SocialLink[];
-}
+const LINKS = [
+    { title: 'ZAN Tech website', text: 'Who we are, courses, projects and more', to: '/', icon: Globe },
+    { title: 'Courses', text: 'Robotics, coding & AI for school students', to: '/courses', icon: BookOpen },
+    { title: 'Bootcamps', text: 'Short hands-on build programmes', to: '/bootcamps', icon: Rocket },
+    { title: 'ZAN Tech Store', text: 'Arduino, sensors, kits & components', href: 'https://store.zantechbd.com', icon: ShoppingBag },
+    { title: 'R&D projects', text: 'Custom electronics, IoT & robotics we have built', to: '/projects', icon: Cpu },
+    { title: 'Project Uddipon', text: 'Free STEM workshops across Bangladesh', href: 'https://projectuddipon.zantechbd.com/', icon: Sparkles },
+];
 
-const ConnectPage = () => {
-    const [companyInfo, setCompanyInfo] = useState<CompanyData>({
-        email: 'zantechbd@gmail.com',
-        phone: '+8801894634149',
-        location: 'Dhaka, Bangladesh',
-        social_links: []
-    });
+const vCard = (c: { name: string; phone: string; email: string; location: string }) =>
+    [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${c.name}`,
+        `ORG:${c.name}`,
+        `TEL;TYPE=WORK,VOICE:${c.phone.replace(/\s+/g, '')}`,
+        `EMAIL;TYPE=WORK:${c.email}`,
+        `ADR;TYPE=WORK:;;${c.location.replace(/,/g, '\\,')};;;;`,
+        'URL:https://zantechbd.com',
+        'END:VCARD',
+    ].join('\r\n');
 
-    // Tic-Tac-Toe State
-    const [squares, setSquares] = useState(Array(9).fill(null));
+/** Optional mini-game kept from the old page, now behind a toggle instead of in the way. */
+const TicTacToe = () => {
+    const [squares, setSquares] = useState<(string | null)[]>(Array(9).fill(null));
     const [xIsNext, setXIsNext] = useState(true);
-    const [winner, setWinner] = useState<string | null>(null);
-    const [isDraw, setIsDraw] = useState(false);
-    const [showContent, setShowContent] = useState(false);
-    const [gameStarted, setGameStarted] = useState(false);
 
-    useEffect(() => {
-        fetch(`${API_BASE_URL}/api/company`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setCompanyInfo(prev => ({
-                        ...prev,
-                        ...data.data,
-                        social_links: [
-                            ...(data.data.social_links || []),
-                            { platform: 'whatsapp', url: 'https://wa.me/+8801894634149' }
-                        ]
-                    }));
-                }
-            })
-            .catch(err => console.error('Error fetching company info:', err));
-    }, []);
-
-    // Check for Winner
-    const calculateWinner = useCallback((squares: any[]) => {
-        const lines = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
-            [0, 4, 8], [2, 4, 6]             // diagonals
-        ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
-            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                return squares[a];
-            }
-        }
+    const winnerOf = useCallback((sq: (string | null)[]) => {
+        const lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+        for (const [a, b, c] of lines) if (sq[a] && sq[a] === sq[b] && sq[a] === sq[c]) return sq[a];
         return null;
     }, []);
 
-    // AI Move
+    const winner = winnerOf(squares);
+    const draw = !winner && squares.every(Boolean);
+
     useEffect(() => {
-        if (!xIsNext && !winner && gameStarted) {
-            const emptySquares = squares.map((s, i) => s === null ? i : null).filter(s => s !== null);
-            if (emptySquares.length > 0) {
-                const timeoutId = setTimeout(() => {
-                    const randomIndex = Math.floor(Math.random() * emptySquares.length);
-                    const move = emptySquares[randomIndex] as number;
-                    const newSquares = squares.slice();
-                    newSquares[move] = 'O';
-                    setSquares(newSquares);
-                    setXIsNext(true);
+        if (xIsNext || winner || draw) return;
+        const empty = squares.map((s, i) => (s ? null : i)).filter((i): i is number => i !== null);
+        const t = setTimeout(() => {
+            const next = squares.slice();
+            next[empty[Math.floor(Math.random() * empty.length)]] = 'O';
+            setSquares(next);
+            setXIsNext(true);
+        }, 450);
+        return () => clearTimeout(t);
+    }, [xIsNext, winner, draw, squares]);
 
-                    const win = calculateWinner(newSquares);
-                    if (win) {
-                        setWinner(win);
-                    } else if (newSquares.every(s => s !== null)) {
-                        setIsDraw(true);
-                    }
-                }, 600);
-                return () => clearTimeout(timeoutId);
-            }
-        }
-    }, [xIsNext, winner, squares, gameStarted, calculateWinner]);
-
-    const handleClick = (i: number) => {
-        if (winner || squares[i] || !xIsNext || !gameStarted) return;
-
-        const newSquares = squares.slice();
-        newSquares[i] = 'X';
-        setSquares(newSquares);
+    const play = (i: number) => {
+        if (!xIsNext || squares[i] || winner) return;
+        const next = squares.slice();
+        next[i] = 'X';
+        setSquares(next);
         setXIsNext(false);
-
-        const win = calculateWinner(newSquares);
-        if (win) {
-            setWinner(win);
-        } else if (newSquares.every(s => s !== null)) {
-            setIsDraw(true);
-        }
-    };
-
-    const resetGame = () => {
-        setSquares(Array(9).fill(null));
-        setXIsNext(true);
-        setWinner(null);
-        setIsDraw(false);
-    };
-
-    const links = [
-        {
-            title: 'Official Website',
-            url: '/',
-            icon: <Globe className="w-5 h-5 text-zan-cyan" />,
-            color: 'border-zan-cyan/50 hover:border-zan-cyan'
-        },
-        {
-            title: 'Our Courses',
-            url: '/courses',
-            icon: <BookOpen className="w-5 h-5 text-zan-red" />,
-            color: 'border-zan-red/50 hover:border-zan-red'
-        },
-        {
-            title: 'ZAN Tech Store',
-            url: 'https://store.zantechbd.com',
-            icon: <Globe className="w-5 h-5 text-zan-cyan" />,
-            color: 'border-zan-cyan/50 hover:border-zan-cyan',
-            isExternal: true
-        },
-        {
-            title: 'Project Uddipon',
-            url: 'https://projectuddipon.zantechbd.com/',
-            icon: <Globe className="w-5 h-5 text-zan-red" />,
-            color: 'border-zan-red/50 hover:border-zan-red',
-            isExternal: true
-        }
-    ];
-
-    const getSocialIcon = (platform: string) => {
-        switch (platform.toLowerCase()) {
-            case 'facebook': return <Facebook className="w-5 h-5" />;
-            case 'instagram': return <Instagram className="w-5 h-5" />;
-            case 'linkedin': return <Linkedin className="w-5 h-5" />;
-            case 'youtube': return <Youtube className="w-5 h-5" />;
-            case 'tiktok': return <FaTiktok className="w-5 h-5" />;
-            case 'whatsapp': return <FaWhatsapp className="w-5 h-5" />;
-            default: return <Globe className="w-5 h-5" />;
-        }
     };
 
     return (
-        <div className="min-h-screen bg-zan-dark text-white font-sans relative overflow-hidden flex flex-col items-center py-12 px-4 pt-24 selection:bg-zan-cyan/30">
-            {/* Background Animations */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
-            <div className="absolute -top-24 -left-24 w-96 h-96 bg-zan-cyan/10 rounded-full blur-[120px] animate-pulse"></div>
-            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-zan-red/10 rounded-full blur-[120px] animate-pulse"></div>
-
-            {/* Scanning Line HUD Effect */}
-            <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-                <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-zan-cyan/20 to-transparent absolute top-0 animate-[scan_4s_linear_infinite]"></div>
+        <div className="flex flex-col items-center gap-4 py-2">
+            <p className="text-sm font-semibold text-gray-400">
+                {winner ? (winner === 'X' ? 'You win! 🎉' : 'ZAN Bot wins 🤖') : draw ? "It's a draw" : xIsNext ? 'Your turn (X)' : 'ZAN Bot is thinking…'}
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+                {squares.map((sq, i) => (
+                    <button
+                        key={i}
+                        onClick={() => play(i)}
+                        aria-label={`Square ${i + 1}${sq ? `, ${sq}` : ''}`}
+                        className={`h-16 w-16 rounded-xl border text-2xl font-black transition-colors ${
+                            sq === 'X' ? 'border-zan-cyan/40 bg-zan-cyan/10 text-zan-cyan' : sq === 'O' ? 'border-zan-red/40 bg-zan-red/10 text-zan-red' : 'border-white/10 bg-white/5 hover:border-zan-cyan/40'
+                        }`}
+                    >
+                        {sq}
+                    </button>
+                ))}
             </div>
+            <button
+                onClick={() => { setSquares(Array(9).fill(null)); setXIsNext(true); }}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-zan-cyan hover:underline"
+            >
+                <RotateCcw className="h-4 w-4" /> New game
+            </button>
+        </div>
+    );
+};
 
-            {/* Tic-Tac-Toe Game Overlay */}
-            {!showContent && (
-                <div className={`fixed inset-0 z-[100] bg-zan-dark flex flex-col items-center justify-center p-6 transition-all duration-1000 ${winner || isDraw ? 'bg-zan-dark/95' : ''}`}>
-                    <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+/** "Link in bio" hub: everything about ZAN Tech one tap away. */
+const ConnectPage = () => {
+    const company = useCompany();
+    const [copied, setCopied] = useState('');
 
-                    <div className="max-w-md w-full flex flex-col items-center space-y-8 relative z-10">
-                        {/* Header */}
-                        <div className="text-center space-y-2">
-                            <h2 className="text-3xl font-black font-heading tracking-widest uppercase italic animate-fade-in">
-                                Tic-Tac-<span className="text-zan-red text-shadow-red">TOE</span>
-                            </h2>
-                            <p className="text-zan-cyan text-[10px] tracking-[0.4em] uppercase font-bold opacity-60">System Access Protocol</p>
+    useEffect(() => { document.title = 'Connect with ZAN Tech'; }, []);
+
+    const phoneDigits = company.phone.replace(/[^\d+]/g, '');
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi ZAN Tech, I found you through your links page.')}`;
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`ZAN Tech, ${company.location}`)}`;
+
+    const copy = async (label: string, value: string) => {
+        try {
+            await navigator.clipboard.writeText(value);
+            setCopied(label);
+            setTimeout(() => setCopied(''), 1600);
+        } catch { /* clipboard blocked */ }
+    };
+
+    const saveContact = () => {
+        const blob = new Blob([vCard(company)], { type: 'text/vcard' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ZAN-Tech.vcf';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+    };
+
+    const quick = [
+        { label: 'WhatsApp', icon: <FaWhatsapp className="h-5 w-5" />, href: waUrl, external: true, accent: true },
+        { label: 'Call', icon: <Phone className="h-5 w-5" />, href: `tel:${phoneDigits}` },
+        { label: 'Email', icon: <Mail className="h-5 w-5" />, href: `mailto:${company.email}` },
+    ];
+
+    return (
+        <div className="relative min-h-screen overflow-hidden bg-zan-dark px-4 pb-16 pt-24 md:pt-28">
+            <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-30" />
+            <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-[36rem] -translate-x-1/2 rounded-full bg-zan-cyan/10 blur-[110px]" />
+
+            <div className="relative mx-auto w-full max-w-lg">
+                {/* Profile */}
+                <header className="flex flex-col items-center text-center">
+                    <div className="relative">
+                        <div className="absolute -inset-3 rounded-full bg-gradient-to-tr from-zan-cyan/30 to-zan-red/20 blur-xl" />
+                        <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-2 border-zan-cyan/40 bg-surface-dark p-2 shadow-xl">
+                            <img src={mascot} alt="ZAN Tech mascot" className="h-full w-full object-contain" />
                         </div>
-
-                        {/* Game Status */}
-                        <div className="h-8 flex items-center justify-center">
-                            {winner ? (
-                                <span className={`text-xl font-bold uppercase tracking-widest animate-bounce ${winner === 'X' ? 'text-zan-cyan' : 'text-zan-red'}`}>
-                                    {winner === 'X' ? 'You Win!' : 'System Wins!'}
-                                </span>
-                            ) : isDraw ? (
-                                <span className="text-xl font-bold uppercase tracking-widest text-gray-400">It's a Draw!</span>
-                            ) : gameStarted ? (
-                                <span className="text-sm font-mono tracking-widest text-zan-cyan/70 animate-pulse">
-                                    {xIsNext ? 'Your Turn (X)' : 'System thinking (O)...'}
-                                </span>
-                            ) : (
-                                <span className="text-sm font-mono tracking-widest text-gray-500">Ready to play?</span>
-                            )}
-                        </div>
-
-                        {/* Game Board */}
-                        <div className="grid grid-cols-3 gap-3 bg-white/5 p-4 rounded-sm border border-white/10 backdrop-blur-md shadow-2xl relative">
-                            {/* Board corners */}
-                            <div className="absolute -top-1 -left-1 w-4 h-4 border-t border-l border-zan-cyan"></div>
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b border-r border-zan-cyan"></div>
-
-                            {squares.map((square, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => handleClick(i)}
-                                    disabled={!gameStarted || !!square || !!winner || isDraw || !xIsNext}
-                                    className={`w-20 h-20 md:w-24 md:h-24 flex items-center justify-center text-4xl font-black rounded-sm border transition-all duration-300 relative overflow-hidden group
-                                        ${!square && gameStarted && xIsNext ? 'border-white/10 hover:border-zan-cyan/50 hover:bg-zan-cyan/5' : 'border-white/5 bg-white/[0.02]'}
-                                        ${square === 'X' ? 'text-zan-cyan border-zan-cyan/30 bg-zan-cyan/5 shadow-[0_0_15px_rgba(0,240,255,0.1)]' : ''}
-                                        ${square === 'O' ? 'text-zan-red border-zan-red/30 bg-zan-red/5 shadow-[0_0_15px_rgba(237,38,38,0.1)]' : ''}
-                                    `}
-                                >
-                                    {square && (
-                                        <span className="animate-scale-in">
-                                            {square}
-                                        </span>
-                                    )}
-                                    {!square && gameStarted && xIsNext && (
-                                        <span className="opacity-0 group-hover:opacity-10 text-white">X</span>
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* Controls */}
-                        <div className="flex flex-col items-center space-y-4 w-full">
-                            {!gameStarted ? (
-                                <button
-                                    onClick={() => setGameStarted(true)}
-                                    className="px-10 py-4 bg-zan-cyan text-zan-dark font-black uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(0,240,255,0.3)] flex items-center space-x-3"
-                                >
-                                    <Play className="w-5 h-5 fill-current" />
-                                    <span>Start System</span>
-                                </button>
-                            ) : (winner || isDraw) ? (
-                                <div className="flex flex-col items-center space-y-6 animate-fade-in w-full">
-                                    <button
-                                        onClick={() => setShowContent(true)}
-                                        className="w-full py-4 bg-gradient-to-r from-zan-cyan to-zan-blue text-[#fff] font-black uppercase tracking-[0.3em] rounded-sm border border-zan-cyan/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] transition-all transform hover:scale-[1.02]"
-                                    >
-                                        Proceed to Hub
-                                    </button>
-                                    <button
-                                        onClick={resetGame}
-                                        className="flex items-center space-x-2 text-xs text-gray-500 uppercase tracking-widest hover:text-white transition-colors"
-                                    >
-                                        <RotateCcw className="w-3 h-3" />
-                                        <span>Replay System</span>
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="text-[9px] text-gray-600 font-mono uppercase tracking-[0.4em]">Grid_Sync: Active...</div>
-                            )}
-                        </div>
+                        <img src="/zantech_logo.png" alt="" className="absolute -bottom-1 -right-1 h-9 w-9 rounded-full border-2 border-zan-dark bg-white p-1" />
                     </div>
-                </div>
-            )}
+                    <h1 className="mt-5 text-3xl font-bold font-heading text-white">
+                        ZAN<span className="text-zan-red">TECH</span>
+                    </h1>
+                    <p className="mt-1.5 text-sm font-semibold text-zan-cyan">Robotics · IoT · STEM education</p>
+                    <p className="mt-3 max-w-sm text-sm leading-relaxed text-gray-400">
+                        Hands-on robotics, coding &amp; AI for students, components for makers, and custom R&amp;D for businesses — from Dhaka, Bangladesh.
+                    </p>
+                </header>
 
-            {/* Main Content (Fades in after game) */}
-            <div className={`w-full max-w-lg flex flex-col items-center transition-all duration-1000 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
-                {/* Profile Section */}
-                <div className="flex flex-col items-center mb-10 relative z-10">
-                    <div className="relative group mb-6">
-                        <div className="absolute -inset-6 bg-gradient-to-r from-zan-cyan/20 to-zan-red/20 blur-2xl group-hover:opacity-100 transition-opacity rounded-full opacity-50"></div>
-                        <div className="relative w-32 h-32 md:w-36 md:h-36 bg-surface-dark border-2 border-zan-cyan/30 rounded-full overflow-hidden flex items-center justify-center p-2 shadow-[0_0_30px_rgba(0,240,255,0.15)] group-hover:shadow-[0_0_40px_rgba(0,240,255,0.25)] transition-all duration-500">
-                            <img src={mascot} alt="ZAN Tech Mascot" className="w-full h-auto object-contain animate-float" />
-                        </div>
-                        {/* HUD corner decorations */}
-                        <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-zan-cyan/50"></div>
-                        <div className="absolute -top-3 -right-3 w-8 h-8 border-t-2 border-r-2 border-zan-red/50"></div>
-                        <div className="absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-zan-red/50"></div>
-                        <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-zan-cyan/50"></div>
-                    </div>
-
-                    <div className="flex flex-col items-center space-y-3">
-                        <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="h-12 w-auto mb-1 animate-pulse" />
-                        <h1 className="text-4xl font-black font-heading tracking-tighter uppercase italic">
-                            ZAN<span className="text-zan-red">TECH</span>
-                        </h1>
-                        <div className="flex items-center space-x-4">
-                            <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-zan-cyan"></div>
-                            <p className="text-zan-cyan text-[10px] tracking-[0.5em] font-bold uppercase whitespace-nowrap">Hub Interface 1.0</p>
-                            <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-zan-cyan"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Links Section */}
-                <div className="w-full space-y-4 relative z-10 px-2 md:px-0">
-                    {links.map((link, idx) => (
+                {/* Quick actions */}
+                <div className="mt-7 grid grid-cols-4 gap-2.5">
+                    {quick.map((q) => (
                         <a
-                            key={idx}
-                            href={link.url}
-                            target={link.isExternal ? "_blank" : "_self"}
-                            rel={link.isExternal ? "noopener noreferrer" : ""}
-                            className={`group flex items-center bg-white/[0.03] hover:bg-white/[0.08] backdrop-blur-xl p-5 border-l-4 ${link.color} rounded-sm transition-all duration-300 hover:translate-x-2 relative overflow-hidden group shadow-lg border-y border-r border-white/5`}
+                            key={q.label}
+                            href={q.href}
+                            target={q.external ? '_blank' : undefined}
+                            rel={q.external ? 'noreferrer' : undefined}
+                            className={`flex flex-col items-center gap-1.5 rounded-2xl border py-3 text-xs font-bold transition-all hover:-translate-y-0.5 ${
+                                q.accent
+                                    ? 'border-transparent bg-[#25D366] text-white shadow-lg shadow-[#25D366]/25'
+                                    : 'border-white/10 bg-surface-dark text-white hover:border-zan-cyan/40'
+                            }`}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-zan-cyan/5 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
-                            <div className="mr-6 p-2.5 bg-white/5 rounded-sm border border-white/10 group-hover:border-zan-cyan/30 group-hover:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all">
-                                {link.icon}
-                            </div>
-                            <span className="flex-1 font-bold tracking-widest uppercase text-sm group-hover:text-zan-cyan transition-colors">{link.title}</span>
-                            <div className="w-1.5 h-1.5 rounded-full bg-zan-cyan/30 group-hover:bg-zan-cyan animate-ping"></div>
+                            {q.icon}
+                            {q.label}
                         </a>
                     ))}
+                    <button
+                        onClick={saveContact}
+                        className="flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-surface-dark py-3 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:border-zan-cyan/40"
+                    >
+                        <UserPlus className="h-5 w-5" />
+                        Save
+                    </button>
+                </div>
 
-                    <div className="py-2 flex items-center justify-center space-x-4">
-                        <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10"></div>
-                        <span className="text-[10px] text-gray-500 font-mono uppercase tracking-[0.3em]">Neural Connections</span>
-                        <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10"></div>
-                    </div>
+                {/* Links */}
+                <nav className="mt-7 space-y-3" aria-label="ZAN Tech links">
+                    {LINKS.map((l) => {
+                        const inner = (
+                            <>
+                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-zan-cyan/10 text-zan-cyan">
+                                    <l.icon className="h-5 w-5" />
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                    <span className="block font-bold text-white">{l.title}</span>
+                                    <span className="block truncate text-sm text-gray-400">{l.text}</span>
+                                </span>
+                                <ArrowUpRight className="h-5 w-5 shrink-0 text-gray-500 transition-colors group-hover:text-zan-cyan" />
+                            </>
+                        );
+                        const cls = 'group flex items-center gap-3.5 rounded-2xl border border-white/10 bg-surface-dark p-3.5 transition-all hover:-translate-y-0.5 hover:border-zan-cyan/40 hover:shadow-lg';
+                        return l.to ? (
+                            <Link key={l.title} to={l.to} className={cls}>{inner}</Link>
+                        ) : (
+                            <a key={l.title} href={l.href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
+                        );
+                    })}
+                </nav>
 
-                    {/* Dynamic Social Links */}
-                    <div className="grid grid-cols-2 gap-4">
-                        {companyInfo.social_links.map((social, idx) => (
-                            <a
-                                key={`social-${idx}`}
-                                href={social.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex flex-col items-center justify-center bg-white/[0.02] hover:bg-white/[0.07] backdrop-blur-lg p-6 border border-white/5 hover:border-zan-cyan/40 rounded-sm transition-all duration-300 hover:scale-[1.05] relative overflow-hidden text-gray-400 hover:text-white"
-                            >
-                                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-zan-cyan"></div>
-                                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-zan-cyan"></div>
+                {/* Socials */}
+                {company.social_links.length > 0 && (
+                    <section className="mt-8">
+                        <p className="mb-3 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400">Follow ZAN Tech</p>
+                        <div className="flex flex-wrap justify-center gap-2.5">
+                            {company.social_links.map((s) => {
+                                const style = SOCIAL_STYLE[s.platform.toLowerCase()];
+                                return (
+                                    <a
+                                        key={s.url}
+                                        href={s.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={style?.label || s.platform}
+                                        className="group flex h-12 items-center gap-2 rounded-full border border-white/10 bg-surface-dark px-4 text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
+                                        style={{ ['--brand' as string]: style?.color || '#00f0ff' }}
+                                    >
+                                        <span className="text-lg text-[color:var(--brand)] transition-transform group-hover:scale-110">{style?.icon || <Globe />}</span>
+                                        {style?.label || s.platform}
+                                    </a>
+                                );
+                            })}
+                        </div>
+                    </section>
+                )}
 
-                                <div className="mb-3 transition-transform duration-300 group-hover:scale-110">
-                                    {getSocialIcon(social.platform)}
-                                </div>
-                                <span className="font-bold tracking-[0.2em] uppercase text-[10px] opacity-70 group-hover:opacity-100">{social.platform}</span>
-                            </a>
+                {/* Visit / contact details */}
+                <section className="mt-8 rounded-2xl border border-white/10 bg-surface-dark p-5">
+                    <p className="mb-4 font-bold text-white">Visit or reach us</p>
+                    <ul className="space-y-3.5 text-sm">
+                        <li className="flex gap-3">
+                            <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zan-red" />
+                            <span className="text-gray-300">
+                                {company.location}
+                                <a href={mapUrl} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 font-semibold text-zan-cyan hover:underline">
+                                    Open in Google Maps <ArrowUpRight className="h-3.5 w-3.5" />
+                                </a>
+                            </span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <Clock className="h-5 w-5 shrink-0 text-zan-cyan" />
+                            <span className="text-gray-300">Saturday – Thursday, 10 AM – 6 PM</span>
+                        </li>
+                        {[
+                            { label: 'phone', icon: <Phone className="h-5 w-5 shrink-0 text-zan-cyan" />, value: company.phone, href: `tel:${phoneDigits}` },
+                            { label: 'email', icon: <Mail className="h-5 w-5 shrink-0 text-zan-cyan" />, value: company.email, href: `mailto:${company.email}` },
+                        ].map((row) => (
+                            <li key={row.label} className="flex items-center gap-3">
+                                {row.icon}
+                                <a href={row.href} className="min-w-0 flex-1 truncate text-gray-300 hover:text-zan-cyan">{row.value}</a>
+                                <button
+                                    onClick={() => copy(row.label, row.value)}
+                                    aria-label={`Copy ${row.label}`}
+                                    className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-white/5 hover:text-zan-cyan"
+                                >
+                                    {copied === row.label ? <Check className="h-4 w-4 text-zan-cyan" /> : <Copy className="h-4 w-4" />}
+                                </button>
+                            </li>
                         ))}
-                    </div>
-                </div>
+                    </ul>
+                </section>
 
-                {/* Contact Section */}
-                <div className="mt-12 w-full bg-surface-dark/40 border border-white/5 p-8 rounded-sm space-y-6 relative z-10 backdrop-blur-md">
-                    <div className="absolute top-0 right-0 p-2 text-[8px] font-mono text-zan-red/40 uppercase">Encrypted_Comm_Line</div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="flex items-center space-x-4 group">
-                            <div className="p-2 bg-zan-red/10 rounded-sm group-hover:bg-zan-red/20 transition-colors">
-                                <Mail className="w-4 h-4 text-zan-red" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[9px] text-gray-500 uppercase font-bold tracking-tighter">Email Interface</span>
-                                <span className="text-xs font-medium group-hover:text-zan-cyan transition-colors">{companyInfo.email}</span>
-                            </div>
-                        </div>
-                        <div className="flex items-center space-x-4 group">
-                            <div className="p-2 bg-zan-cyan/10 rounded-sm group-hover:bg-zan-cyan/20 transition-colors">
-                                <Phone className="w-4 h-4 text-zan-cyan" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[9px] text-gray-500 uppercase font-bold tracking-tighter">Direct Uplink</span>
-                                <span className="text-xs font-medium group-hover:text-zan-cyan transition-colors">{companyInfo.phone}</span>
-                            </div>
-                        </div>
+                {/* Optional mini-game */}
+                <details className="group mt-4 rounded-2xl border border-white/10 bg-surface-dark">
+                    <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 font-semibold text-white">
+                        <span className="flex items-center gap-2"><Gamepad2 className="h-5 w-5 text-zan-cyan" /> Got a minute? Beat ZAN Bot at Tic-Tac-Toe</span>
+                        <ChevronDown className="h-4 w-4 text-gray-400 transition-transform group-open:rotate-180" />
+                    </summary>
+                    <div className="border-t border-white/10 px-5 pb-5 pt-3">
+                        <TicTacToe />
                     </div>
-                    <div className="pt-4 border-t border-white/5 flex items-center space-x-4 group">
-                        <MapPin className="w-4 h-4 text-zan-red/50 group-hover:text-zan-red transition-colors" />
-                        <span className="text-[10px] text-gray-400 group-hover:text-gray-200 transition-colors uppercase tracking-widest">{companyInfo.location}</span>
-                    </div>
-                </div>
+                </details>
 
-                {/* Footer Section */}
-                <div className="mt-16 pb-8 flex flex-col items-center space-y-4 opacity-40 hover:opacity-100 transition-opacity duration-500">
-                    <div className="flex space-x-8 text-[9px] font-mono tracking-[0.3em] uppercase">
-                        <div className="flex items-center space-x-2">
-                            <div className="w-1.5 h-1.5 bg-zan-cyan rounded-full animate-pulse"></div>
-                            <span>Sys_Ok</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <div className="w-1.5 h-1.5 bg-zan-red rounded-full"></div>
-                            <span>Net_Sec_Max</span>
-                        </div>
-                    </div>
-                    <div className="text-[9px] text-gray-600 uppercase tracking-[0.4em]">
-                        &copy; {new Date().getFullYear()} ZAN Tech Digital Card System
-                    </div>
-                </div>
+                <p className="mt-10 text-center text-xs text-gray-500">© {new Date().getFullYear()} ZAN Tech · zantechbd.com</p>
             </div>
-
-            {/* Custom Animations */}
-            <style>{`
-                @keyframes scan {
-                    0% { top: -10%; }
-                    100% { top: 110%; }
-                }
-                @keyframes scale-in {
-                    0% { transform: scale(0); opacity: 0; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-                .animate-scale-in {
-                    animation: scale-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                }
-                .text-shadow-red {
-                    text-shadow: 0 0 10px rgba(237, 38, 38, 0.5);
-                }
-            `}</style>
         </div>
     );
 };

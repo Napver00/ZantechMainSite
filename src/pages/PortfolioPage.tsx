@@ -1,364 +1,496 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowRight, Calendar, Code, Mail, Phone, MapPin } from 'lucide-react';
+import {
+    ArrowRight, ArrowUpRight, Award, BookOpen, Clock, Cpu, Eye, FlaskConical, GraduationCap, Heart,
+    Home, LifeBuoy, Lightbulb, Mail, MapPin, Medal, Phone, Printer, Rocket, ShoppingBag, Target, Trophy, Users, Wrench,
+} from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa6';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { API_BASE_URL } from '../config';
+import { useCompany, WHATSAPP_NUMBER } from '../hooks/useCompany';
 import CoursesSection from '../components/CoursesSection';
 import WorkshopsSection from '../components/WorkshopsSection';
 import Partners from '../components/Partners';
 import AchievementCard from '../components/AchievementCard';
 import { achievements } from '../data/achievements';
 
+interface Project {
+    id: number | string;
+    slug: string;
+    title: string;
+    description?: string;
+    image_url?: string | null;
+    technologies?: { id: number | string; name: string }[];
+}
+
+const SECTIONS = [
+    { id: 'about', label: 'About' },
+    { id: 'services', label: 'What we do' },
+    { id: 'impact', label: 'Impact' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'achievements', label: 'Awards' },
+    { id: 'team', label: 'Team' },
+    { id: 'contact', label: 'Contact' },
+];
+
+const STATS = [
+    { value: '5,000+', label: 'Students reached', icon: GraduationCap },
+    { value: '150+', label: 'Students per workshop', icon: Users },
+    { value: '30–50%', label: 'Female participation', icon: Heart },
+    { value: '15+', label: 'R&D projects built', icon: Cpu },
+];
+
+const SERVICES = [
+    {
+        icon: BookOpen,
+        title: 'STEM education',
+        text: 'Structured robotics, programming and AI courses and bootcamps for school and college students.',
+        points: ['Age-based course tracks', 'Hands-on kits in every class', 'Competition coaching (WRO, WICE…)'],
+        link: { to: '/courses', label: 'See courses' },
+    },
+    {
+        icon: Heart,
+        title: 'Free workshops',
+        text: 'Project Uddipon brings free robotics & coding workshops to schools and rural communities.',
+        points: ['150+ students per session', 'Focus on girls in tech', 'Run with schools & partners'],
+        link: { href: 'https://projectuddipon.zantechbd.com/', label: 'Project Uddipon' },
+    },
+    {
+        icon: FlaskConical,
+        title: 'Custom R&D',
+        text: 'We design and build electronics, IoT systems and robots for businesses, NGOs and researchers.',
+        points: ['Idea to working prototype', 'PCB, firmware, app & enclosure', 'Testing, hand-over & support'],
+        link: { to: '/projects', label: 'View projects' },
+    },
+    {
+        icon: ShoppingBag,
+        title: 'Components store',
+        text: 'Arduino, sensors, modules and ready kits for makers, students and labs across Bangladesh.',
+        points: ['Kits matched to our courses', 'Bulk orders for schools', 'Delivery nationwide'],
+        link: { href: 'https://store.zantechbd.com', label: 'Visit the store' },
+    },
+];
+
+const STEPS = [
+    { icon: Lightbulb, title: 'Share the idea', text: 'Tell us the problem, the users and your budget.' },
+    { icon: FlaskConical, title: 'Prototype', text: 'We choose hardware & software and build a proof of concept.' },
+    { icon: Wrench, title: 'Build & test', text: 'Custom PCB, firmware, app and enclosure, tested for real.' },
+    { icon: LifeBuoy, title: 'Deliver & support', text: 'Hand-over, training and support after launch.' },
+];
+
+const FOUNDERS = [
+    { name: 'Nakibul Islam', role: 'Co-Founder & Chief Everything Officer', image: '/assets/team/nakibul_islam.png' },
+    { name: 'Hana Sultan Chowdhury', role: 'Co-Founder & Chief Technology Officer', image: '/assets/team/hana_sultan_chowdhury.jpg' },
+];
+
+const CORE_TEAM = [
+    { name: 'Tahfizul Hasan Zihan', role: 'Head of Robotics & Innovation', image: '/assets/team/zihan.jpeg' },
+    { name: 'Mukut Protim Memo', role: 'R&D Prototyping Engineer', image: '/assets/team/mukut_protim_memo.jpg' },
+    { name: 'Sakibul Hasan Dipto', role: 'Drone Technology & R&D Engineer', image: '/assets/team/sakibul_hasan_dipto.png' },
+    { name: 'Mahfuj Rohoman', role: 'CAD & Digital Fabrication Engineer', image: '/assets/team/mahfuj_rohoman.jpg' },
+    { name: 'Jotirmoy Mollick', role: 'Robotics Systems & R&D Engineer', image: '/assets/team/jotirmoy_mollick.jpg' },
+    { name: 'Mahmudul Hasan', role: 'Software & Embedded Systems Engineer', image: '/assets/team/mahmudul_hasan.jpg' },
+];
+
 const sliderBreakpoints = {
     640: { slidesPerView: 1, spaceBetween: 20 },
-    768: { slidesPerView: 2, spaceBetween: 30 },
-    1024: { slidesPerView: 3, spaceBetween: 30 },
+    768: { slidesPerView: 2, spaceBetween: 24 },
+    1024: { slidesPerView: 3, spaceBetween: 24 },
 };
 
-const ProjectCard = ({ project }: { project: any }) => (
-    <div className="group h-full flex flex-col">
-        <div className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 overflow-hidden group hover:border-zan-cyan/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
-            <div className="relative h-48 overflow-hidden">
-                <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-all duration-500 z-10"></div>
-                <img
-                    src={project.image_url || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600'}
-                    alt={project.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale light:grayscale-0 group-hover:grayscale-0"
-                    loading="lazy"
-                />
-                <div className="absolute top-2 right-2 z-20 bg-black/80 text-zan-cyan text-xs font-mono px-2 py-1 rounded-sm border border-zan-cyan/30 flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {project.created_at ? new Date(project.created_at).getFullYear() : '2024'}
-                </div>
-            </div>
-            <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-white mb-3 font-heading uppercase tracking-wide group-hover:text-zan-cyan transition-colors">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-3 font-light flex-grow">{project.description}</p>
-                <div className="mb-6 flex flex-wrap gap-2">
-                    {project.technologies && project.technologies.slice(0, 3).map((tech: any, index: number) => (
-                        <span key={index} className="px-2 py-1 bg-white/5 text-gray-300 text-xs rounded-sm border border-white/10 font-mono flex items-center">
-                            <Code className="w-3 h-3 mr-1 text-zan-neon" />
-                            {tech.name}
-                        </span>
-                    ))}
-                </div>
-                <Link
-                    to={`/project/${project.slug}`}
-                    className="w-full mt-auto bg-transparent text-zan-cyan py-3 rounded-sm font-bold uppercase tracking-widest text-xs border border-zan-cyan/30 hover:bg-zan-cyan hover:text-zan-dark transition-all duration-300 flex items-center justify-center gap-2 group/btn"
-                >
-                    View Details
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                </Link>
-            </div>
-        </div>
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+    <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-zan-cyan">{children}</p>
+);
+
+const SectionTitle = ({ eyebrow, title, text, center }: { eyebrow: string; title: string; text?: string; center?: boolean }) => (
+    <div className={center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 className="mt-2 text-2xl md:text-3xl font-bold leading-tight text-white font-heading">{title}</h2>
+        {text && <p className="mt-3 text-base leading-relaxed text-gray-400">{text}</p>}
     </div>
 );
 
-// Single-scroll company portfolio page. Sections are placeholders —
-// swap the bracketed text for real copy once content is provided.
+/** Shareable company profile: who ZAN Tech is, what it does, proof of work, and how to reach it. */
 const PortfolioPage = () => {
-    const [projects, setProjects] = useState<any[]>([]);
+    const company = useCompany();
+    const [projects, setProjects] = useState<Project[]>([]);
     const [projectsLoading, setProjectsLoading] = useState(true);
+    const [active, setActive] = useState('');
 
     useEffect(() => {
+        document.title = 'ZAN Tech — Company Profile';
         fetch(`${API_BASE_URL}/api/projects/active`)
-            .then(res => res.json())
-            .then(result => {
-                if (result.success && Array.isArray(result.data)) {
-                    setProjects(result.data);
-                } else if (Array.isArray(result)) {
-                    setProjects(result);
-                }
+            .then((r) => r.json())
+            .then((res) => {
+                const list = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : res?.data?.data;
+                if (Array.isArray(list)) setProjects(list);
             })
-            .catch(err => console.error('Error fetching projects:', err))
+            .catch(() => { /* section shows an empty state */ })
             .finally(() => setProjectsLoading(false));
     }, []);
 
-    const stats = [
-        { label: 'Students Reached', value: '5,000+' },
-        { label: 'Participants Per Workshop', value: '150+' },
-        { label: 'Female Participation', value: 'Up to 50%' },
-    ];
+    // Highlight the section in view in the jump bar
+    useEffect(() => {
+        const onScroll = () => {
+            let current = '';
+            for (const s of SECTIONS) {
+                const el = document.getElementById(s.id);
+                if (el && el.getBoundingClientRect().top < 160) current = s.id;
+            }
+            // The last section can't reach the top of the screen, so count the page end as it.
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40) {
+                current = SECTIONS[SECTIONS.length - 1].id;
+            }
+            setActive(current);
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
-    const topSections = [
-        {
-            id: 'about',
-            title: 'About Us',
-            body: 'We teach students robotics, programming, and AI/ML — and beyond the classroom, we work on R&D and automation, building real-world tech solutions for Bangladesh.',
-            link: { to: '/about', label: 'Read More About Us' },
-        },
-        {
-            id: 'mission-vision',
-            title: 'Mission & Vision',
-            body: 'Our mission is to bring robotics, programming, and AI education to every corner of Bangladesh. Our vision is to prepare the next generation for the Fourth Industrial Revolution (4IR).',
-            link: { to: '/about#mission-vision', label: 'Read More About Our Mission & Vision' },
-        },
-        {
-            id: 'services',
-            title: 'What We Do',
-            body: 'We foster tech education through free robotics, programming, and AI/ML workshops nationwide; empower women with accessible robotics and electronics tools; and accelerate innovation through custom R&D — designing, prototyping, and building real products.',
-            link: { to: '/#courses', label: 'Explore Our Courses' },
-        },
-    ];
+    // On phones the jump bar scrolls sideways: keep the current section's button visible
+    useEffect(() => {
+        if (!active) return;
+        document.querySelector(`header nav a[href="#${active}"]`)?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }, [active]);
 
-    const bottomSections = [
-        {
-            id: 'team',
-            title: 'Our Team',
-            body: 'ZAN Tech is led by Nakibul Islam (Co-Founder & Chief Everything Officer) and Hana Sultan Chowdhury (Co-Founder & Chief Technology Officer) — a blend of software engineering, robotics, and AI expertise driving the company forward.',
-            link: { to: '/team', label: 'Meet Our Team' },
-        },
-    ];
+    const awardSummary = useMemo(() => {
+        const gold = achievements.filter((a) => /gold|champion|1st/i.test(a.badge)).length;
+        const international = achievements.filter((a) => /world|global|malaysia|international/i.test(`${a.badge} ${a.description}`)).length;
+        return [
+            { value: achievements.length, label: 'Awards & podiums', icon: Trophy },
+            { value: gold, label: 'Gold, 1st place & champion', icon: Medal },
+            { value: international, label: 'On the world stage', icon: Award },
+        ];
+    }, []);
 
-    const renderSection = (section: { id: string; title: string; body: string; link?: { to: string; label: string } }, index: number) => (
-        <section
-            key={section.id}
-            id={section.id}
-            className={`py-16 relative z-10 ${index % 2 === 1 ? 'bg-surface-dark/40' : ''}`}
-        >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-4 font-heading uppercase tracking-wide text-white">
-                    {section.title}
-                </h2>
-                <p className="text-gray-400 leading-relaxed font-light">{section.body}</p>
-                {section.link && (
-                    <Link
-                        to={section.link.to}
-                        className="inline-flex items-center gap-2 mt-4 text-sm uppercase tracking-wider text-zan-cyan hover:text-white transition-colors group"
-                    >
-                        {section.link.label}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                )}
-            </div>
-        </section>
-    );
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi ZAN Tech, I saw your company profile and I'd like to talk.")}`;
+    const phoneDigits = company.phone.replace(/[^\d+]/g, '');
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`ZAN Tech, ${company.location}`)}`;
 
     return (
-        <div className="bg-zan-dark min-h-screen relative overflow-hidden text-white">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[5%] left-[-10%] w-96 h-96 bg-zan-cyan/5 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[20%] right-[-10%] w-96 h-96 bg-zan-red/5 rounded-full blur-[100px]"></div>
-            </div>
-
-            {/* Home button — the only nav control on this standalone page */}
-            <Link
-                to="/"
-                className="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 bg-surface-dark/80 border border-zan-cyan/30 backdrop-blur-md px-4 py-2 rounded-full text-sm uppercase tracking-wider text-gray-200 hover:text-zan-cyan hover:border-zan-cyan transition-all"
-            >
-                <Home className="w-4 h-4" />
-                Home
-            </Link>
-
-            {/* --- Cover / Hero --- */}
-            <section className="pt-32 pb-16 md:pt-40 md:pb-24 text-center relative z-10">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <img src="/zantech_logo.png" alt="ZAN Tech Logo" className="w-20 h-auto mx-auto mb-6" />
-                    <p className="text-zan-cyan font-mono text-sm tracking-widest uppercase mb-4">
-                        &lt;Company Portfolio /&gt;
-                    </p>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6 font-heading leading-tight">
-                        ZAN<span className="text-zan-red">TECH</span>
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-light max-w-2xl mx-auto">
-                        Awaken Your Hidden Talent
-                    </p>
+        <div className="relative min-h-screen bg-zan-dark text-white">
+            {/* Top bar: brand, jump links, home */}
+            <header className="sticky top-0 z-50 border-b border-white/10 bg-zan-dark/85 backdrop-blur-md print:hidden">
+                <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
+                    <Link to="/" className="flex shrink-0 items-center gap-2">
+                        <img src="/zantech_logo.png" alt="ZAN Tech" className="h-7 w-auto" />
+                        <span className="hidden font-heading font-bold tracking-wider text-white sm:inline">ZAN<span className="text-zan-red">TECH</span></span>
+                    </Link>
+                    <nav className="no-scrollbar -mx-1 flex flex-1 gap-1 overflow-x-auto px-1" aria-label="Profile sections">
+                        {SECTIONS.map((s) => (
+                            <a
+                                key={s.id}
+                                href={`#${s.id}`}
+                                className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
+                                    active === s.id ? 'bg-zan-cyan/15 text-zan-cyan' : 'text-gray-400 hover:text-white'
+                                }`}
+                            >
+                                {s.label}
+                            </a>
+                        ))}
+                    </nav>
+                    <button
+                        onClick={() => window.print()}
+                        className="hidden h-9 items-center gap-1.5 rounded-lg border border-white/10 px-3 text-sm font-semibold text-gray-300 hover:border-zan-cyan/40 hover:text-zan-cyan md:inline-flex"
+                    >
+                        <Printer className="h-4 w-4" /> Print / PDF
+                    </button>
+                    <Link to="/" aria-label="Home" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-gray-300 hover:border-zan-cyan/40 hover:text-zan-cyan">
+                        <Home className="h-4 w-4" />
+                    </Link>
                 </div>
-            </section>
+            </header>
 
-            {/* --- Quick Stats --- */}
-            <section className="pb-16 relative z-10">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    {stats.map((stat) => (
-                        <div
-                            key={stat.label}
-                            className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 p-6 text-center"
-                        >
-                            <div className="text-3xl font-bold text-zan-cyan font-heading mb-1">{stat.value}</div>
-                            <div className="text-sm text-gray-400 uppercase tracking-wide">{stat.label}</div>
+            {/* Hero */}
+            <section className="relative overflow-hidden border-b border-white/10 bg-surface-dark">
+                <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-40" />
+                <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-zan-cyan/10 blur-[110px]" />
+                <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 md:py-20 lg:grid-cols-[1.15fr_0.85fr]">
+                    <div>
+                        <Eyebrow>Company profile</Eyebrow>
+                        <h1 className="mt-3 text-4xl md:text-5xl font-bold leading-[1.1] text-white font-heading">
+                            Building Bangladesh's next generation of <span className="text-zan-cyan">innovators</span>.
+                        </h1>
+                        <p className="mt-5 max-w-xl text-base md:text-lg leading-relaxed text-gray-400">
+                            {company.hero_description ||
+                                'ZAN Tech teaches robotics, programming and AI to students, supplies components to makers, and builds custom electronics, IoT and robotics solutions for businesses.'}
+                        </p>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a href={waUrl} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center gap-2 rounded-lg bg-zan-cyan px-6 font-bold text-zan-dark shadow-lg shadow-zan-cyan/20 transition-colors hover:bg-white">
+                                <FaWhatsapp className="h-5 w-5" /> Work with us
+                            </a>
+                            <a href="#projects" className="inline-flex h-12 items-center gap-2 rounded-lg border border-white/15 px-6 font-bold text-white transition-colors hover:border-zan-cyan/50 hover:text-zan-cyan">
+                                See our work <ArrowRight className="h-4 w-4" />
+                            </a>
                         </div>
-                    ))}
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                        {STATS.map((s) => (
+                            <div key={s.label} className="rounded-2xl border border-white/10 bg-zan-dark/60 p-5 backdrop-blur-sm">
+                                <s.icon className="h-5 w-5 text-zan-cyan" />
+                                <p className="mt-3 text-3xl font-bold text-white font-heading">{s.value}</p>
+                                <p className="mt-1 text-sm text-gray-400">{s.label}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* --- Top Content Sections (About, Mission & Vision, What We Do) --- */}
-            {topSections.map((section, index) => renderSection(section, index))}
+            {/* About + mission/vision */}
+            <section id="about" className="scroll-mt-20 py-16 md:py-20">
+                <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[1.1fr_0.9fr]">
+                    <div>
+                        <SectionTitle eyebrow="About ZAN Tech" title="Robotics, coding and AI — made accessible across Bangladesh" />
+                        <div className="mt-5 space-y-4 text-base leading-relaxed text-gray-400">
+                            <p>{company.about_description1 || 'ZAN Tech is a technology company dedicated to fostering innovation and technical skills across Bangladesh. We make robotics, programming and AI/ML accessible to everyone, from young students to established businesses.'}</p>
+                            {company.about_description2 && <p>{company.about_description2}</p>}
+                        </div>
+                        <Link to="/about" className="mt-6 inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">
+                            More about us <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <div className="grid content-start gap-4">
+                        <div className="rounded-2xl border border-white/10 bg-surface-dark p-6">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zan-cyan/10 text-zan-cyan"><Target className="h-5 w-5" /></span>
+                            <p className="mt-4 font-bold text-white">Our mission</p>
+                            <p className="mt-1.5 text-sm leading-relaxed text-gray-400">Bring robotics, programming and AI education to every corner of Bangladesh — so no talented student is left behind.</p>
+                        </div>
+                        <div className="rounded-2xl border border-white/10 bg-surface-dark p-6">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zan-red/10 text-zan-red"><Eye className="h-5 w-5" /></span>
+                            <p className="mt-4 font-bold text-white">Our vision</p>
+                            <p className="mt-1.5 text-sm leading-relaxed text-gray-400">A generation ready for the Fourth Industrial Revolution, building technology for Bangladesh and the world.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            {/* --- Achievements --- */}
-            <section id="achievements" className="py-16 relative z-10 bg-surface-dark/40">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-8 font-heading uppercase tracking-wide text-white text-center">
-                        Achievements
-                    </h2>
-                    {achievements.length > 3 ? (
+            {/* Services */}
+            <section id="services" className="scroll-mt-20 border-y border-white/10 bg-surface-dark py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <SectionTitle eyebrow="What we do" title="Four ways we turn ideas into skills and products" />
+                    <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                        {SERVICES.map((s) => (
+                            <div key={s.title} className="flex flex-col rounded-2xl border border-white/10 bg-zan-dark p-6">
+                                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-zan-cyan/10 text-zan-cyan"><s.icon className="h-5 w-5" /></span>
+                                <p className="mt-4 text-lg font-bold text-white">{s.title}</p>
+                                <p className="mt-2 text-sm leading-relaxed text-gray-400">{s.text}</p>
+                                <ul className="mt-4 flex-1 space-y-1.5 text-sm text-gray-300">
+                                    {s.points.map((p) => (
+                                        <li key={p} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zan-cyan" />{p}</li>
+                                    ))}
+                                </ul>
+                                {'to' in s.link ? (
+                                    <Link to={s.link.to!} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-zan-cyan hover:underline">{s.link.label} <ArrowRight className="h-4 w-4" /></Link>
+                                ) : (
+                                    <a href={s.link.href} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-zan-cyan hover:underline">{s.link.label} <ArrowUpRight className="h-4 w-4" /></a>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="mt-12 rounded-2xl border border-white/10 bg-zan-dark p-6 md:p-8">
+                        <p className="font-bold text-white">How an R&amp;D project with us works</p>
+                        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                            {STEPS.map((step, i) => (
+                                <div key={step.title} className="flex gap-3">
+                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zan-cyan text-sm font-bold text-zan-dark">{i + 1}</span>
+                                    <div>
+                                        <p className="flex items-center gap-1.5 font-semibold text-white"><step.icon className="h-4 w-4 text-zan-cyan" />{step.title}</p>
+                                        <p className="mt-1 text-sm text-gray-400">{step.text}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Impact */}
+            <section id="impact" className="scroll-mt-20 py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <SectionTitle eyebrow="Impact" title="Real classrooms, real students, real results" text="Every number below comes from workshops, courses and competitions we have run ourselves." />
+                    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {STATS.map((s) => (
+                            <div key={s.label} className="rounded-2xl border border-white/10 bg-surface-dark p-6 text-center">
+                                <p className="text-4xl font-bold text-zan-cyan font-heading">{s.value}</p>
+                                <p className="mt-2 text-sm font-semibold text-gray-300">{s.label}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-zan-red/20 bg-zan-red/5 p-6 md:flex-row md:items-center">
+                        <div>
+                            <p className="font-bold text-white">Project Uddipon — উদ্দীপন</p>
+                            <p className="mt-1 max-w-2xl text-sm text-gray-400">Our flagship social initiative brings free robotics, programming and AI workshops to underserved and rural schools across Bangladesh.</p>
+                        </div>
+                        <a href="https://projectuddipon.zantechbd.com/" target="_blank" rel="noreferrer" className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border border-zan-red/40 px-5 text-sm font-bold text-zan-red hover:bg-zan-red hover:text-white">
+                            Visit Project Uddipon <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* Projects */}
+            <section id="projects" className="scroll-mt-20 border-y border-white/10 bg-surface-dark py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                        <SectionTitle eyebrow="R&D portfolio" title="Things we have designed and built" />
+                        <Link to="/projects" className="inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">All projects <ArrowRight className="h-4 w-4" /></Link>
+                    </div>
+                    {projectsLoading ? (
+                        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                            {Array.from({ length: 3 }).map((_, i) => <div key={i} className="h-72 animate-pulse rounded-2xl bg-white/5" />)}
+                        </div>
+                    ) : projects.length === 0 ? (
+                        <p className="mt-8 text-gray-400">Projects will appear here soon.</p>
+                    ) : (
+                        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                            {projects.slice(0, 6).map((p) => (
+                                <Link key={p.id} to={`/project/${p.slug}`} className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-zan-dark transition-all hover:-translate-y-1 hover:border-zan-cyan/40">
+                                    <div className="aspect-video overflow-hidden bg-white/5">
+                                        {p.image_url && <img src={p.image_url} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
+                                    </div>
+                                    <div className="flex flex-1 flex-col p-5">
+                                        <p className="line-clamp-2 font-bold leading-snug text-white group-hover:text-zan-cyan">{p.title}</p>
+                                        {p.description && <p className="mt-2 line-clamp-2 text-sm text-gray-400">{p.description}</p>}
+                                        {!!p.technologies?.length && (
+                                            <div className="mt-4 flex flex-wrap gap-1.5">
+                                                {p.technologies.slice(0, 3).map((t) => (
+                                                    <span key={t.id} className="rounded-md bg-zan-cyan/10 px-2 py-0.5 text-xs font-semibold text-zan-cyan">{t.name}</span>
+                                                ))}
+                                                {p.technologies.length > 3 && <span className="rounded-md bg-white/5 px-2 py-0.5 text-xs font-semibold text-gray-400">+{p.technologies.length - 3}</span>}
+                                            </div>
+                                        )}
+                                        <p className="mt-auto pt-4 inline-flex items-center gap-1 text-sm font-semibold text-zan-cyan">Case study <ArrowRight className="h-3.5 w-3.5" /></p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* Achievements */}
+            <section id="achievements" className="scroll-mt-20 py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <SectionTitle eyebrow="Awards" title="Our students win — at home and abroad" />
+                    <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                        {awardSummary.map((a) => (
+                            <div key={a.label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-surface-dark p-5">
+                                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-400/10 text-amber-400"><a.icon className="h-6 w-6" /></span>
+                                <div>
+                                    <p className="text-2xl font-bold text-white font-heading">{a.value}</p>
+                                    <p className="text-sm text-gray-400">{a.label}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-8">
                         <Swiper
                             slidesPerView={1}
-                            spaceBetween={30}
-                            loop={true}
+                            spaceBetween={20}
+                            loop={achievements.length > 3}
                             pagination={{ clickable: true, dynamicBullets: true }}
-                            navigation={true}
-                            autoplay={{ delay: 4200, disableOnInteraction: false }}
+                            navigation
+                            autoplay={{ delay: 4500, disableOnInteraction: true }}
                             modules={[Pagination, Navigation, Autoplay]}
                             breakpoints={sliderBreakpoints}
-                            className="!pb-16"
+                            className="!pb-14"
                         >
                             {achievements.map((item) => (
-                                <SwiperSlide key={item.team} className="h-auto">
+                                <SwiperSlide key={item.team + item.badge} className="h-auto">
                                     <AchievementCard item={item} />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                    ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {achievements.map((item) => (
-                                <AchievementCard key={item.team} item={item} />
-                            ))}
-                        </div>
-                    )}
-                    <div className="mt-10 flex justify-center">
-                        <Link
-                            to="/achievements"
-                            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-zan-cyan hover:text-white transition-colors group"
-                        >
-                            See More Achievements
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
                     </div>
+                    <Link to="/achievements" className="inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">All achievements <ArrowRight className="h-4 w-4" /></Link>
                 </div>
             </section>
 
-            {/* --- Projects (same slider style as Courses) --- */}
-            <section id="projects" className="py-16 relative z-10 bg-surface-dark/40">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-8 font-heading uppercase tracking-wide text-white text-center">
-                        Projects
-                    </h2>
-                    {projectsLoading ? (
-                        <div className="text-center text-gray-400 py-12">
-                            <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-white/10 border-t-zan-cyan"></div>
-                        </div>
-                    ) : projects.length === 0 ? (
-                        <p className="text-center text-gray-400">No projects available at the moment. Check back soon!</p>
-                    ) : projects.length > 3 ? (
-                        <Swiper
-                            slidesPerView={1}
-                            spaceBetween={30}
-                            loop={true}
-                            pagination={{ clickable: true, dynamicBullets: true }}
-                            navigation={true}
-                            autoplay={{ delay: 3800, disableOnInteraction: false }}
-                            modules={[Pagination, Navigation, Autoplay]}
-                            breakpoints={sliderBreakpoints}
-                            className="!pb-16"
-                        >
-                            {projects.map(project => (
-                                <SwiperSlide key={project.id} className="h-auto">
-                                    <ProjectCard project={project} />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {projects.map(project => <ProjectCard key={project.id} project={project} />)}
-                        </div>
-                    )}
-                    <div className="mt-10 flex justify-center">
-                        <Link
-                            to="/projects"
-                            className="inline-flex items-center gap-2 text-sm uppercase tracking-wider text-zan-cyan hover:text-white transition-colors group"
-                        >
-                            View All Projects
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
+            {/* Courses & workshops (shared with the home page) */}
+            <div className="border-t border-white/10">
+                <CoursesSection />
+                <WorkshopsSection />
+            </div>
+
+            {/* Team */}
+            <section id="team" className="scroll-mt-20 border-y border-white/10 bg-surface-dark py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <SectionTitle eyebrow="Team" title="Engineers and educators behind ZAN Tech" />
+                    <div className="mt-10 grid gap-5 md:grid-cols-2">
+                        {FOUNDERS.map((f) => (
+                            <div key={f.name} className="flex items-center gap-5 rounded-2xl border border-white/10 bg-zan-dark p-5">
+                                <img src={f.image} alt={f.name} loading="lazy" className="h-24 w-24 shrink-0 rounded-2xl object-cover" />
+                                <div>
+                                    <p className="text-lg font-bold text-white">{f.name}</p>
+                                    <p className="mt-1 text-sm font-semibold text-zan-cyan">{f.role}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
+                    <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                        {CORE_TEAM.map((m) => (
+                            <div key={m.name} className="rounded-2xl border border-white/10 bg-zan-dark p-3 text-center">
+                                <img src={m.image} alt={m.name} loading="lazy" className="mx-auto aspect-square w-full rounded-xl object-cover" />
+                                <p className="mt-3 text-sm font-bold leading-snug text-white">{m.name}</p>
+                                <p className="mt-1 text-xs leading-snug text-gray-400">{m.role}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <Link to="/team" className="mt-8 inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">Meet the whole team <ArrowRight className="h-4 w-4" /></Link>
                 </div>
             </section>
 
-            {/* --- Project Uddipon --- */}
-            <section id="project-uddipon" className="py-16 relative z-10 bg-surface-dark/40">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-heading uppercase tracking-wide text-white">
-                        Project Uddipon
-                    </h2>
-                    <p className="text-gray-400 leading-relaxed font-light">
-                        "Uddipon" (উদ্দীপন) means inspiration. It's our flagship social initiative, bringing free
-                        robotics, programming, and AI workshops to underserved and rural communities across
-                        Bangladesh — making sure no talented learner is left behind.
-                    </p>
-                    <a
-                        href="https://projectuddipon.zantechbd.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mt-4 text-sm uppercase tracking-wider text-zan-cyan hover:text-white transition-colors group"
-                    >
-                        Visit Project Uddipon
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                </div>
-            </section>
-
-            {/* --- Courses & Workshops (same sections as the homepage) --- */}
-            <CoursesSection />
-            <WorkshopsSection />
-
-            {/* --- Team --- */}
-            {renderSection(bottomSections[0], 6)}
-
-            {/* --- Partners (same as the homepage's Trusted Collaborators) --- */}
+            {/* Partners (shared with the home page) */}
             <Partners />
 
-            {/* --- Get In Touch --- */}
-            <section id="contact" className="py-16 relative z-10 bg-surface-dark/40">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 font-heading uppercase tracking-wide text-white">
-                        Get In Touch
-                    </h2>
-                    <p className="text-gray-400 leading-relaxed font-light mb-10 max-w-2xl mx-auto">
-                        Have a project in mind or want to partner with us? We'd love to hear from you.
-                    </p>
-                    <div className="grid sm:grid-cols-3 gap-6 mb-10">
-                        <a
-                            href="mailto:zantechbd@gmail.com"
-                            className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 p-6 hover:border-zan-cyan/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300 flex flex-col items-center gap-3"
-                        >
-                            <Mail className="w-6 h-6 text-zan-cyan" />
-                            <span className="text-sm text-gray-300 break-all">zantechbd@gmail.com</span>
-                        </a>
-                        <a
-                            href="tel:+8801894634149"
-                            className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 p-6 hover:border-zan-cyan/30 hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300 flex flex-col items-center gap-3"
-                        >
-                            <Phone className="w-6 h-6 text-zan-cyan" />
-                            <span className="text-sm text-gray-300">+880 1894-634149</span>
-                        </a>
-                        <div className="bg-surface-dark backdrop-blur-md rounded-sm border border-white/5 p-6 flex flex-col items-center gap-3">
-                            <MapPin className="w-6 h-6 text-zan-cyan" />
-                            <span className="text-sm text-gray-300">Dhaka, Bangladesh</span>
+            {/* Contact */}
+            <section id="contact" className="scroll-mt-20 py-16 md:py-20">
+                <div className="mx-auto max-w-6xl px-4">
+                    <div className="overflow-hidden rounded-3xl border border-zan-cyan/25 bg-gradient-to-br from-zan-cyan/10 via-surface-dark to-surface-dark">
+                        <div className="grid gap-10 p-6 md:p-10 lg:grid-cols-[1.1fr_0.9fr]">
+                            <div>
+                                <Eyebrow>Get in touch</Eyebrow>
+                                <h2 className="mt-2 text-3xl md:text-4xl font-bold leading-tight text-white font-heading">Let's build something together.</h2>
+                                <p className="mt-4 max-w-lg text-gray-400">Courses for your school, a workshop for your community, components in bulk, or a custom R&amp;D project — tell us what you need and we'll reply the same day.</p>
+                                <div className="mt-7 flex flex-wrap gap-3">
+                                    <a href={waUrl} target="_blank" rel="noreferrer" className="inline-flex h-12 items-center gap-2 rounded-lg bg-zan-cyan px-6 font-bold text-zan-dark transition-colors hover:bg-white">
+                                        <FaWhatsapp className="h-5 w-5" /> WhatsApp us
+                                    </a>
+                                    <Link to="/connect" className="inline-flex h-12 items-center gap-2 rounded-lg border border-white/15 px-6 font-bold text-white hover:border-zan-cyan/50 hover:text-zan-cyan">
+                                        All our links <Rocket className="h-4 w-4" />
+                                    </Link>
+                                </div>
+                            </div>
+                            <ul className="space-y-4 text-sm">
+                                <li>
+                                    <a href={`tel:${phoneDigits}`} className="flex items-center gap-3 rounded-xl border border-white/10 bg-zan-dark/60 p-4 hover:border-zan-cyan/40">
+                                        <Phone className="h-5 w-5 shrink-0 text-zan-cyan" /><span className="font-semibold text-white">{company.phone}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href={`mailto:${company.email}`} className="flex items-center gap-3 rounded-xl border border-white/10 bg-zan-dark/60 p-4 hover:border-zan-cyan/40">
+                                        <Mail className="h-5 w-5 shrink-0 text-zan-cyan" /><span className="truncate font-semibold text-white">{company.email}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href={mapUrl} target="_blank" rel="noreferrer" className="flex gap-3 rounded-xl border border-white/10 bg-zan-dark/60 p-4 hover:border-zan-cyan/40">
+                                        <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zan-red" />
+                                        <span className="text-gray-300">{company.location}<span className="mt-1 flex items-center gap-1 font-semibold text-zan-cyan">Open in Maps <ArrowUpRight className="h-3.5 w-3.5" /></span></span>
+                                    </a>
+                                </li>
+                                <li className="flex items-center gap-3 px-4 text-gray-400"><Clock className="h-5 w-5 shrink-0" /> Saturday – Thursday, 10 AM – 6 PM</li>
+                            </ul>
                         </div>
                     </div>
-                    <Link
-                        to="/connect"
-                        className="inline-flex items-center gap-2 bg-zan-cyan text-zan-dark px-8 py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
-                    >
-                        Contact Us
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
                 </div>
             </section>
 
-            {/* --- Footer / back to home --- */}
-            <section className="py-16 text-center relative z-10 border-t border-white/10">
-                <Link
-                    to="/"
-                    className="inline-flex items-center gap-2 bg-zan-cyan/10 border border-zan-cyan/30 rounded-sm px-6 py-3 text-sm uppercase tracking-wider text-zan-cyan hover:bg-zan-cyan hover:text-zan-dark transition-all font-mono"
-                >
-                    <Home className="w-4 h-4" />
-                    Back to Home
-                </Link>
-            </section>
+            <footer className="border-t border-white/10 py-8 text-center text-sm text-gray-500">
+                <Link to="/" className="font-semibold text-zan-cyan hover:underline">zantechbd.com</Link> · © {new Date().getFullYear()} ZAN Tech
+            </footer>
         </div>
     );
 };

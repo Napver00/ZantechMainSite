@@ -77,7 +77,7 @@ const Footer = () => {
 
     const legalLinks = [
         { text: "Privacy Policy", href: "/privacy-policy" },
-        { text: "Terms & Services", href: "/terms-and-conditions" },
+        { text: "Terms & Conditions", href: "/terms-and-conditions" },
     ];
 
     return (
@@ -183,7 +183,9 @@ const Footer = () => {
 
                     {/* Newsletter / Socials */}
                     <div>
-                        <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-widest border-b border-white/10 pb-2 inline-block">Connect</h4>
+                        <h4 className="font-bold text-white mb-6 text-sm uppercase tracking-widest border-b border-white/10 pb-2 inline-block">
+                            <Link to="/connect" className="hover:text-zan-cyan transition-colors">Connect with us</Link>
+                        </h4>
                         <p className="text-sm text-gray-400 mb-6 border-l-2 border-zan-cyan/20 pl-3">
                             Stay updated with our latest workshops, products, and innovations.
                         </p>
@@ -200,6 +202,9 @@ const Footer = () => {
                                 </a>
                             ))}
                         </div>
+                        <Link to="/connect" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-zan-cyan hover:underline">
+                            All our links in one place &rarr;
+                        </Link>
                     </div>
                 </div>
 
