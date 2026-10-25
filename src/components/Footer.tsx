@@ -68,7 +68,6 @@ const Footer = () => {
 
     const companyLinks = [
         { text: "About Us", href: "/about" },
-        { text: "Join Our Team", href: "/career" },
         { text: "Ambassador", href: "/ambassadors" },
         { text: "Impact", href: "/impact" },
         { text: "FAQ", href: "/faq" },

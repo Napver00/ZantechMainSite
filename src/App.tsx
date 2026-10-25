@@ -15,9 +15,6 @@ import { Suspense, lazy, useEffect } from 'react';
 // Lazy load page components
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
-const CareerPage = lazy(() => import('./pages/CareerPage'));
-const CareerDetailsPage = lazy(() => import('./pages/CareerDetailsPage'));
-const CareerApplicationPage = lazy(() => import('./pages/CareerApplicationPage'));
 const AmbassadorsPage = lazy(() => import('./pages/AmbassadorsPage'));
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
@@ -81,9 +78,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/team" element={<TeamPage />} />
-          <Route path="/career" element={<CareerPage />} />
-          <Route path="/career/:id" element={<CareerDetailsPage />} />
-          <Route path="/career/:id/apply" element={<CareerApplicationPage />} />
+          {/* Careers were removed; old links land on the team page */}
+          <Route path="/career/*" element={<Navigate to="/team" replace />} />
           <Route path="/ambassadors" element={<AmbassadorsPage />} />
           <Route path="/impact" element={<ImpactPage />} />
           <Route path="/blog" element={<BlogPage />} />
