@@ -15,6 +15,32 @@ const partners = [
     { src: 'https://tse4.mm.bing.net/th/id/OIP.BOm4IYGl1LD8JYpSJR9gGAHaG3?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', alt: 'Educate Academy Logo' },
 ];
 
+/**
+ * One copy of the logo row. Each copy ends with the same gap that sits
+ * between logos (pr-* matches gap-*), so two copies side by side are
+ * exactly twice as wide as one and the -50% loop has no seam.
+ */
+const LogoRow = ({ hidden = false }: { hidden?: boolean }) => (
+    <ul className="flex shrink-0 items-center gap-8 pr-8 md:gap-12 md:pr-12" aria-hidden={hidden || undefined}>
+        {partners.map((partner) => (
+            <li key={partner.alt} className="group shrink-0">
+                <div className="bg-surface-dark p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale light:grayscale-0 group-hover:grayscale-0 opacity-50 group-hover:opacity-100 group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <img
+                        src={partner.src}
+                        alt={hidden ? '' : partner.alt}
+                        width={128}
+                        height={64}
+                        decoding="async"
+                        draggable={false}
+                        className="max-h-16 w-auto max-w-full object-contain relative z-10"
+                    />
+                </div>
+            </li>
+        ))}
+    </ul>
+);
+
 const Partners = () => {
     return (
         <section className="py-12 md:py-20 bg-zan-dark relative overflow-hidden border-t border-white/5">
@@ -31,40 +57,15 @@ const Partners = () => {
                     </h2>
                 </div>
 
-                <div className="relative w-full overflow-hidden">
+                <div className="group/marquee relative w-full overflow-hidden">
                     {/* Gradient Masks for smooth fade edges */}
                     <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-zan-dark to-transparent pointer-events-none"></div>
                     <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-zan-dark to-transparent pointer-events-none"></div>
 
-                    <div className="flex w-full">
-                        <ul className="flex items-center gap-8 md:gap-12 animate-scroll py-8">
-                            {/* Original List */}
-                            {partners.map((partner, index) => (
-                                <li key={index} className="flex-shrink-0 group">
-                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale light:grayscale-0 group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
-                                        <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <img
-                                            src={partner.src}
-                                            alt={partner.alt}
-                                            className="max-h-16 w-auto object-contain transition-all duration-300 relative z-10"
-                                        />
-                                    </div>
-                                </li>
-                            ))}
-                            {/* Clone List for Loop */}
-                            {partners.map((partner, index) => (
-                                <li key={`clone-${index}`} className="flex-shrink-0 group" aria-hidden="true">
-                                    <div className="bg-surface-dark backdrop-blur-sm p-4 rounded-sm border border-white/5 shadow-sm hover:border-zan-cyan/30 transition-all duration-300 grayscale light:grayscale-0 group-hover:grayscale-0 opacity-50 group-hover:opacity-100 transform group-hover:scale-105 w-40 h-24 flex items-center justify-center relative overflow-hidden">
-                                        <div className="absolute inset-0 bg-zan-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <img
-                                            src={partner.src}
-                                            alt={partner.alt}
-                                            className="max-h-16 w-auto object-contain transition-all duration-300 relative z-10"
-                                        />
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                    {/* Two identical rows moving together; pauses on hover, still for reduced-motion users */}
+                    <div className="flex w-max py-8 animate-scroll will-change-transform group-hover/marquee:[animation-play-state:paused] motion-reduce:animate-none">
+                        <LogoRow />
+                        <LogoRow hidden />
                     </div>
                 </div>
             </div>

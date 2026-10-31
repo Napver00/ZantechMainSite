@@ -80,9 +80,12 @@ export default {
         'hero-glow': 'conic-gradient(from 180deg at 50% 50%, #262b72 0deg, #00f0ff 180deg, #ed2626 360deg)',
       },
       keyframes: {
+        // The track holds two identical copies; moving exactly one copy's
+        // width (-50%) lands on a frame identical to the start, so the
+        // loop never jumps.
         scroll: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-100%)' },
+          '0%': { transform: 'translate3d(0, 0, 0)' },
+          '100%': { transform: 'translate3d(-50%, 0, 0)' },
         },
         fadeIn: {
           '0%': { opacity: '0' },
