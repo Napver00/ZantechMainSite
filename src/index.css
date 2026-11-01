@@ -278,3 +278,12 @@ html.light ::selection { background: rgb(14 116 144 / 0.2); }
 /* Horizontal scrollers (e.g. the portfolio jump bar) without a visible scrollbar */
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Fitts's law: on touch screens, small text links get a full finger-height
+   row, so they can be hit on the first try. Mouse layouts are unchanged. */
+@media (pointer: coarse) {
+  footer ul > li > a { min-height: 40px; }
+  footer a[href^="mailto:"],
+  footer a[href^="tel:"] { display: inline-flex; align-items: center; min-height: 40px; }
+  footer ul.space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.25rem; }
+}

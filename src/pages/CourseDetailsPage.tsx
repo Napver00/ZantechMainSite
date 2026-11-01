@@ -860,13 +860,14 @@ const CourseDetailsPage = () => {
                 MOBILE STICKY BAR
             ════════════════════════════════════════════ */}
             {canEnroll && (
-                <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)]">
+                <div className="fixed bottom-0 left-0 w-full px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)]">
                     <div className="min-w-0">
                         <p className="text-white font-bold text-sm font-heading tracking-wide uppercase truncate">Ready to start?</p>
                         {displayPrice != null && <p className="text-zan-cyan text-xs font-mono">৳{fmt(displayPrice)}{isMonthly && '/mo'}</p>}
                     </div>
+                    {/* Fitts's law: the page's main action is a big target right under the thumb */}
                     <EnrollLink course={course}
-                        className="shrink-0 bg-zan-red hover:bg-red-600 text-[#fff] px-5 py-2.5 rounded-sm font-bold text-xs transition-all font-heading uppercase tracking-wider">
+                        className="flex-1 max-w-[13rem] h-12 flex items-center justify-center bg-zan-red hover:bg-red-600 text-[#fff] px-5 rounded-sm font-bold text-sm transition-all font-heading uppercase tracking-wider">
                         Enroll Now
                     </EnrollLink>
                 </div>

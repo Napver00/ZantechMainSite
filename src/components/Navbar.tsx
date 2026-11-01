@@ -197,7 +197,7 @@ const Navbar = () => {
                         {/* --- Right side buttons & Mobile Toggle --- */}
                         <div className="flex items-center space-x-4">
                             <button onClick={toggleTheme} aria-label={themeLabel} title={themeLabel}
-                                className="p-2 text-gray-300 border border-white/10 rounded-full hover:text-zan-cyan hover:border-zan-cyan/50 transition-colors">
+                                className="w-11 h-11 flex items-center justify-center text-gray-300 border border-white/10 rounded-full hover:text-zan-cyan hover:border-zan-cyan/50 transition-colors">
                                 {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                             </button>
                             <div className="hidden md:flex lg:hidden xl:flex items-center space-x-4">
@@ -209,7 +209,8 @@ const Navbar = () => {
                                     </button>
                                 </a>
                             </div>
-                            <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden p-2 text-white border border-white/20 rounded hover:bg-white/10">
+                            <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                                className="lg:hidden w-11 h-11 flex items-center justify-center text-white border border-white/20 rounded hover:bg-white/10">
                                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
                         </div>
@@ -227,7 +228,8 @@ const Navbar = () => {
                 <div className="p-6 h-full flex flex-col">
                     <div className="flex justify-between items-center mb-8 pb-4 border-b border-white/10">
                         <span className="text-xl font-bold font-heading text-white tracking-widest">MENU</span>
-                        <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-colors">
+                        <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu"
+                            className="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-colors">
                             <X className="w-6 h-6" />
                         </button>
                     </div>

@@ -373,12 +373,13 @@ const BootcampDetailsPage = () => {
 
             {/* ── MOBILE BAR ── */}
             {canRegister && (
-                <div className="fixed bottom-0 left-0 w-full px-4 py-3 bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3">
+                <div className="fixed bottom-0 left-0 w-full px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-surface-dark/95 backdrop-blur-md border-t border-white/10 z-40 lg:hidden flex justify-between items-center gap-3">
                     <div className="min-w-0">
                         <p className="text-white font-bold text-sm font-heading uppercase truncate">{fmtRange(b.start_date, b.end_date)}</p>
                         <p className="text-zan-cyan text-xs font-mono">{price ? `৳${fmtTk(price)}` : 'Free'}{left !== null ? ` · ${left} seats left` : ''}</p>
                     </div>
-                    <Link to={`/bootcamp/${b.slug}/register`} className="shrink-0 bg-zan-red hover:bg-red-600 text-[#fff] px-5 py-2.5 rounded-sm font-bold text-xs font-heading uppercase tracking-wider">
+                    {/* Fitts's law: the page's main action is a big target right under the thumb */}
+                    <Link to={`/bootcamp/${b.slug}/register`} className="flex-1 max-w-[11rem] h-12 flex items-center justify-center bg-zan-red hover:bg-red-600 text-[#fff] px-5 rounded-sm font-bold text-sm font-heading uppercase tracking-wider">
                         Register
                     </Link>
                 </div>
