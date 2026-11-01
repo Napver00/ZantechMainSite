@@ -17,6 +17,7 @@ interface Bootcamp extends BootcampSummary {
     kind?: string; description: string; session_duration?: string | null;
     includes?: string[]; skills?: string[]; projects?: { title: string; description?: string | null }[];
     faqs?: { question: string; answer?: string | null }[]; class_slots?: string[];
+    class_slot_options?: { label: string; status: 'open' | 'full' | 'closed'; seats_left: number | null }[];
     certificate_description?: string | null; curriculum_link?: string | null;
     curriculums: AgendaDay[]; mentors: Mentor[]; status: string; is_active: boolean;
 }
@@ -73,6 +74,10 @@ const BootcampDetailsPage = () => {
     const startsIn = daysUntil(b.start_date);
     const filled = b.seats ? Math.min(100, Math.round(((b.seats_taken || 0) / b.seats) * 100)) : 0;
     const agenda = [...(b.curriculums || [])].sort((x, y) => x.module_no - y.module_no);
+    // Every batch with its status (older API builds only send the open names)
+    const batches = b.class_slot_options?.length
+        ? b.class_slot_options
+        : (b.class_slots ?? []).map((label) => ({ label, status: 'open' as const, seats_left: null }));
 
     const ctaLabel = canRegister ? 'Register Now' : STATUS_LABEL[status];
     // After the bootcamp: link to its highlights post in Workshops
@@ -251,16 +256,25 @@ const BootcampDetailsPage = () => {
             )}
 
             {/* ── BATCHES ── */}
-            {(b.class_slots?.length ?? 0) > 0 && (
+            {batches.length > 0 && (
                 <section className="py-12 sm:py-16 bg-surface-dark border-t border-white/5">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                         <SectionTitle kicker="Pick your time" title="Batches" />
                         <div className="grid sm:grid-cols-2 gap-3">
-                            {b.class_slots!.map((s) => (
-                                <div key={s} className="flex items-center gap-3 p-4 bg-zan-dark border border-white/5 rounded-lg">
-                                    <Clock className="w-5 h-5 text-zan-cyan shrink-0" /><span className="text-sm text-gray-200">{s}</span>
-                                </div>
-                            ))}
+                            {batches.map((s) => {
+                                const unavailable = s.status !== 'open';
+                                return (
+                                    <div key={s.label} className={`flex items-center gap-3 p-4 bg-zan-dark border border-white/5 rounded-lg ${unavailable ? 'opacity-60' : ''}`}>
+                                        <Clock className="w-5 h-5 text-zan-cyan shrink-0" />
+                                        <span className={`flex-1 text-sm text-gray-200 ${unavailable ? 'line-through decoration-white/30' : ''}`}>{s.label}</span>
+                                        {unavailable ? (
+                                            <span className="shrink-0 rounded-sm bg-zan-red/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-zan-red">{s.status === 'full' ? 'Full' : 'Closed'}</span>
+                                        ) : s.seats_left !== null && s.seats_left <= 5 ? (
+                                            <span className="shrink-0 rounded-sm bg-amber-500/15 px-2 py-0.5 text-[11px] font-bold text-amber-400">{s.seats_left} left</span>
+                                        ) : null}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>

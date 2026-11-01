@@ -15,10 +15,19 @@ interface Course {
     admission_fee: number | null; duration_months: number | null; monthly_fee: number | null;
     admission_fee_label?: string | null;
     age_group?: string | null; session_duration?: string | null;
-    class_slots?: string[]; status: string; is_active: boolean;
+    class_slots?: string[]; class_slot_options?: SlotOption[]; status: string; is_active: boolean;
     kind?: 'course' | 'bootcamp'; start_date?: string | null; end_date?: string | null;
     registration_deadline?: string | null; venue?: string | null; seats?: number | null; seats_taken?: number;
 }
+/* A class slot as the API reports it: full / closed ones can't be picked */
+interface SlotOption { label: string; status: 'open' | 'full' | 'closed'; seats_left: number | null; }
+
+/* Older API builds only send the open slot names */
+const slotOptionsOf = (c: Course | null): SlotOption[] =>
+    c?.class_slot_options?.length
+        ? c.class_slot_options.filter((s) => s.label)
+        : (c?.class_slots ?? []).filter(Boolean).map((label) => ({ label, status: 'open' as const, seats_left: null }));
+
 interface PaymentMethod {
     id: number; type: 'bkash' | 'nagad' | 'rocket' | 'bank' | 'other'; title: string;
     account_number: string; account_name: string | null; account_type: string | null;
@@ -138,7 +147,11 @@ const CourseRegistrationPage = () => {
                 setForm((f) => ({
                     ...f,
                     payment_method_id: list[0] ? String(list[0].id) : '',
-                    class_slot: data.class_slots?.length === 1 ? data.class_slots[0] : '',
+                    // Only one slot can be picked? Pick it for them.
+                    class_slot: (() => {
+                        const open = slotOptionsOf(data).filter((s) => s.status === 'open');
+                        return open.length === 1 ? open[0].label : '';
+                    })(),
                 }));
             })
             .catch(() => setLoadError('We could not load this course. Please try again.'))
@@ -167,7 +180,8 @@ const CourseRegistrationPage = () => {
 
     const method = methods.find((m) => String(m.id) === form.payment_method_id) || null;
     const isBank = method?.type === 'bank';
-    const slots = (course?.class_slots ?? []).filter(Boolean);
+    const slots = slotOptionsOf(course);
+    const allSlotsFull = slots.length > 0 && slots.every((s) => s.status !== 'open');
 
     const validate = (): Errors => {
         const e: Errors = {};
@@ -186,7 +200,8 @@ const CourseRegistrationPage = () => {
         req.forEach(([k, msg]) => { if (!String(form[k]).trim()) e[k] = msg; });
         if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Please enter a valid email address.';
         if (form.contact_number && !/^[0-9+\-\s]{10,20}$/.test(form.contact_number)) e.contact_number = 'Please enter a valid phone number.';
-        if (slots.length && !form.class_slot) e.class_slot = 'Please choose a class slot.';
+        if (allSlotsFull) e.class_slot = 'Every class slot is full right now. Please contact us to join the waiting list.';
+        else if (slots.length && !form.class_slot) e.class_slot = 'Please choose a class slot.';
         if (form.amount && !(Number(form.amount) > 0)) e.amount = 'Please enter a valid amount.';
         return e;
     };
@@ -222,6 +237,9 @@ const CourseRegistrationPage = () => {
                 });
                 setErrors(serverErrors);
                 setSubmitError('Please check the highlighted fields.');
+            } else if (res.status === 422 && typeof result?.errors === 'string') {
+                // e.g. "Sorry, every class slot is full right now."
+                setSubmitError(result.errors);
             } else if (res.status === 429 || result?.message === 'Too Many Attempts.') {
                 setSubmitError('Too many attempts. Please wait a minute and try again.');
             } else {
@@ -339,17 +357,35 @@ const CourseRegistrationPage = () => {
                                 <Section icon={<CalendarClock className="w-5 h-5" />} step={3} title="Preferred Class Slot">
                                     <div role="radiogroup" className="space-y-2.5" data-name="class_slot">
                                         {slots.map((slot) => {
-                                            const active = form.class_slot === slot;
+                                            const active = form.class_slot === slot.label;
+                                            const unavailable = slot.status !== 'open';
+                                            const fewLeft = !unavailable && slot.seats_left !== null && slot.seats_left <= 5;
                                             return (
-                                                <label key={slot}
-                                                    className={`flex items-start gap-3 p-3.5 rounded-lg border cursor-pointer transition-colors ${active ? 'border-zan-cyan bg-zan-cyan/10' : 'border-white/10 hover:border-white/30'}`}>
-                                                    <input type="radio" name="class_slot" value={slot} checked={active}
-                                                        onChange={() => set('class_slot', slot)} className="mt-1 accent-[#00f0ff]" />
-                                                    <span className={`text-sm ${active ? 'text-white' : 'text-gray-300'}`}>{slot}</span>
+                                                <label key={slot.label}
+                                                    aria-disabled={unavailable}
+                                                    className={`flex items-start gap-3 p-3.5 rounded-lg border transition-colors ${unavailable
+                                                        ? 'border-white/5 bg-white/[0.02] opacity-60 cursor-not-allowed'
+                                                        : active ? 'border-zan-cyan bg-zan-cyan/10 cursor-pointer' : 'border-white/10 hover:border-white/30 cursor-pointer'}`}>
+                                                    <input type="radio" name="class_slot" value={slot.label} checked={active} disabled={unavailable}
+                                                        onChange={() => set('class_slot', slot.label)} className="mt-1 accent-[#00f0ff]" />
+                                                    <span className={`flex-1 text-sm ${active ? 'text-white' : 'text-gray-300'} ${unavailable ? 'line-through decoration-white/30' : ''}`}>{slot.label}</span>
+                                                    {unavailable && (
+                                                        <span className="shrink-0 rounded-sm bg-zan-red/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-zan-red">
+                                                            {slot.status === 'full' ? 'Full' : 'Closed'}
+                                                        </span>
+                                                    )}
+                                                    {fewLeft && (
+                                                        <span className="shrink-0 rounded-sm bg-amber-500/15 px-2 py-0.5 text-[11px] font-bold text-amber-400">
+                                                            {slot.seats_left} {slot.seats_left === 1 ? 'seat' : 'seats'} left
+                                                        </span>
+                                                    )}
                                                 </label>
                                             );
                                         })}
                                     </div>
+                                    {allSlotsFull && (
+                                        <p className="mt-3 text-sm text-amber-400">Every slot is full right now. Please <a href="/contact" className="underline">contact us</a> to join the waiting list.</p>
+                                    )}
                                     {errors.class_slot && (
                                         <p className="flex items-center gap-1 text-xs text-zan-red mt-2"><AlertCircle className="w-3 h-3" /> {errors.class_slot}</p>
                                     )}
