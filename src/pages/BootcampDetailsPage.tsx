@@ -5,6 +5,7 @@ import {
     Rocket, ChevronDown, HelpCircle, Sparkles, Flame, Download, Images,
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import MentorCards from '../components/MentorCards';
 import {
     type BootcampSummary, bootcampStatus, STATUS_LABEL, fmtRange, fmtDay, dayCount, seatsLeft,
     realPrice, hasDiscount, fmtTk, daysUntil, recapTarget,
@@ -325,20 +326,7 @@ const BootcampDetailsPage = () => {
                 <section className="py-12 sm:py-16 bg-surface-dark border-t border-white/5">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <SectionTitle kicker="Your mentors" title="Meet the Mentors" />
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {b.mentors.map((m) => (
-                                <div key={m.id} className="flex items-center gap-4 p-4 bg-zan-dark border border-white/5 rounded-lg">
-                                    <img src={m.image?.startsWith('http') ? m.image : `${API_BASE_URL}/${m.image}`} alt={m.name}
-                                        className="w-16 h-16 rounded-full object-cover border border-zan-cyan/30 shrink-0"
-                                        onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=006970&color=fff`; }} />
-                                    <div className="min-w-0">
-                                        <h3 className="text-white font-bold leading-tight">{m.name}</h3>
-                                        <p className="text-xs font-mono uppercase tracking-wider text-zan-cyan">{m.is_student_mentor ? 'Student Mentor' : 'Mentor'}</p>
-                                        {m.experience && <p className="text-xs text-gray-400 mt-0.5 truncate">{m.experience}</p>}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <MentorCards mentors={b.mentors} />
                     </div>
                 </section>
             )}

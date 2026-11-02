@@ -9,6 +9,7 @@ import {
     CheckCircle2, Rocket, HelpCircle, Sparkles, Download, FileText,
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import MentorCards from '../components/MentorCards';
 
 /* ─── Interfaces ─────────────────────────────────────────── */
 interface Lesson     { id: number; lesson_no: number | null; title: string; description: string | null; }
@@ -749,46 +750,7 @@ const CourseDetailsPage = () => {
                             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-heading uppercase tracking-wide mb-3">Guided by Industry Leaders</h2>
                             <div className="w-14 h-0.5 bg-zan-cyan mx-auto rounded-full"></div>
                         </div>
-                        <div className="space-y-12 sm:space-y-16">
-                            {course.mentors.map((mentor, idx) => (
-                                <div key={mentor.id} className="flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
-                                    {/* Image with offset box */}
-                                    <div className={`w-full max-w-xs sm:max-w-sm lg:max-w-none lg:w-1/3 relative shrink-0 ${idx % 2 !== 0 ? 'lg:order-2' : ''}`}>
-                                        <div className="absolute -bottom-2 -right-2 sm:-bottom-3 sm:-right-3 w-full h-full bg-zan-cyan/20 rounded-xl z-0"></div>
-                                        <img
-                                            src={mentor.image?.startsWith('http') ? mentor.image : `${API_BASE_URL}/${mentor.image}`}
-                                            alt={mentor.name}
-                                            className="relative z-10 w-full rounded-xl shadow-xl grayscale light:grayscale-0 hover:grayscale-0 transition-all duration-500 object-cover aspect-square"
-                                            onError={(e) => {
-                                                (e.target as HTMLImageElement).src =
-                                                    'https://ui-avatars.com/api/?name=' + encodeURIComponent(mentor.name) + '&background=006970&color=fff&size=400';
-                                            }}
-                                        />
-                                    </div>
-                                    {/* Info */}
-                                    <div className={`w-full lg:w-2/3 text-center lg:text-left ${idx % 2 !== 0 ? 'lg:order-1' : ''}`}>
-                                        <span className="font-mono text-xs uppercase tracking-widest text-zan-cyan mb-2 sm:mb-3 block">
-                                            {mentor.is_student_mentor ? 'Student Mentor' : 'Expert Mentor'}
-                                        </span>
-                                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-heading uppercase tracking-wide mb-3 sm:mb-4">
-                                            {mentor.name}
-                                        </h2>
-                                        <p className="text-gray-400 font-light leading-relaxed mb-5 sm:mb-6 text-sm sm:text-base">
-                                            {mentor.description || 'Experienced professional passionate about cultivating the next generation of engineers.'}
-                                        </p>
-                                        {mentor.experience && (
-                                            <div className="flex justify-center lg:justify-start gap-8 mb-5 sm:mb-6">
-                                                <div>
-                                                    <h4 className="text-xl sm:text-2xl font-bold text-zan-cyan font-heading mb-0.5">{mentor.experience}</h4>
-                                                    <p className="font-mono text-xs uppercase tracking-widest text-gray-500">Experience</p>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <MentorCards mentors={course.mentors} center />
                     </div>
                 </section>
             )}
