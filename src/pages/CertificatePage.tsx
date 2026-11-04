@@ -217,7 +217,7 @@ const ValidCertificate = ({ cert, copied, onCopy }: { cert: Certificate; copied:
                                 {cert.signers.map((s) => (
                                     <li key={`${s.name}-${s.designation}`} className="rounded-xl border border-white/10 bg-zan-dark px-4 py-2.5">
                                         <p className="font-semibold text-white">{s.name}</p>
-                                        <p className="text-xs text-gray-400">{s.designation}</p>
+                                        <p className="whitespace-pre-line text-xs text-gray-400">{s.designation}</p>
                                     </li>
                                 ))}
                             </ul>
