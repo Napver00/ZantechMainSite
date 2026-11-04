@@ -107,7 +107,8 @@ const PortfolioPage = () => {
 
     useEffect(() => {
         document.title = 'ZAN Tech — Company Profile';
-        fetch(`${API_BASE_URL}/api/projects/active`)
+        // Company profile shows our own R&D work; student projects live on /projects
+        fetch(`${API_BASE_URL}/api/projects/active?category=rnd`)
             .then((r) => r.json())
             .then((res) => {
                 const list = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : res?.data?.data;
@@ -323,7 +324,7 @@ const PortfolioPage = () => {
                 <div className="mx-auto max-w-6xl px-4">
                     <div className="flex flex-wrap items-end justify-between gap-4">
                         <SectionTitle eyebrow="R&D portfolio" title="Things we have designed and built" />
-                        <Link to="/projects" className="inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">All projects <ArrowRight className="h-4 w-4" /></Link>
+                        <Link to="/projects?type=rnd" className="inline-flex items-center gap-1.5 font-semibold text-zan-cyan hover:underline">All R&amp;D projects <ArrowRight className="h-4 w-4" /></Link>
                     </div>
                     {projectsLoading ? (
                         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

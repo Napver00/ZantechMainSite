@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { categoryOf, categoryBadgeClass } from '../utils/projectCategory';
 
 const Projects = () => {
     const [projects, setProjects] = useState<any[]>([]);
@@ -29,6 +30,9 @@ const Projects = () => {
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
+                    <span className={`absolute top-3 left-3 z-10 rounded-md border px-2 py-1 text-xs font-bold ${categoryBadgeClass(categoryOf(project))}`}>
+                        {categoryOf(project) === 'student' ? 'Student project' : 'ZAN Tech R&D'}
+                    </span>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
                         <span className="text-[#fff] font-medium flex items-center gap-2">
                             View Project <ArrowRight className="w-4 h-4" />
@@ -43,7 +47,7 @@ const Projects = () => {
                         {project.description}
                     </p>
                     <Link
-                        to={`/project/${project.id}`}
+                        to={`/project/${project.slug}`}
                         className="inline-flex items-center justify-center w-full bg-white/10 text-white py-3 rounded-xl font-semibold hover:bg-zan-blue hover:text-white  hover:bg-zan-blue transition-all duration-300 group/btn"
                     >
                         <span>View Details</span>

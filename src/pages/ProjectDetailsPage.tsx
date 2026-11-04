@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
-    AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, ChevronDown, Cpu, FlaskConical,
+    AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, ChevronDown, Cpu, FlaskConical, GraduationCap,
     LifeBuoy, Lightbulb, Link2, ListOrdered, MessageSquare, Rocket, Share2, Wrench, X,
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { API_BASE_URL } from '../config';
+import { categoryOf } from '../utils/projectCategory';
 
 interface Technology { id: number | string; name: string }
 
@@ -18,6 +19,7 @@ interface Project {
     image_url?: string | null;
     technologies?: Technology[];
     created_at?: string;
+    category?: string | null;
 }
 
 interface TocItem { id: string; text: string; level: 2 | 3 }
@@ -69,7 +71,11 @@ const ProjectDetailsPage = () => {
                 document.title = `${json.data.title} | ZAN Tech Projects`;
                 const list = await fetch(`${API_BASE_URL}/api/projects/active`).then((r) => r.json()).catch(() => null);
                 const items: Project[] = Array.isArray(list?.data) ? list.data : (list?.data?.data ?? []);
-                if (!cancelled) setOthers(items.filter((p) => p.slug !== slug).slice(0, 3));
+                // Same kind of project first (R&D next to R&D, student next to student)
+                const kind = categoryOf(json.data);
+                const rest = items.filter((p) => p.slug !== slug);
+                const sorted = [...rest.filter((p) => categoryOf(p) === kind), ...rest.filter((p) => categoryOf(p) !== kind)];
+                if (!cancelled) setOthers(sorted.slice(0, 3));
             } catch {
                 if (!cancelled) setError('This project is not available.');
             } finally {
@@ -237,6 +243,7 @@ const ProjectDetailsPage = () => {
 
     const techs = (project.technologies || []).filter((t) => t?.name);
     const built = fmtMonth(project.created_at);
+    const isStudent = categoryOf(project) === 'student';
     const waText = encodeURIComponent(`Hi ZAN Tech, I saw your project "${project.title}" and I'd like to discuss a similar project.`);
     const whatsappUrl = `https://wa.me/${WHATSAPP}?text=${waText}`;
 
@@ -268,7 +275,7 @@ const ProjectDetailsPage = () => {
             <dl className="space-y-3 text-sm">
                 <div className="flex items-center justify-between gap-3">
                     <dt className="text-gray-400">Type</dt>
-                    <dd className="font-semibold text-white">R&amp;D project</dd>
+                    <dd className="font-semibold text-white">{isStudent ? 'Student project' : 'R&D project'}</dd>
                 </div>
                 {built && (
                     <div className="flex items-center justify-between gap-3">
@@ -277,8 +284,8 @@ const ProjectDetailsPage = () => {
                     </div>
                 )}
                 <div className="flex items-center justify-between gap-3">
-                    <dt className="text-gray-400">Engineered by</dt>
-                    <dd className="font-semibold text-white">ZAN Tech</dd>
+                    <dt className="text-gray-400">{isStudent ? 'Built by' : 'Engineered by'}</dt>
+                    <dd className="font-semibold text-white">{isStudent ? 'ZAN Tech students' : 'ZAN Tech'}</dd>
                 </div>
             </dl>
             {techs.length > 0 && (
@@ -308,9 +315,15 @@ const ProjectDetailsPage = () => {
 
                     <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
                         <div>
-                            <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-zan-cyan/30 bg-zan-cyan/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-zan-cyan">
-                                <FlaskConical className="h-3.5 w-3.5" /> R&amp;D project · ZAN Tech Lab
-                            </span>
+                            {isStudent ? (
+                                <Link to="/projects?type=student" className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-amber-300/40 bg-amber-400/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-300 hover:bg-amber-400/20">
+                                    <GraduationCap className="h-3.5 w-3.5" /> Student project · Built at ZAN Tech
+                                </Link>
+                            ) : (
+                                <Link to="/projects?type=rnd" className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-zan-cyan/30 bg-zan-cyan/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-zan-cyan hover:bg-zan-cyan/20">
+                                    <FlaskConical className="h-3.5 w-3.5" /> R&amp;D project · ZAN Tech Lab
+                                </Link>
+                            )}
                             <h1 className="text-3xl md:text-[2.5rem] font-bold leading-tight text-white font-heading">{project.title}</h1>
                             {project.description && (
                                 <p className="mt-4 text-base md:text-lg leading-relaxed text-gray-400">{project.description}</p>
@@ -324,6 +337,23 @@ const ProjectDetailsPage = () => {
                             </div>
 
                             <div className="mt-7 flex flex-wrap gap-3">
+                                {isStudent ? (
+                                    <>
+                                        <Link
+                                            to="/courses"
+                                            className="inline-flex h-11 items-center gap-2 rounded-lg bg-zan-cyan px-5 text-sm font-bold text-zan-dark shadow-lg shadow-zan-cyan/20 transition-colors hover:bg-white"
+                                        >
+                                            <GraduationCap className="h-4 w-4" /> Learn to build this
+                                        </Link>
+                                        <Link
+                                            to="/bootcamps"
+                                            className="inline-flex h-11 items-center gap-2 rounded-lg border border-white/15 px-5 text-sm font-bold text-white transition-colors hover:border-zan-cyan/50 hover:text-zan-cyan"
+                                        >
+                                            <Rocket className="h-4 w-4" /> See bootcamps
+                                        </Link>
+                                    </>
+                                ) : (
+                                <>
                                 <a
                                     href={whatsappUrl}
                                     target="_blank"
@@ -339,6 +369,8 @@ const ProjectDetailsPage = () => {
                                 >
                                     <MessageSquare className="h-4 w-4" /> Talk to our team
                                 </a>
+                                </>
+                                )}
                                 <button
                                     onClick={share}
                                     aria-label="Share this project"
@@ -429,6 +461,19 @@ const ProjectDetailsPage = () => {
                                     <div className="max-h-[34vh] overflow-y-auto pr-1"><TocList /></div>
                                 </div>
                             )}
+                            {isStudent ? (
+                            <div className="rounded-2xl border border-amber-300/25 bg-amber-400/5 p-5">
+                                <GraduationCap className="h-6 w-6 text-amber-300" />
+                                <p className="mt-3 font-bold text-white">Want to build projects like this?</p>
+                                <p className="mt-1 text-sm text-gray-400">Our students make real projects in our robotics, IoT and electronics courses and bootcamps.</p>
+                                <Link to="/courses" className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-zan-cyan py-2.5 text-sm font-bold text-zan-dark transition-colors hover:bg-white">
+                                    See courses
+                                </Link>
+                                <Link to="/bootcamps" className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold text-zan-cyan hover:underline">
+                                    Bootcamps <ArrowRight className="h-3.5 w-3.5" />
+                                </Link>
+                            </div>
+                            ) : (
                             <div className="rounded-2xl border border-zan-cyan/25 bg-zan-cyan/5 p-5">
                                 <Rocket className="h-6 w-6 text-zan-cyan" />
                                 <p className="mt-3 font-bold text-white">Need something similar?</p>
@@ -440,12 +485,14 @@ const ProjectDetailsPage = () => {
                                     Other ways to reach us <ArrowRight className="h-3.5 w-3.5" />
                                 </a>
                             </div>
+                            )}
                         </div>
                     </aside>
                 </div>
             </div>
 
-            {/* How we work */}
+            {/* How we work (R&D only: student projects point to courses instead) */}
+            {!isStudent && (
             <section className="border-t border-white/10 bg-surface-dark">
                 <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
                     <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-zan-cyan">Work with ZAN Tech</p>
@@ -479,13 +526,14 @@ const ProjectDetailsPage = () => {
                     </div>
                 </div>
             </section>
+            )}
 
             {/* More projects */}
             {others.length > 0 && (
                 <section className="border-t border-white/10">
                     <div className="max-w-6xl mx-auto px-4 py-12">
                         <div className="mb-6 flex items-end justify-between gap-4">
-                            <h2 className="text-2xl font-bold text-white font-heading">More from our lab</h2>
+                            <h2 className="text-2xl font-bold text-white font-heading">{isStudent ? 'More student projects' : 'More from our lab'}</h2>
                             <Link to="/projects" className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-zan-cyan">
                                 All projects <ArrowRight className="h-4 w-4" />
                             </Link>
